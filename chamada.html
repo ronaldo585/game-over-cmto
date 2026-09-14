@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chamada - Game Over CMTO</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>GAME OVER</h1>
+        <p>CMTO</p>
+    </header>
+
+    <main>
+
+        <div class="chamada-box">
+
+            <h2>Chamada</h2>
+
+            <p>Lista de alunos cadastrados</p>
+            <label for="turma">Selecione a turma:</label>
+
+<select id="turma">
+    <option value="T1">T1</option>
+    <option value="T2">T2</option>
+</select>
+            <div id="listaAlunos"></div>
+
+            <div class="resumo">
+                <p>
+                    Total de alunos:
+                    <strong id="totalAlunos">0</strong>
+                </p>
+
+                <p>
+                    Presentes:
+                    <strong id="totalPresentes">0</strong>
+                </p>
+
+                <p>
+                    Ausentes:
+                    <strong id="totalAusentes">0</strong>
+                </p>
+            </div>
+
+            <a href="professor.html" class="voltar" id="btnVoltar">
+    ← Voltar
+</a>
+
+<button type="button" id="btnSair" class="botao-sair">
+    SAIR DA CONTA
+</button>
+        </div>
+
+    </main>
+
+   <script type="module" src="chamada.js"></script>
+
+</body>
+
+</html>

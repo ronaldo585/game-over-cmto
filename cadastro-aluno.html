@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro do Aluno - Game Over CMTO</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>GAME OVER</h1>
+        <p>CMTO</p>
+    </header>
+
+    <main>
+
+        <div class="login-box">
+
+            <h2>Cadastro do Aluno</h2>
+
+            <p>Crie sua conta para continuar</p>
+
+            <form id="formCadastro">
+
+                <label for="nome">Nome completo</label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Digite seu nome"
+                    required
+                >
+
+                <label for="email">E-mail escolar</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="seunome@escola.com"
+                    required
+                >
+
+                <label for="turma">Turma</label>
+                <select id="turma" required>
+    <option value="">Selecione sua turma</option>
+    <option value="T1">T1</option>
+    <option value="T2">T2</option>
+</select>
+                <label for="senha">Senha</label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Crie uma senha"
+                    required
+                >
+
+                <label for="confirmar-senha">Confirmar senha</label>
+
+                <input
+                    type="password"
+                    id="confirmar-senha"
+                    placeholder="Digite a senha novamente"
+                    required
+                >
+
+                <button type="submit">
+                    CADASTRAR
+                </button>
+
+            </form>
+
+            <p class="cadastro">
+                Já possui uma conta?
+                <a href="aluno.html">Entrar</a>
+            </p>
+
+            <a href="index.html" class="voltar">
+                ← Voltar
+            </a>
+
+        </div>
+
+    </main>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

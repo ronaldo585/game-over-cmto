@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Professor - Game Over CMTO</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================
+           ÁREA DO PROFESSOR
+        ========================= */
+
+        .professor-container {
+            width: min(90%, 700px);
+            margin: 40px auto;
+        }
+
+        .professor-card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 0 25px rgba(0, 140, 255, 0.15);
+        }
+
+        .professor-card h2 {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .professor-card .subtitulo {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .campo {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #080808;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .campo:focus {
+            border-color: #008cff;
+            box-shadow: 0 0 8px rgba(0, 140, 255, 0.3);
+        }
+
+        .botao-principal {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #078cff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .botao-principal:hover {
+            background: #0074d9;
+            transform: translateY(-1px);
+        }
+
+        .cadastro {
+            text-align: center;
+            margin-top: 25px;
+            color: #888;
+        }
+
+        .cadastro a {
+            display: block;
+            margin-top: 8px;
+            color: #0095ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .cadastro a:hover {
+            text-decoration: underline;
+        }
+
+        .voltar {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            color: #0095ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .voltar:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           ÁREA LOGADA
+        ========================= */
+
+        #areaProfessor {
+            display: none;
+        }
+
+        .boas-vindas {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .boas-vindas h2 {
+            margin-bottom: 8px;
+        }
+
+        .boas-vindas p {
+            color: #888;
+        }
+
+        .botao-chamada {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            border-radius: 8px;
+            background: #078cff;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .botao-chamada:hover {
+            background: #0074d9;
+            transform: translateY(-1px);
+        }
+
+        .botao-sair {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: transparent;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .botao-sair:hover {
+            border-color: #ff4444;
+            color: #ff5555;
+            background: rgba(255, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header>
+        <h1>GAME OVER</h1>
+        <p>CMTO</p>
+    </header>
+
+
+    <main>
+
+        <div class="professor-container">
+
+            <!-- =========================
+                 LOGIN
+            ========================== -->
+
+            <section id="loginProfessor" class="professor-card">
+
+                <h2>👨‍🏫 Login do Professor</h2>
+
+                <p class="subtitulo">
+                    Entre para acessar sua área
+                </p>
+
+                <form id="formLoginProfessor">
+
+                    <input
+                        class="campo"
+                        type="email"
+                        id="email"
+                        placeholder="E-mail"
+                        required
+                    >
+
+                    <input
+                        class="campo"
+                        type="password"
+                        id="senha"
+                        placeholder="Senha"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="botao-principal"
+                    >
+                        ENTRAR
+                    </button>
+
+                </form>
+
+
+                <div class="cadastro">
+
+                    <span>Ainda não possui uma conta?</span>
+
+                    <a href="cadastro-professor.html">
+                        CADASTRAR PROFESSOR
+                    </a>
+
+                </div>
+
+
+                <a href="index.html" class="voltar">
+                    ← Voltar
+                </a>
+
+            </section>
+
+
+            <!-- =========================
+                 ÁREA DO PROFESSOR LOGADO
+            ========================== -->
+
+            <section id="areaProfessor" class="professor-card">
+
+                <div class="boas-vindas">
+
+                    <h2>👨‍🏫 Bem-vindo, <span id="nomeProfessor">Professor</span>!</h2>
+
+                    <p>
+                        Você está logado como professor.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="chamada.html"
+                    class="botao-chamada"
+                >
+                    📋 ABRIR CHAMADA
+                </a>
+
+
+                <button
+                    id="btnSair"
+                    class="botao-sair"
+                    type="button"
+                >
+                    SAIR DA CONTA
+                </button>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Seu JavaScript atual -->
+    <script type="module" src="professor.js"></script>
+
+
+    <!-- Controle da tela de login -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const login = document.getElementById("loginProfessor");
+            const area = document.getElementById("areaProfessor");
+            const btnSair = document.getElementById("btnSair");
+            const nomeProfessor = document.getElementById("nomeProfessor");
+
+            const professorLogado =
+                localStorage.getItem("professorLogado");
+
+
+            // =========================
+            // VERIFICA SE ESTÁ LOGADO
+            // =========================
+
+            if (professorLogado) {
+
+                try {
+
+                    const professor =
+                        JSON.parse(professorLogado);
+
+                    login.style.display = "none";
+                    area.style.display = "block";
+
+                    if (professor.nome) {
+                        nomeProfessor.textContent = professor.nome;
+                    }
+
+                } catch (erro) {
+
+                    console.error(
+                        "Erro ao ler professor:",
+                        erro
+                    );
+
+                    localStorage.removeItem("professorLogado");
+
+                    login.style.display = "block";
+                    area.style.display = "none";
+                }
+
+            } else {
+
+                login.style.display = "block";
+                area.style.display = "none";
+
+            }
+
+
+            // =========================
+            // SAIR DA CONTA
+            // =========================
+
+            if (btnSair) {
+
+                btnSair.addEventListener("click", function () {
+
+                    localStorage.removeItem("professorLogado");
+
+                    window.location.href = "professor.html";
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
