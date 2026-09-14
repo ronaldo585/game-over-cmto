@@ -1,0 +1,1555 @@
+/* =========================================
+   GAME OVER CMTO
+   ESTILO AZUL NEON
+   ========================================= */
+
+
+/* =========================================
+   CONFIGURAÇÕES GERAIS
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #050505;
+    color: #ffffff;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   CABEÇALHO
+   ========================================= */
+
+header {
+    text-align: center;
+
+    padding: 45px 20px 20px;
+}
+
+header h1 {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: 5px;
+
+    color: #008cff;
+
+    text-shadow:
+        0 0 5px #008cff,
+        0 0 15px #008cff,
+        0 0 30px #008cff,
+        0 0 50px #0066ff;
+}
+
+header p {
+    margin-top: 5px;
+
+    font-size: 20px;
+    letter-spacing: 10px;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   CONTEÚDO PRINCIPAL
+   ========================================= */
+
+main {
+    width: 100%;
+
+    padding: 20px;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   TÍTULOS
+   ========================================= */
+
+main h2 {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+main > h2 {
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   ÁREAS - PÁGINA INICIAL
+   ========================================= */
+
+.areas {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 30px auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 30px;
+}
+
+
+/* =========================================
+   CARDS
+   ========================================= */
+
+.card {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 350px;
+
+    padding: 35px;
+
+    background: #111111;
+
+    border: 2px solid #222222;
+
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 0 10px rgba(0, 140, 255, 0.10);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+
+    border-color: #008cff;
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.5),
+        0 0 35px rgba(0, 140, 255, 0.2);
+}
+
+.card h3 {
+    font-size: 25px;
+
+    margin: 20px 0 12px;
+}
+
+.card p {
+    max-width: 400px;
+
+    color: #aaaaaa;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   ÍCONES DOS CARDS
+   ========================================= */
+
+.icon {
+    font-size: 70px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================
+   BOTÕES
+   ========================================= */
+
+button {
+    border: none;
+
+    cursor: pointer;
+
+    padding: 14px 25px;
+
+    background: #008cff;
+
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0066ff;
+
+    transform: scale(1.03);
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.7);
+}
+
+
+/* =========================================
+   CAIXA DE LOGIN / CADASTRO
+   ========================================= */
+
+.login-box {
+    width: 100%;
+
+    max-width: 430px;
+
+    margin: 40px auto;
+
+    padding: 40px 36px;
+
+    background: #151515;
+
+    border: 2px solid #292929;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.12),
+        0 0 35px rgba(0, 140, 255, 0.06);
+
+    text-align: left;
+}
+
+.login-box h2 {
+    text-align: center;
+
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.login-box > p {
+    text-align: center;
+
+    color: #999999;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   FORMULÁRIOS
+   ========================================= */
+
+form {
+    width: 100%;
+}
+
+label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    margin-top: 18px;
+
+    font-weight: bold;
+
+    color: #ffffff;
+}
+
+input,
+select {
+    width: 100%;
+
+    padding: 14px;
+
+    background: #090909;
+
+    color: #ffffff;
+
+    border: 1px solid #444444;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #008cff;
+
+    box-shadow:
+        0 0 10px rgba(0, 140, 255, 0.35);
+}
+
+input::placeholder {
+    color: #666666;
+}
+
+select {
+    cursor: pointer;
+}
+
+
+/* =========================================
+   BOTÃO DO FORMULÁRIO
+   ========================================= */
+
+form button[type="submit"] {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #008cff;
+
+    color: white;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+form button[type="submit"]:hover {
+    background: #0066ff;
+
+    box-shadow:
+        0 0 20px rgba(0, 140, 255, 0.6);
+}
+
+
+/* =========================================
+   LINKS DE CADASTRO
+   ========================================= */
+
+.cadastro {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: #999999;
+}
+
+.cadastro a {
+    color: #008cff;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+.cadastro a:hover {
+    color: #33aaff;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   BOTÃO ABRIR CHAMADA
+   ========================================= */
+
+.botao-chamada {
+    display: block;
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 20px;
+
+    background: #008cff;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.botao-chamada:hover {
+    background: #0066ff;
+
+    transform: scale(1.02);
+
+    box-shadow:
+        0 0 20px rgba(0, 140, 255, 0.7);
+}
+
+
+/* =========================================
+   PAINEL DO PROFESSOR
+   ========================================= */
+
+.painel-professor {
+    margin-top: 25px;
+
+    text-align: center;
+}
+
+.painel-professor h3 {
+    margin-bottom: 20px;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   BOTÃO SAIR
+   ========================================= */
+
+.botao-sair {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    background: transparent;
+
+    color: #aaaaaa;
+
+    border: 1px solid #444444;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.botao-sair:hover {
+    color: #ffffff;
+
+    border-color: #008cff;
+
+    box-shadow:
+        0 0 10px rgba(0, 140, 255, 0.3);
+}
+
+
+/* =========================================
+   CHAMADA
+   ========================================= */
+
+.chamada-box {
+    width: 90%;
+
+    max-width: 700px;
+
+    margin: 20px auto;
+
+    background: #151515;
+
+    border: 2px solid #292929;
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.12);
+}
+
+.chamada-box h2 {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.chamada-box > p {
+    color: #999999;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   ALUNO NA CHAMADA
+   ========================================= */
+
+.aluno-chamada {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 18px;
+
+    margin-bottom: 10px;
+
+    background: #090909;
+
+    border: 1px solid #333333;
+
+    border-radius: 10px;
+
+    text-align: left;
+
+    transition: 0.3s;
+}
+
+.aluno-chamada:hover {
+    border-color: #008cff;
+
+    box-shadow:
+        0 0 10px rgba(0, 140, 255, 0.2);
+}
+
+
+/* =========================================
+   PRESENTE / AUSENTE
+   ========================================= */
+
+.presente {
+    color: #008cff;
+
+    font-weight: bold;
+}
+
+.ausente {
+    color: #777777;
+
+    font-weight: bold;
+}
+
+
+/* =========================================
+   BOTÃO REMOVER ALUNO
+   ========================================= */
+
+.botao-remover {
+    padding: 8px 12px;
+
+    margin-left: 10px;
+
+    background: transparent;
+
+    color: #008cff;
+
+    border: 1px solid #008cff;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.botao-remover:hover {
+    background: #008cff;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 0 12px rgba(0, 140, 255, 0.5);
+}
+
+
+/* =========================================
+   RESUMO DA CHAMADA
+   ========================================= */
+
+.resumo {
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #333333;
+}
+
+.resumo p {
+    margin: 8px 0;
+
+    color: #999999;
+}
+
+.resumo strong {
+    color: #ffffff;
+}
+
+
+/* =========================================
+   BOTÃO VOLTAR
+   ========================================= */
+
+.voltar {
+    display: block;
+
+    margin-top: 20px;
+
+    color: #999999;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    transition: 0.3s;
+}
+
+.voltar:hover {
+    color: #008cff;
+}
+
+
+/* =========================================
+   LOGO
+   ========================================= */
+
+.logo {
+    width: 280px;
+
+    max-width: 80%;
+
+    display: block;
+
+    margin: 20px auto 40px;
+
+    filter:
+        drop-shadow(0 0 10px rgba(0, 140, 255, 0.5));
+}
+
+
+/* =========================================
+   RESPONSIVIDADE - CELULAR
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    header {
+        padding-top: 30px;
+    }
+
+    header h1 {
+        font-size: 38px;
+
+        letter-spacing: 3px;
+    }
+
+    header p {
+        font-size: 16px;
+
+        letter-spacing: 7px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .areas {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .card {
+        min-height: 300px;
+
+        padding: 25px;
+    }
+
+    .login-box {
+        margin: 25px auto;
+
+        padding: 30px 22px;
+    }
+
+    .chamada-box {
+        width: 100%;
+
+        padding: 20px;
+    }
+
+    .aluno-chamada {
+        flex-wrap: wrap;
+    }
+
+    .botao-remover {
+        margin-left: 0;
+    }
+}
+
+/* =========================================
+   ÁREA DO ALUNO
+   ========================================= */
+
+.painel-aluno {
+    width: 100%;
+    max-width: 750px;
+
+    margin: 20px auto;
+
+    padding: 30px;
+
+    background: #111111;
+
+    border: 2px solid #222222;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 20px rgba(0, 140, 255, 0.12);
+
+    text-align: left;
+}
+
+
+/* PERFIL */
+
+.perfil-aluno {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+.avatar-aluno {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #008cff;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.5);
+}
+
+.perfil-aluno h2 {
+    margin: 0;
+}
+
+.perfil-aluno p {
+    color: #008cff;
+
+    margin-top: 5px;
+}
+
+
+/* XP */
+
+.xp-box {
+    padding: 20px;
+
+    background: #080808;
+
+    border: 1px solid #333;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.xp-topo {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+.barra-xp {
+    width: 100%;
+
+    height: 14px;
+
+    background: #222;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progresso-xp {
+    width: 0%;
+
+    height: 100%;
+
+    background: #008cff;
+
+    border-radius: 20px;
+
+    transition: 0.5s;
+
+    box-shadow:
+        0 0 10px rgba(0, 140, 255, 0.7);
+}
+
+
+/* PRÓXIMA AULA */
+
+.info-aula {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px;
+
+    margin-bottom: 20px;
+
+    background: #080808;
+
+    border-radius: 12px;
+
+    border: 1px solid #333;
+}
+
+.info-aula span {
+    font-size: 30px;
+}
+
+.info-aula p {
+    color: #999;
+
+    margin-top: 5px;
+}
+
+
+/* PRESENÇA */
+
+.presenca-box {
+    padding: 25px;
+
+    margin-bottom: 20px;
+
+    background: #080808;
+
+    border: 1px solid #333;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.presenca-box h2 {
+    margin-bottom: 10px;
+}
+
+.presenca-box p {
+    color: #999;
+
+    margin-bottom: 20px;
+}
+
+.presenca-box button {
+    width: 100%;
+}
+
+
+/* MISSÕES */
+
+.missoes-box {
+    margin-bottom: 20px;
+}
+
+.missoes-box h2 {
+    margin-bottom: 15px;
+}
+
+.missao {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 16px;
+
+    margin-bottom: 10px;
+
+    background: #080808;
+
+    border: 1px solid #333;
+
+    border-radius: 10px;
+}
+
+.missao strong {
+    color: #008cff;
+}
+
+
+/* CONQUISTAS */
+
+.conquistas-box h2 {
+    margin-bottom: 15px;
+}
+
+.conquistas {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.conquista {
+    padding: 20px 10px;
+
+    background: #080808;
+
+    border: 1px solid #333;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-size: 25px;
+}
+
+.conquista span {
+    display: block;
+
+    font-size: 13px;
+
+    margin-top: 8px;
+
+    color: #999;
+}
+
+.bloqueada {
+    opacity: 0.5;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 700px) {
+
+    .painel-aluno {
+        padding: 20px;
+    }
+
+    .conquistas {
+        grid-template-columns: 1fr;
+    }
+
+    .xp-topo {
+        flex-direction: column;
+
+        gap: 5px;
+    }
+}
+/* =========================================
+   NOME CLICÁVEL NA CHAMADA
+========================================= */
+
+.nome-aluno-clicavel {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nome-aluno-clicavel:hover {
+    color: #0099ff;
+    text-shadow: 0 0 10px #0099ff;
+}
+
+
+/* =========================================
+   MODAL DO PROFESSOR
+========================================= */
+
+.modal-professor {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.82);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+
+    padding: 20px;
+}
+
+.modal-conteudo {
+    width: min(500px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #151515;
+
+    border: 1px solid #333;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 0 30px rgba(0, 153, 255, 0.25);
+
+    position: relative;
+}
+
+.modal-conteudo h2 {
+    margin-top: 0;
+
+    color: white;
+}
+
+.modal-conteudo p {
+    color: #aaa;
+}
+
+
+/* =========================================
+   FECHAR
+========================================= */
+
+.fechar-modal {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.fechar-modal:hover {
+    color: #0099ff;
+}
+
+
+/* =========================================
+   XP DO ALUNO
+========================================= */
+
+.dados-xp-professor {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #0c0c0c;
+
+    border: 1px solid #292929;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin: 20px 0;
+}
+
+.dados-xp-professor strong {
+    color: #ffd700;
+}
+
+.dados-xp-professor span {
+    color: #0099ff;
+
+    font-weight: bold;
+}
+
+
+/* =========================================
+   MISSÕES
+========================================= */
+
+.botao-missao {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    padding: 16px;
+
+    border-radius: 10px;
+
+    border: 1px solid #333;
+
+    background: #090909;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.botao-missao:hover {
+    border-color: #0099ff;
+
+    transform: translateY(-1px);
+}
+
+.botao-missao strong {
+    color: #0099ff;
+}
+
+.botao-missao.concluida {
+    border-color: #00c853;
+
+    background: rgba(0, 200, 83, 0.08);
+}
+
+.botao-missao.concluida strong {
+    color: #00c853;
+}
+
+
+/* =========================================
+   REMOVER ALUNO
+========================================= */
+
+.botao-remover-aluno {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ff3333;
+
+    background: transparent;
+
+    color: #ff5555;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.botao-remover-aluno:hover {
+    background: #ff3333;
+
+    color: white;
+}
+
+.nome-aluno-clicavel {
+    display: inline-block;
+    cursor: pointer !important;
+    position: relative;
+    z-index: 10;
+}
+
+.nome-aluno-clicavel:hover {
+    color: #0099ff;
+    text-decoration: underline;
+}
+.cabecalho-logo {
+    text-align: center;
+    padding: 20px;
+}
+
+.cabecalho-logo img {
+    width: 180px;
+    max-width: 70%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+/* =========================================
+   CENTRAL DE GAMES
+========================================= */
+
+.central-games {
+    margin-top: 40px;
+    padding: 30px 20px;
+    background: rgba(10, 20, 35, 0.95);
+    border: 2px solid #168cff;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(22, 140, 255, 0.2);
+}
+
+.central-games h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 32px;
+    color: #20a4ff;
+    text-shadow: 0 0 12px rgba(22, 140, 255, 0.7);
+}
+
+.subtitulo-games {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    padding: 25px;
+    text-align: center;
+    background: linear-gradient(
+        145deg,
+        #101d30,
+        #08101c
+    );
+
+    border: 1px solid #24527c;
+    border-radius: 16px;
+
+    transition: 0.25s;
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+    border-color: #20a4ff;
+    box-shadow: 0 0 20px rgba(22, 140, 255, 0.3);
+}
+
+.game-icone {
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+
+.game-card h3 {
+    margin: 5px 0 10px;
+    color: white;
+    font-size: 23px;
+}
+
+.game-card p {
+    color: #aaa;
+    line-height: 1.5;
+    min-height: 70px;
+}
+
+.botao-game,
+.game-card button {
+    display: inline-block;
+
+    padding: 12px 25px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #168cff;
+    color: white;
+
+    font-weight: bold;
+    font-size: 15px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.botao-game:hover {
+    background: #0074d9;
+    transform: scale(1.05);
+}
+
+.bloqueado {
+    opacity: 0.55;
+}
+
+.bloqueado button {
+    background: #333;
+    color: #888;
+    cursor: not-allowed;
+}
+.moedas-aluno {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: #101b2d;
+    border: 1px solid #ffd43b;
+    color: #ffd43b;
+    font-size: 17px;
+    font-weight: bold;
+    box-shadow: 0 0 12px rgba(255, 212, 59, 0.2);
+}
+.loja-box {
+    margin: 25px 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: linear-gradient(135deg, #111d32, #0b1424);
+    border: 1px solid #ffd43b;
+    border-radius: 18px;
+    box-shadow: 0 0 20px rgba(255, 212, 59, 0.12);
+}
+
+.loja-box > div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.loja-icone {
+    font-size: 42px;
+}
+
+.loja-box h2 {
+    margin: 0;
+    color: #ffd43b;
+}
+
+.loja-box p {
+    margin: 5px 0 0;
+    color: #999;
+}
+
+#btnLoja {
+    background: #ffd43b;
+    color: #171717;
+    white-space: nowrap;
+}
+
+#btnLoja:hover {
+    background: #ffe477;
+}
+
+@media (max-width: 600px) {
+
+    .loja-box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .loja-box > div {
+        flex-direction: column;
+    }
+
+    #btnLoja {
+        width: 100%;
+    }
+}
+.painel-loja {
+    display: none;
+    margin: 15px 0 25px;
+    padding: 20px;
+    background: #080f1c;
+    border: 1px solid #ffd43b;
+    border-radius: 18px;
+}
+
+.painel-loja.aberta {
+    display: block;
+}
+
+.saldo-loja {
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 20px;
+    color: #ffd43b;
+    font-size: 20px;
+}
+
+.itens-loja {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.item-loja {
+    text-align: center;
+    padding: 20px 15px;
+    background: #101b2d;
+    border: 1px solid #24415f;
+    border-radius: 15px;
+}
+
+.item-icone {
+    font-size: 45px;
+}
+
+.item-loja h3 {
+    color: white;
+    margin: 10px 0;
+}
+
+.item-loja p {
+    color: #999;
+    min-height: 40px;
+}
+
+.item-loja strong {
+    display: block;
+    color: #ffd43b;
+    font-size: 18px;
+    margin: 12px;
+}
+
+.btn-comprar {
+    width: 100%;
+    background: #168cff;
+}
+
+.btn-comprar:disabled {
+    background: #333;
+    color: #777;
+    cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+
+    .itens-loja {
+        grid-template-columns: 1fr;
+    }
+}
+/* =====================================================
+   TEMA NEON - RECOMPENSA DA LOJA
+   ===================================================== */
+
+body.tema-neon {
+    background:
+        radial-gradient(
+            circle at top,
+            #101b3d 0%,
+            #050816 45%,
+            #000000 100%
+        );
+}
+
+body.tema-neon header h1 {
+    color: #00ffff;
+    text-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #0088ff;
+}
+
+body.tema-neon .painel-aluno {
+    border-color: #00ffff;
+    box-shadow:
+        0 0 15px rgba(0, 255, 255, 0.35),
+        0 0 40px rgba(0, 140, 255, 0.15);
+}
+
+body.tema-neon .xp-box,
+body.tema-neon .info-aula,
+body.tema-neon .presenca-box,
+body.tema-neon .missoes-box,
+body.tema-neon .loja-box,
+body.tema-neon .central-games,
+body.tema-neon .conquistas-box {
+    border-color: #00ffff;
+    box-shadow:
+        0 0 10px rgba(0, 255, 255, 0.18);
+}
+
+body.tema-neon .xp-topo strong,
+body.tema-neon h2,
+body.tema-neon h3 {
+    text-shadow:
+        0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+body.tema-neon .moedas-aluno {
+    border-color: #00ffff;
+    color: #00ffff;
+    box-shadow:
+        0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+body.tema-neon .barra-xp {
+    box-shadow:
+        0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+body.tema-neon .progresso-xp {
+    box-shadow:
+        0 0 12px #00ffff;
+}
+/* =====================================================
+   MOEDA PERSONALIZADA
+   ===================================================== */
+
+.icone-moeda {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.preco-moeda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.preco-moeda img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}

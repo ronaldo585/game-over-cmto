@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Área do Aluno - Game Over CMTO</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>GAME OVER</h1>
+        <p>CMTO</p>
+    </header>
+
+    <main>
+
+        <section class="painel-aluno">
+
+            <!-- PERFIL -->
+
+            <div class="perfil-aluno">
+
+                <div
+                    class="avatar-aluno"
+                    id="avatarAluno"
+                >
+                    👤
+                </div>
+
+                <div>
+
+                   <h2 id="tituloAluno">Bem-vindo!</h2>
+
+                <p id="nomeAluno">
+                    Aluno
+                </p>
+
+                    <div class="moedas-aluno">
+    <img src="moeda.png" class="icone-moeda" alt="Moeda">
+    <strong id="moedasAluno">0</strong> MOEDAS
+</div>
+                </div>
+
+            </div>
+
+
+            <!-- XP -->
+
+            <div class="xp-box">
+
+                <div class="xp-topo">
+
+                    <strong>
+                        ⭐ Nível
+                        <span id="nivelAluno">1</span>
+                    </strong>
+
+                    <span>
+                        <span id="xpAtual">0</span> /
+                        <span id="xpProximo">100</span> XP
+                    </span>
+
+                </div>
+
+                <div class="barra-xp">
+
+                    <div
+                        id="barraXP"
+                        class="progresso-xp">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRÓXIMA AULA -->
+
+            <div class="info-aula">
+
+                <span>📅</span>
+
+                <div>
+
+                    <strong>Próxima aula</strong>
+
+                    <p>Quinta-feira</p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRESENÇA -->
+
+            <div class="presenca-box">
+
+                <h3>📋 Chamada</h3>
+
+                <p>
+                    Situação:
+
+                    <strong id="presencaAluno">
+                        AUSENTE
+                    </strong>
+                </p>
+
+                <button
+                    type="button"
+                    id="botaoPresencaAluno"
+                >
+                    📋 MARCAR MINHA PRESENÇA
+                </button>
+
+            </div>
+
+
+            <!-- MISSÕES -->
+
+            <div class="missoes-box">
+
+                <h2>🎯 Missões</h2>
+
+
+                <div
+                    class="missao"
+                    data-missao="missao1"
+                >
+
+                    <span>
+                        ☐ Comparecer à aula
+                    </span>
+
+                    <strong>
+                        +10 XP
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="missao"
+                    data-missao="missao2"
+                >
+
+                    <span>
+                        ☐ Completar atividade
+                    </span>
+
+                    <strong>
+                        +20 XP
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="missao"
+                    data-missao="missao3"
+                >
+
+                    <span>
+                        ☐ Participar do desafio
+                    </span>
+
+                    <strong>
+                        +30 XP
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOJA -->
+
+            <div class="loja-box">
+
+                <div class="loja-cabecalho">
+
+                    <span class="loja-icone">
+                        🛒
+                    </span>
+
+                    <div>
+
+                        <h2>LOJA</h2>
+
+                        <p>
+                            Troque suas moedas por recompensas!
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button id="btnLoja">
+                    🛒 ABRIR LOJA
+                </button>
+
+            </div>
+
+
+            <div
+                id="painelLoja"
+                class="painel-loja"
+            >
+
+                <div class="saldo-loja">
+
+    <img src="moeda.png" class="icone-moeda" alt="Moeda">
+
+    Você tem:
+
+    <strong id="moedasLoja">
+        0
+    </strong>
+
+    moedas
+
+</div>
+
+
+                <div class="itens-loja">
+
+
+                    <!-- AVATAR GATO -->
+
+                    <div class="item-loja">
+
+                        <div class="item-icone">
+                            🐱
+                        </div>
+
+                        <h3>
+                            Avatar Gato
+                        </h3>
+
+                        <p>
+                            Desbloqueie um avatar especial.
+                        </p>
+
+                        <strong class="preco-moeda">
+    <img src="moeda.png" alt="Moeda">
+    20
+</strong>
+
+                        <button
+                            class="btn-comprar"
+                            data-preco="20"
+                            data-item="Avatar Gato"
+                        >
+                            COMPRAR
+                        </button>
+
+                    </div>
+
+
+                    <!-- TEMA NEON -->
+
+                    <div class="item-loja">
+
+                        <div class="item-icone">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Tema Neon
+                        </h3>
+
+                        <p>
+                            Um visual especial para seu perfil.
+                        </p>
+
+                        <strong class="preco-moeda">
+    <img src="moeda.png" alt="Moeda">
+    100
+</strong>
+
+                        <button
+                            class="btn-comprar"
+                            data-preco="100"
+                            data-item="Tema Neon"
+                        >
+                            COMPRAR
+                        </button>
+
+                    </div>
+
+
+                    <!-- MESTRE DOS GAMES -->
+
+                    <div class="item-loja">
+
+                        <div class="item-icone">
+                            👑
+                        </div>
+
+                        <h3>
+                            Mestre dos Games
+                        </h3>
+
+                        <p>
+                            Ganhe um título exclusivo.
+                        </p>
+
+                        <strong class="preco-moeda">
+    <img src="moeda.png" alt="Moeda">
+    200
+</strong>
+
+                        <button
+                            class="btn-comprar"
+                            data-preco="200"
+                            data-item="Mestre dos Games"
+                        >
+                            COMPRAR
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CENTRAL DE GAMES -->
+
+            <section class="central-games">
+
+                <h2>
+                    🎮 CENTRAL DE GAMES
+                </h2>
+
+                <p class="subtitulo-games">
+                    Jogue, divirta-se e bata seus recordes!
+                </p>
+
+
+                <div class="games-grid">
+
+
+                    <div class="game-card">
+
+                        <div class="game-icone">
+                            🐱
+                        </div>
+
+                        <h3>
+                            CAT RUSH
+                        </h3>
+
+                        <p>
+                            Corra pela cidade, desvie dos obstáculos,
+                            pegue moedas e enfrente o chefão!
+                        </p>
+
+                        <a
+                            href="Cat Rush/index.html"
+                            class="botao-game"
+                        >
+                            ▶ JOGAR
+                        </a>
+
+                    </div>
+
+
+                    <div class="game-card">
+
+    <div class="game-icone">
+        🪙
+    </div>
+
+    <h3>CLICK RUSH</h3>
+
+    <p>
+        Clique o mais rápido que conseguir,
+        ganhe moedas e aumente seu saldo!
+    </p>
+
+    <a
+        href="Click Rush/index.html"
+        class="botao-game"
+    >
+        ▶ JOGAR
+    </a>
+
+</div>
+
+
+                    <div class="game-card bloqueado">
+
+                        <div class="game-icone">
+                            🧩
+                        </div>
+
+                        <h3>
+                            JOGO 3
+                        </h3>
+
+                        <p>
+                            Prepare-se para mais uma aventura.
+                        </p>
+
+                        <button disabled>
+                            🔒 EM BREVE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CONQUISTAS -->
+
+            <div class="conquistas-box">
+
+                <h2>
+                    🏆 Conquistas
+                </h2>
+
+                <div class="conquistas">
+
+                    <div class="conquista bloqueada">
+                        🔒
+                        <span>
+                            Primeira presença
+                        </span>
+                    </div>
+
+                    <div class="conquista bloqueada">
+                        🔒
+                        <span>
+                            10 aulas
+                        </span>
+                    </div>
+
+                    <div class="conquista bloqueada">
+                        🔒
+                        <span>
+                            50 aulas
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SAIR -->
+
+            <button
+                type="button"
+                class="botao-sair"
+                onclick="sairDaConta()"
+            >
+                SAIR DA CONTA
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- JAVASCRIPT DO ALUNO -->
+
+    <script
+        type="module"
+        src="aluno.js"
+    ></script>
+
+
+    <!-- SAIR DA CONTA -->
+
+    <script type="module">
+
+        import { supabase }
+            from "./supabase.js";
+
+
+        async function sairDaConta() {
+
+            try {
+
+                const { error } =
+                    await supabase.auth.signOut();
+
+
+                if (error) {
+
+                    console.error(
+                        "Erro ao sair:",
+                        error
+                    );
+
+                    alert(
+                        "Erro ao sair da conta."
+                    );
+
+                    return;
+                }
+
+
+                localStorage.removeItem(
+                    "alunoLogado"
+                );
+
+                sessionStorage.clear();
+
+
+                window.location.href =
+                    "aluno.html";
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao sair:",
+                    erro
+                );
+
+                alert(
+                    "Erro ao sair da conta."
+                );
+            }
+        }
+
+
+        window.sairDaConta =
+            sairDaConta;
+
+    </script>
+
+</body>
+
+</html>
