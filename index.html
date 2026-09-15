@@ -2,59 +2,189 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Game Over CMTO</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="style.css">
+    <title>Click Rush - Game Over CMTO</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
-   <header class="cabecalho-logo">
-    <img src="logo.png" alt="Game Over CMTO">
-</header>
-    <main>
+    <main class="container">
 
-        <h2>Escolha sua área</h2>
+        <h1>⚡ CLICK RUSH</h1>
 
-        <section class="areas">
-
-            <a href="aluno.html" class="card">
-                <div class="icone">👨‍🎓</div>
-
-                <h3>Área do Aluno</h3>
-
-                <p>
-                    Acesse sua conta e marque
-                    sua presença.
-                </p>
-
-                <button>ENTRAR</button>
-            </a>
+        <p class="subtitulo">
+            Clique na moeda e ganhe recompensas!
+        </p>
 
 
-            <a href="professor.html" class="card">
-                <div class="icone">👨‍🏫</div>
+        <!-- PLACAR -->
 
-                <h3>Área do Professor</h3>
+        <section class="placar">
 
-                <p>
-                    Acesse a chamada e
-                    acompanhe as presenças.
-                </p>
+            <div class="placar-item">
 
-                <button>ENTRAR</button>
-            </a>
+                <img
+                    src="../moeda.png"
+                    alt="Moeda"
+                >
+
+                <span id="moedasJogo">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="placar-item">
+
+                <span class="emoji">
+                    ⏱️
+                </span>
+
+                <span id="tempo">
+                    30
+                </span>
+
+            </div>
+
+
+            <div class="placar-item">
+
+                <span class="emoji">
+                    🔥
+                </span>
+
+                <span id="combo">
+                    0
+                </span>
+
+            </div>
 
         </section>
 
+
+        <!-- MENSAGEM -->
+
+        <section class="mensagem">
+
+            <h2 id="tituloJogo">
+                PRONTO?
+            </h2>
+
+            <p id="mensagemJogo">
+                Clique em COMEÇAR para jogar!
+            </p>
+
+        </section>
+
+
+        <!-- MOEDA -->
+
+       <button
+    id="botaoMoeda"
+    class="moeda-botao"
+    type="button"
+>
+    <img
+        src="cursor.png"
+        alt="Clique aqui"
+    >
+
+    <span>
+        CLICAR!
+    </span>
+</button>
+
+        <!-- COMEÇAR -->
+
+        <button
+            id="botaoIniciar"
+            class="botao-principal"
+            type="button"
+        >
+
+            🎮 COMEÇAR
+
+        </button>
+
+
+        <!-- RESULTADO -->
+
+        <section
+            id="resultado"
+            class="resultado"
+        >
+
+            <h2>
+                🏆 FIM DE JOGO!
+            </h2>
+
+            <p>
+                Você ganhou:
+            </p>
+
+
+            <div class="premio">
+
+                <img
+                    src="../moeda.png"
+                    alt="Moeda"
+                >
+
+                <strong id="resultadoMoedas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <p>
+                moedas
+            </p>
+
+
+           <a
+    href="index.html?novaPartida=1"
+    id="botaoJogarNovamente"
+    class="botao-principal"
+>
+    🔄 JOGAR NOVAMENTE
+</a>
+        </section>
+
+
+        <!-- VOLTAR -->
+
+        <a
+            href="../area-aluno.html"
+            class="voltar"
+        >
+
+            ← VOLTAR PARA ÁREA DO ALUNO
+
+        </a>
+
     </main>
 
-    <footer>
-        <p>© 2026 Game Over CMTO</p>
-    </footer>
+
+    <script
+        type="module"
+        src="jogo.js"
+    ></script>
 
 </body>
 
