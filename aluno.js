@@ -701,36 +701,32 @@ async function carregarDesbloqueiosJogos(aluno) {
     return data || [];
 }
 
-
 // =====================================================
 // CONFIGURAR CLICK RUSH
 // =====================================================
 
-function configurarClickRush(
-    aluno,
-    desbloqueios
-) {
+function configurarClickRush(aluno, desbloqueios) {
 
-    const area =
-        document.getElementById(
-            "areaClickRush"
-        );
+    console.log("CONFIGURANDO CLICK RUSH...");
+    console.log("ALUNO:", aluno);
+    console.log("DESBLOQUEIOS:", desbloqueios);
+
+    const area = document.getElementById("areaClickRush");
 
     if (!area) {
+        console.error("ERRO: areaClickRush não encontrada!");
         return;
     }
 
+    const desbloqueado = desbloqueios.some(
+        (jogo) => jogo.jogo === "Click Rush"
+    );
 
-    const desbloqueado =
-        desbloqueios.some(
-            (jogo) =>
-                jogo.jogo === "Click Rush"
-        );
+    console.log("CLICK RUSH DESBLOQUEADO:", desbloqueado);
 
-
-    // -------------------------------------------------
-    // JOGO JÁ DESBLOQUEADO
-    // -------------------------------------------------
+    // =================================================
+    // JÁ DESBLOQUEADO
+    // =================================================
 
     if (desbloqueado) {
 
@@ -746,10 +742,9 @@ function configurarClickRush(
         return;
     }
 
-
-    // -------------------------------------------------
-    // JOGO BLOQUEADO
-    // -------------------------------------------------
+    // =================================================
+    // BLOQUEADO
+    // =================================================
 
     area.innerHTML = `
         <button
@@ -761,202 +756,172 @@ function configurarClickRush(
         </button>
     `;
 
-
-    const botao =
-        document.getElementById(
-            "btnClickRush"
-        );
-
+    const botao = document.getElementById("btnClickRush");
 
     if (!botao) {
+        console.error("ERRO: botão Click Rush não encontrado!");
         return;
     }
 
+    console.log("BOTÃO CLICK RUSH ENCONTRADO!");
 
-    botao.addEventListener(
-        "click",
-        async () => {
+    // =================================================
+    // CLIQUE
+    // =================================================
 
-            // -----------------------------------------
-            // CONFIRMAR
-            // -----------------------------------------
+    botao.onclick = async function () {
 
-            const confirmar =
-                confirm(
-                    "🔒 DESBLOQUEAR CLICK RUSH?\n\n" +
-                    "🪙 Preço: 1000 moedas\n\n" +
-                    "Depois do desbloqueio você poderá jogar quando quiser."
-                );
+        console.log("CLIQUE NO CLICK RUSH!");
 
+        const moedas = Number(aluno.moedas || 0);
 
-            if (!confirmar) {
-                return;
-            }
+        console.log("MOEDAS ATUAIS:", moedas);
 
+        // ---------------------------------------------
+        // VERIFICAR MOEDAS
+        // ---------------------------------------------
 
-            // -----------------------------------------
-            // PEGAR SALDO ATUAL
-            // -----------------------------------------
-
-            const moedas =
-                Number(
-                    aluno.moedas || 0
-                );
-
-
-            if (moedas < 1000) {
-
-                alert(
-                    "🪙 Você não tem moedas suficientes!\n\n" +
-                    "Você precisa de 1000 moedas."
-                );
-
-                return;
-            }
-
-
-            // -----------------------------------------
-            // BLOQUEAR BOTÃO
-            // -----------------------------------------
-
-            botao.disabled = true;
-
-            botao.textContent =
-                "DESBLOQUEANDO...";
-
-
-            // -----------------------------------------
-            // CHAMAR SUPABASE
-            // -----------------------------------------
-
-            const {
-                data,
-                error
-            } = await supabase.rpc(
-                "desbloquear_jogo",
-                {
-                    p_aluno_id:
-                        aluno.id,
-
-                    p_jogo:
-                        "Click Rush"
-                }
-            );
-
-
-            console.log(
-                "RESULTADO DESBLOQUEIO:",
-                data
-            );
-
-            console.log(
-                "ERRO DESBLOQUEIO:",
-                error
-            );
-
-
-            // -----------------------------------------
-            // ERRO
-            // -----------------------------------------
-
-            if (error) {
-
-                console.error(
-                    "ERRO AO DESBLOQUEAR:",
-                    error
-                );
-
-                alert(
-                    "❌ Não foi possível desbloquear o jogo.\n\n" +
-                    error.message
-                );
-
-                botao.disabled =
-                    false;
-
-                botao.textContent =
-                    "🔒 DESBLOQUEAR — 🪙 1000";
-
-                return;
-            }
-
-
-            // -----------------------------------------
-            // NOVO SALDO
-            // -----------------------------------------
-
-            let novoSaldo;
-
-
-            if (
-                data &&
-                typeof data === "object"
-            ) {
-
-                novoSaldo =
-                    Number(
-                        data.moedas_restantes
-                    );
-            }
-
-
-            if (
-                !Number.isFinite(
-                    novoSaldo
-                )
-            ) {
-
-                novoSaldo =
-                    moedas - 1000;
-            }
-
-
-            // -----------------------------------------
-            // ATUALIZAR ALUNO
-            // -----------------------------------------
-
-            aluno.moedas =
-                novoSaldo;
-
-
-            localStorage.setItem(
-                "alunoLogado",
-                JSON.stringify(aluno)
-            );
-
-
-            // -----------------------------------------
-            // ATUALIZAR SALDO NA TELA
-            // -----------------------------------------
-
-            atualizarMoedas(
-                novoSaldo
-            );
-
-
-            // -----------------------------------------
-            // LIBERAR JOGO
-            // -----------------------------------------
-
-            area.innerHTML = `
-                <a
-                    href="Click Rush/index.html"
-                    class="botao-game"
-                >
-                    ▶ JOGAR
-                </a>
-            `;
-
+        if (moedas < 1000) {
 
             alert(
-                "🎉 CLICK RUSH DESBLOQUEADO!\n\n" +
-                "🪙 -1000 moedas\n" +
-                "💰 Saldo restante: " +
-                novoSaldo +
-                " moedas"
+                "🪙 MOEDAS INSUFICIENTES!\n\n" +
+                "Você precisa de 1000 moedas para desbloquear o Click Rush.\n\n" +
+                "Seu saldo atual: " +
+                moedas +
+                " moedas."
             );
+
+            return;
         }
-    );
+
+        // ---------------------------------------------
+        // CONFIRMAR
+        // ---------------------------------------------
+
+        const confirmar = confirm(
+            "🔒 DESBLOQUEAR CLICK RUSH?\n\n" +
+            "🪙 Preço: 1000 moedas\n\n" +
+            "Seu saldo: " + moedas + " moedas"
+        );
+
+        if (!confirmar) {
+            console.log("Usuário cancelou.");
+            return;
+        }
+
+        // ---------------------------------------------
+        // DESABILITAR BOTÃO
+        // ---------------------------------------------
+
+        botao.disabled = true;
+        botao.textContent = "⏳ DESBLOQUEANDO...";
+
+        console.log("CHAMANDO RPC desbloquear_jogo...");
+
+        // ---------------------------------------------
+        // SUPABASE
+        // ---------------------------------------------
+
+        const { data, error } = await supabase.rpc(
+            "desbloquear_jogo",
+            {
+                p_aluno_id: aluno.id,
+                p_jogo: "Click Rush"
+            }
+        );
+
+        console.log("RPC DATA:", data);
+        console.log("RPC ERROR:", error);
+
+        // ---------------------------------------------
+        // ERRO
+        // ---------------------------------------------
+
+        if (error) {
+
+            console.error(
+                "ERRO AO DESBLOQUEAR:",
+                error
+            );
+
+            alert(
+                "❌ ERRO AO DESBLOQUEAR!\n\n" +
+                error.message
+            );
+
+            botao.disabled = false;
+            botao.textContent =
+                "🔒 DESBLOQUEAR — 🪙 1000";
+
+            return;
+        }
+
+        // ---------------------------------------------
+        // NOVO SALDO
+        // ---------------------------------------------
+
+        let novoSaldo = moedas - 1000;
+
+        if (data) {
+
+            if (Array.isArray(data)) {
+
+                if (
+                    data[0] &&
+                    data[0].moedas_restantes !== undefined
+                ) {
+
+                    novoSaldo = Number(
+                        data[0].moedas_restantes
+                    );
+                }
+
+            } else if (
+                data.moedas_restantes !== undefined
+            ) {
+
+                novoSaldo = Number(
+                    data.moedas_restantes
+                );
+            }
+        }
+
+        console.log("NOVO SALDO:", novoSaldo);
+
+        // ---------------------------------------------
+        // ATUALIZAR ALUNO
+        // ---------------------------------------------
+
+        aluno.moedas = novoSaldo;
+
+        localStorage.setItem(
+            "alunoLogado",
+            JSON.stringify(aluno)
+        );
+
+        atualizarMoedas(novoSaldo);
+
+        // ---------------------------------------------
+        // LIBERAR JOGO
+        // ---------------------------------------------
+
+        area.innerHTML = `
+            <a
+                href="Click Rush/index.html"
+                class="botao-game"
+            >
+                ▶ JOGAR
+            </a>
+        `;
+
+        alert(
+            "🎉 CLICK RUSH DESBLOQUEADO!\n\n" +
+            "🪙 Você gastou 1000 moedas.\n\n" +
+            "💰 Saldo restante: " +
+            novoSaldo +
+            " moedas."
+        );
+    };
 }
 // =====================================================
 // CARREGAR COMPRAS DO ALUNO
