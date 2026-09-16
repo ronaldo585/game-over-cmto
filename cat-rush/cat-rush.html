@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CAT RUSH</title>
+
+    <link rel="stylesheet" href="./cat-rush.css?v=20260916">
+</head>
+
+<body>
+
+    <main class="game">
+
+        <header>
+            <div>
+                <h1>🐱 CAT RUSH</h1>
+                <p>NIGHT RUN</p>
+            </div>
+
+            <div class="recorde">
+                🏆 RECORDE
+                <strong id="recorde">0</strong>
+            </div>
+        </header>
+
+        <div class="hud">
+
+            <span>⭐ <b id="pontos">0</b></span>
+
+            <span>🪙 <b id="moedas">0</b></span>
+
+            <span>❤️ <b id="vidas">3</b></span>
+
+        </div>
+
+        <div class="game-wrapper">
+
+            <canvas id="canvas"></canvas>
+
+            <div id="mensagem" class="mensagem">
+
+                <h2>🐱 CAT RUSH</h2>
+
+                <p>
+                    A noite começou.<br>
+                    Agora é correr.
+                </p>
+
+                <button id="iniciar">
+                    ▶ COMEÇAR
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="controles">
+
+            <button id="pular">
+                🐾 PULAR
+            </button>
+
+        </div>
+
+        <p class="dica">
+            ESPAÇO = PULAR
+        </p>
+
+    </main>
+
+    <script type="module" src="./cat-rush.js"></script>
+
+</body>
+
+</html>

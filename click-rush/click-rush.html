@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Click Rush - Game Over CMTO</title>
+
+    <link
+        rel="stylesheet"
+        href="./click-rush.css?v=20260916"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="container">
+
+        <h1>⚡ CLICK RUSH</h1>
+
+        <p class="subtitulo">
+            Clique na moeda e ganhe recompensas!
+        </p>
+
+
+        <!-- PLACAR -->
+
+        <section class="placar">
+
+            <div class="placar-item">
+
+                <img
+                    src="../moeda.png"
+                    alt="Moeda"
+                >
+
+                <span id="moedasJogo">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="placar-item">
+
+                <span class="emoji">
+                    ⏱️
+                </span>
+
+                <span id="tempo">
+                    30
+                </span>
+
+            </div>
+
+
+            <div class="placar-item">
+
+                <span class="emoji">
+                    🔥
+                </span>
+
+                <span id="combo">
+                    0
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- MENSAGEM -->
+
+        <section class="mensagem">
+
+            <h2 id="tituloJogo">
+                PRONTO?
+            </h2>
+
+            <p id="mensagemJogo">
+                Clique em COMEÇAR para jogar!
+            </p>
+
+        </section>
+
+
+        <!-- MOEDA -->
+
+       <button
+    id="botaoMoeda"
+    class="moeda-botao"
+    type="button"
+>
+    <img
+        src="cursor.png"
+        alt="Clique aqui"
+    >
+
+    <span>
+        CLICAR!
+    </span>
+</button>
+
+        <!-- COMEÇAR -->
+
+        <button
+            id="botaoIniciar"
+            class="botao-principal"
+            type="button"
+        >
+
+            🎮 COMEÇAR
+
+        </button>
+
+
+        <!-- RESULTADO -->
+
+        <section
+            id="resultado"
+            class="resultado"
+        >
+
+            <h2>
+                🏆 FIM DE JOGO!
+            </h2>
+
+            <p>
+                Você ganhou:
+            </p>
+
+
+            <div class="premio">
+
+                <img
+                    src="../moeda.png"
+                    alt="Moeda"
+                >
+
+                <strong id="resultadoMoedas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <p>
+                moedas
+            </p>
+
+
+           <a
+    href="./click-rush.html?novaPartida=1"
+    id="botaoJogarNovamente"
+    class="botao-principal"
+>
+    🔄 JOGAR NOVAMENTE
+</a>
+        </section>
+
+
+        <!-- VOLTAR -->
+
+        <a
+            href="../area-aluno.html"
+            class="voltar"
+        >
+
+            ← VOLTAR PARA ÁREA DO ALUNO
+
+        </a>
+
+    </main>
+
+
+    <script
+        type="module"
+        src="./click-rush.js"
+    ></script>
+
+</body>
+
+</html>

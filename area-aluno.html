@@ -7,14 +7,17 @@
 
     <title>Área do Aluno - Game Over CMTO</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css?v=20260916">
 </head>
 
-<body>
+<body class="area-aluno-page">
 
-    <header>
-        <h1>GAME OVER</h1>
-        <p>CMTO</p>
+    <header class="cabecalho-area">
+        <a href="index.html" class="voltar-inicio">← Início</a>
+        <div>
+            <h1>GAME OVER</h1>
+            <p>CMTO • ÁREA DO ALUNO</p>
+        </div>
     </header>
 
     <main>
@@ -47,6 +50,21 @@
                 </div>
 
             </div>
+
+            <section class="resumo-rapido" aria-label="Resumo do seu progresso">
+                <article>
+                    <span aria-hidden="true">🪙</span>
+                    <div><small>Seu saldo</small><strong id="moedasResumo">0 moedas</strong></div>
+                </article>
+                <article>
+                    <span aria-hidden="true">📅</span>
+                    <div><small>Presença</small><strong id="presencaResumo">Pendente</strong></div>
+                </article>
+                <article>
+                    <span aria-hidden="true">🎮</span>
+                    <div><small>Desafio do dia</small><strong>Jogue e evolua</strong></div>
+                </article>
+            </section>
 
 
             <!-- XP -->
@@ -361,7 +379,7 @@
                         </p>
 
                         <a
-                            href="Cat Rush/index.html"
+                            href="cat-rush/cat-rush.html"
                             class="botao-game"
                         >
                             ▶ JOGAR

@@ -732,7 +732,7 @@ function configurarClickRush(aluno, desbloqueios) {
 
         area.innerHTML = `
             <a
-                href="Click Rush/index.html"
+                href="click-rush/click-rush.html"
                 class="botao-game"
             >
                 ▶ JOGAR
@@ -907,7 +907,7 @@ function configurarClickRush(aluno, desbloqueios) {
 
         area.innerHTML = `
             <a
-                href="Click Rush/index.html"
+                href="click-rush/click-rush.html"
                 class="botao-game"
             >
                 ▶ JOGAR

@@ -2,189 +2,61 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Game Over CMTO</title>
 
-    <title>Click Rush - Game Over CMTO</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="./style.css?v=20260916">
 </head>
 
+<body class="pagina-inicial">
+    <div class="fundo-pixels" aria-hidden="true"></div>
 
-<body>
+    <header class="cabecalho-logo pagina-inicial-cabecalho">
+        <span class="selo">PLATAFORMA ESCOLAR GAMIFICADA</span>
+        <img src="logo.png" alt="Game Over CMTO">
+        <p>Aprender, participar e evoluir ficou muito mais divertido.</p>
+    </header>
 
-    <main class="container">
-
-        <h1>⚡ CLICK RUSH</h1>
-
-        <p class="subtitulo">
-            Clique na moeda e ganhe recompensas!
-        </p>
-
-
-        <!-- PLACAR -->
-
-        <section class="placar">
-
-            <div class="placar-item">
-
-                <img
-                    src="../moeda.png"
-                    alt="Moeda"
-                >
-
-                <span id="moedasJogo">
-                    0
-                </span>
-
+    <main class="inicio-main">
+        <section class="boas-vindas" aria-labelledby="titulo-inicio">
+            <div>
+                <p class="mini-titulo">BEM-VINDO(A) AO JOGO</p>
+                <h1 id="titulo-inicio">Sua jornada escolar começa aqui.</h1>
+                <p class="texto-boas-vindas">Marque presença, complete missões, ganhe moedas e jogue desafios para subir de nível.</p>
             </div>
-
-
-            <div class="placar-item">
-
-                <span class="emoji">
-                    ⏱️
-                </span>
-
-                <span id="tempo">
-                    30
-                </span>
-
+            <div class="status-jogo" aria-label="Recursos da plataforma">
+                <span>🎯 Missões</span>
+                <span>⭐ XP</span>
+                <span>🪙 Recompensas</span>
             </div>
-
-
-            <div class="placar-item">
-
-                <span class="emoji">
-                    🔥
-                </span>
-
-                <span id="combo">
-                    0
-                </span>
-
-            </div>
-
         </section>
 
+        <h2>Escolha sua área</h2>
 
-        <!-- MENSAGEM -->
+        <section class="areas" aria-label="Acessos da plataforma">
+            <a href="aluno.html" class="card card-aluno">
+                <div class="icone" aria-hidden="true">👨‍🎓</div>
+                <p class="tipo-acesso">PARA QUEM JOGA</p>
+                <h3>Área do Aluno</h3>
+                <p>Acesse sua conta, marque presença, complete missões e desbloqueie jogos.</p>
+                <span class="cta-card">ENTRAR COMO ALUNO <span aria-hidden="true">→</span></span>
+            </a>
 
-        <section class="mensagem">
-
-            <h2 id="tituloJogo">
-                PRONTO?
-            </h2>
-
-            <p id="mensagemJogo">
-                Clique em COMEÇAR para jogar!
-            </p>
-
+            <a href="professor.html" class="card card-professor">
+                <div class="icone" aria-hidden="true">👨‍🏫</div>
+                <p class="tipo-acesso">PARA QUEM GUIA</p>
+                <h3>Área do Professor</h3>
+                <p>Faça a chamada, acompanhe as presenças e torne a turma ainda mais engajada.</p>
+                <span class="cta-card">ENTRAR COMO PROFESSOR <span aria-hidden="true">→</span></span>
+            </a>
         </section>
-
-
-        <!-- MOEDA -->
-
-       <button
-    id="botaoMoeda"
-    class="moeda-botao"
-    type="button"
->
-    <img
-        src="cursor.png"
-        alt="Clique aqui"
-    >
-
-    <span>
-        CLICAR!
-    </span>
-</button>
-
-        <!-- COMEÇAR -->
-
-        <button
-            id="botaoIniciar"
-            class="botao-principal"
-            type="button"
-        >
-
-            🎮 COMEÇAR
-
-        </button>
-
-
-        <!-- RESULTADO -->
-
-        <section
-            id="resultado"
-            class="resultado"
-        >
-
-            <h2>
-                🏆 FIM DE JOGO!
-            </h2>
-
-            <p>
-                Você ganhou:
-            </p>
-
-
-            <div class="premio">
-
-                <img
-                    src="../moeda.png"
-                    alt="Moeda"
-                >
-
-                <strong id="resultadoMoedas">
-                    0
-                </strong>
-
-            </div>
-
-
-            <p>
-                moedas
-            </p>
-
-
-           <a
-    href="index.html?novaPartida=1"
-    id="botaoJogarNovamente"
-    class="botao-principal"
->
-    🔄 JOGAR NOVAMENTE
-</a>
-        </section>
-
-
-        <!-- VOLTAR -->
-
-        <a
-            href="../area-aluno.html"
-            class="voltar"
-        >
-
-            ← VOLTAR PARA ÁREA DO ALUNO
-
-        </a>
-
     </main>
 
-
-    <script
-        type="module"
-        src="jogo.js"
-    ></script>
+    <footer class="rodape-inicio">
+        <p>© 2026 Game Over CMTO <span>•</span> Projeto escolar</p>
+    </footer>
 
 </body>
 

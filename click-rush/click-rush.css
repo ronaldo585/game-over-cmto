@@ -1,0 +1,507 @@
+/* =====================================================
+   CLICK RUSH
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   BODY
+   ===================================================== */
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #101d3d,
+            #050914 70%
+        );
+
+    color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    display: flex;
+
+    justify-content: center;
+
+    padding: 30px 15px;
+}
+
+
+/* =====================================================
+   CONTAINER
+   ===================================================== */
+
+.container {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    min-height: 800px;
+
+    text-align: center;
+
+    border: 2px solid #0099ff;
+
+    border-radius: 25px;
+
+    padding: 35px 25px;
+
+    background: #071021;
+
+    box-shadow:
+        0 0 25px rgba(0, 153, 255, 0.4);
+}
+
+
+/* =====================================================
+   TÍTULO
+   ===================================================== */
+
+h1 {
+
+    margin: 0;
+
+    font-size: 48px;
+
+    color: #00aaff;
+
+    text-shadow:
+        0 0 15px #008cff;
+}
+
+
+.subtitulo {
+
+    color: #aaa;
+
+    margin-top: 8px;
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   PLACAR
+   ===================================================== */
+
+.placar {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin: 35px 0;
+}
+
+
+.placar-item {
+
+    min-height: 100px;
+
+    border: 1px solid #23466e;
+
+    border-radius: 15px;
+
+    background: #0d1a30;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+
+.placar-item img {
+
+    width: 40px;
+
+    height: 40px;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+}
+
+
+.placar-item .emoji {
+
+    font-size: 35px;
+}
+
+
+.placar-item span:last-child,
+.placar-item > span {
+
+    color: #00aaff;
+
+    font-size: 28px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   MENSAGEM
+   ===================================================== */
+
+.mensagem {
+
+    margin: 20px 0 25px;
+}
+
+
+.mensagem h2 {
+
+    color: #00b7ff;
+
+    font-size: 30px;
+
+    margin: 0 0 8px;
+}
+
+
+.mensagem p {
+
+    color: #aaa;
+
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   BOTÃO DO CURSOR
+   ===================================================== */
+
+.moeda-botao {
+
+    width: 280px;
+
+    height: 280px;
+
+    border: none;
+
+    border-radius: 20px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    margin: 20px auto;
+
+    transition:
+        transform 0.08s,
+        filter 0.08s;
+}
+
+
+/* =====================================================
+   EFEITO AO PASSAR O MOUSE
+   ===================================================== */
+
+.moeda-botao:hover {
+
+    filter: brightness(1.2);
+
+    transform: scale(1.05);
+}
+
+
+/* =====================================================
+   EFEITO AO CLICAR
+   ===================================================== */
+
+.moeda-botao:active {
+
+    transform: scale(0.92);
+}
+
+
+/* =====================================================
+   BOTÃO DESATIVADO
+   ===================================================== */
+
+.moeda-botao:disabled {
+
+    cursor: not-allowed;
+
+    filter: grayscale(1);
+
+    opacity: 0.5;
+}
+
+
+/* =====================================================
+   IMAGEM DO CURSOR
+   ===================================================== */
+
+.moeda-botao img {
+
+    width: 220px;
+
+    height: 220px;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+}
+
+
+/* =====================================================
+   TEXTO DO CURSOR
+   ===================================================== */
+
+.moeda-botao span {
+
+    color: white;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px #00aaff;
+}
+
+
+/* =====================================================
+   BOTÕES PRINCIPAIS
+   ===================================================== */
+
+.botao-principal {
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #0798f5;
+
+    color: white;
+
+    padding: 15px 30px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 20px;
+
+    box-shadow:
+        0 0 15px rgba(0, 153, 255, 0.4);
+}
+
+
+.botao-principal:hover {
+
+    filter: brightness(1.15);
+}
+
+
+.botao-principal:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   RESULTADO
+   ===================================================== */
+
+.resultado {
+
+    display: none;
+
+    margin-top: 30px;
+
+    padding: 30px;
+
+    border: 2px solid #ffd21f;
+
+    border-radius: 20px;
+
+    background: #0c1930;
+
+    box-shadow:
+        0 0 20px rgba(255, 210, 31, 0.3);
+}
+
+
+.resultado.mostrar {
+
+    display: block;
+}
+
+
+.resultado h2 {
+
+    color: #ffd21f;
+
+    font-size: 30px;
+
+    margin-top: 0;
+}
+
+
+.resultado p {
+
+    color: #aaa;
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   PRÊMIO
+   ===================================================== */
+
+.premio {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+}
+
+
+.premio img {
+
+    width: 65px;
+
+    height: 65px;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+}
+
+
+.premio strong {
+
+    color: #ffd21f;
+
+    font-size: 60px;
+}
+
+
+/* =====================================================
+   VOLTAR
+   ===================================================== */
+
+.voltar {
+
+    display: inline-block;
+
+    margin-top: 30px;
+
+    color: #00aaff;
+
+    text-decoration: none;
+
+    font-size: 16px;
+}
+
+
+.voltar:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   JOGAR NOVAMENTE
+   ===================================================== */
+
+#botaoJogarNovamente {
+
+    display: inline-block;
+
+    text-decoration: none;
+}
+
+
+/* =====================================================
+   CELULAR
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    h1 {
+
+        font-size: 35px;
+    }
+
+
+    .placar {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .moeda-botao {
+
+        width: 230px;
+
+        height: 230px;
+    }
+
+
+    .moeda-botao img {
+
+        width: 180px;
+
+        height: 180px;
+    }
+
+
+    .moeda-botao span {
+
+        font-size: 20px;
+    }
+
+
+    .premio strong {
+
+        font-size: 45px;
+    }
+
+}
