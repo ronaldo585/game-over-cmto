@@ -1726,8 +1726,109 @@ body.tema-neon .progresso-xp {
 .rodape-inicio { padding: 12px 20px 28px; color: #7e91a5; font-size: 0.82rem; text-align: center; }
 .rodape-inicio span { padding: 0 7px; color: #4bbfff; }
 
+/* =====================================================
+   PAINEL DE PROGRESSO - ÁREA DO ALUNO
+   ===================================================== */
+
+.area-aluno-page {
+    background:
+        radial-gradient(circle at 10% 0%, rgba(0, 140, 255, 0.20), transparent 28rem),
+        #050505;
+}
+
+.cabecalho-area {
+    position: relative;
+    padding: 31px 20px 17px;
+}
+
+.cabecalho-area h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.cabecalho-area p {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+}
+
+.voltar-inicio {
+    position: absolute;
+    top: 27px;
+    left: max(20px, calc((100vw - 1050px) / 2));
+    padding: 8px 11px;
+    border: 1px solid rgba(94, 190, 255, 0.42);
+    border-radius: 8px;
+    background: rgba(0, 102, 255, 0.10);
+    color: #c9efff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.voltar-inicio:hover {
+    transform: translateX(-3px);
+    background: #008cff;
+    color: #fff;
+}
+
+.area-aluno-page .painel-aluno {
+    max-width: 860px;
+    border-color: rgba(63, 171, 255, 0.32);
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.32);
+}
+
+.resumo-rapido {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px;
+    margin: 22px 0;
+}
+
+.resumo-rapido article {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    min-height: 82px;
+    padding: 15px;
+    border: 1px solid rgba(101, 187, 255, 0.20);
+    border-radius: 13px;
+    background: linear-gradient(145deg, rgba(18, 45, 74, 0.72), rgba(8, 12, 18, 0.85));
+}
+
+.resumo-rapido article > span {
+    flex: 0 0 auto;
+    font-size: 1.45rem;
+}
+
+.resumo-icone-moeda {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.resumo-rapido small {
+    display: block;
+    margin-bottom: 4px;
+    color: #8da2b4;
+    font-size: 0.7rem;
+}
+
+.resumo-rapido strong {
+    display: block;
+    overflow: hidden;
+    color: #e7f8ff;
+    font-size: 0.82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 @media (max-width: 760px) {
     .boas-vindas { align-items: flex-start; flex-direction: column; padding: 24px; }
     .status-jogo { width: 100%; }
     .pagina-inicial .areas { grid-template-columns: 1fr; }
+    .cabecalho-area { padding-top: 64px; }
+    .voltar-inicio { top: 15px; left: 15px; }
+    .resumo-rapido { grid-template-columns: 1fr; }
 }

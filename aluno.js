@@ -152,20 +152,36 @@ function atualizarXP(xp) {
     }
 
 
+    const marcosDeNivel = [
+        0, 100, 150, 220, 300,
+        400, 500, 650, 800, 1000
+    ];
+
+    const inicioDoNivel =
+        marcosDeNivel[nivel - 1] || 0;
+
+    const proximoMarco =
+        marcosDeNivel[nivel];
+
     if (elementoProximo) {
 
         elementoProximo.textContent =
-            100;
+            proximoMarco || "MAX";
     }
 
 
     if (barraXP) {
 
-        const porcentagem =
-            Math.min(xp, 100);
+        const porcentagem = proximoMarco
+            ? Math.min(
+                ((xp - inicioDoNivel) /
+                    (proximoMarco - inicioDoNivel)) * 100,
+                100
+            )
+            : 100;
 
         barraXP.style.width =
-            porcentagem + "%";
+            Math.max(porcentagem, 0) + "%";
     }
 }
 
@@ -223,6 +239,18 @@ function atualizarPresencaNaTela(presente) {
                 "📋 MARCAR MINHA PRESENÇA";
         }
     }
+
+    const resumo =
+        document.getElementById(
+            "presencaResumo"
+        );
+
+    if (resumo) {
+
+        resumo.textContent = presente
+            ? "Registrada ✓"
+            : "Pendente";
+    }
 }
 
 
@@ -242,6 +270,11 @@ function atualizarMoedas(moedas) {
             "moedasLoja"
         );
 
+    const moedasResumo =
+        document.getElementById(
+            "moedasResumo"
+        );
+
 
     if (moedasAluno) {
 
@@ -254,6 +287,12 @@ function atualizarMoedas(moedas) {
 
         moedasLoja.textContent =
             Number(moedas || 0);
+    }
+
+    if (moedasResumo) {
+
+        moedasResumo.textContent =
+            Number(moedas || 0) + " moedas";
     }
 }
 
