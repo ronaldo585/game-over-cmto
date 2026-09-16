@@ -26,7 +26,91 @@ function obterSemanaAtual() {
     quarta.setHours(0, 0, 0, 0);
     quarta.setDate(agora.getDate() - diferenca);
 
-    return quarta.toISOString().split("T")[0];
+    const ano = quarta.getFullYear();
+    const mes = String(
+        quarta.getMonth() + 1
+    ).padStart(2, "0");
+    const diaDoMes = String(
+        quarta.getDate()
+    ).padStart(2, "0");
+
+    return `${ano}-${mes}-${diaDoMes}`;
+}
+
+// ======================================================
+// REINICIAR PRESENÇAS NA NOVA SEMANA
+// Cada presença confirmada gera xp_presenca na tabela
+// progresso_semanal. Se não houver registro na semana
+// atual, a presença mostrada é de uma semana anterior.
+// ======================================================
+
+async function sincronizarPresencasDaSemana() {
+
+    const semana =
+        obterSemanaAtual();
+
+    const {
+        data: registros,
+        error
+    } = await supabase
+        .from("progresso_semanal")
+        .select("aluno_id, xp_presenca")
+        .eq("semana", semana);
+
+    if (error) {
+
+        console.error(
+            "ERRO AO SINCRONIZAR PRESENÇAS:",
+            error
+        );
+
+        return;
+    }
+
+    const alunosPresentesNestaSemana =
+        new Set(
+            (registros || [])
+                .filter(
+                    registro =>
+                        Number(registro.xp_presenca || 0) > 0
+                )
+                .map(registro => registro.aluno_id)
+        );
+
+    const idsParaReiniciar = alunos
+        .filter(
+            aluno =>
+                aluno.presente === true &&
+                !alunosPresentesNestaSemana.has(aluno.id)
+        )
+        .map(aluno => aluno.id);
+
+    if (idsParaReiniciar.length === 0) {
+        return;
+    }
+
+    const { error: erroAtualizacao } =
+        await supabase
+            .from("alunos")
+            .update({ presente: false })
+            .in("id", idsParaReiniciar);
+
+    if (erroAtualizacao) {
+
+        console.error(
+            "ERRO AO REINICIAR PRESENÇAS:",
+            erroAtualizacao
+        );
+
+        return;
+    }
+
+    alunos.forEach(aluno => {
+
+        if (idsParaReiniciar.includes(aluno.id)) {
+            aluno.presente = false;
+        }
+    });
 }
 
 // ======================================================
@@ -58,6 +142,8 @@ async function carregarAlunos() {
     alunos = data || [];
 
     console.log("ALUNOS VINDOS DO SUPABASE:", alunos);
+
+    await sincronizarPresencasDaSemana();
 
     mostrarAlunos();
 }
@@ -176,7 +262,7 @@ async function alterarPresenca(id, novaPresenca) {
 
     const aluno = alunos.find(a => a.id === id);
 
-    if (!aluno) return;
+    if (!aluno) return false;
 
     const { error } = await supabase
         .from("alunos")
@@ -194,7 +280,7 @@ async function alterarPresenca(id, novaPresenca) {
             error.message
         );
 
-        return;
+        return false;
     }
 
     // Atualiza localmente
@@ -204,6 +290,8 @@ async function alterarPresenca(id, novaPresenca) {
     await atualizarXPPresenca(aluno);
 
     mostrarAlunos();
+
+    return true;
 }
 
 // ======================================================
@@ -235,7 +323,9 @@ async function atualizarXPPresenca(aluno) {
             .insert({
                 aluno_id: aluno.id,
                 semana: semana,
-                xp_presenca: aluno.presente ? 10 : 0
+                // O XP começa em zero para que a mudança
+                // abaixo aplique corretamente +10 ou -10.
+                xp_presenca: 0
             })
             .select()
             .single();
@@ -555,40 +645,26 @@ async function abrirPainelAluno(aluno) {
                 return;
             }
 
+            botaoRemover.disabled = true;
+            botaoRemover.textContent =
+                "REMOVENDO...";
 
-            const { error } = await supabase
-                .from("alunos")
-                .update({
-                    presente: false
-                })
-                .eq("id", aluno.id);
+            // Reutiliza a mesma rotina do botão
+            // "Marcar ausente", incluindo o ajuste
+            // correto de XP e da presença semanal.
+            const removido = await alterarPresenca(
+                aluno.id,
+                false
+            );
 
-
-            if (error) {
-
-                console.error(
-                    "Erro ao remover da chamada:",
-                    error
-                );
-
-                alert(
-                    "Não foi possível remover o aluno."
-                );
-
+            if (removido) {
+                modal.remove();
                 return;
             }
 
-
-            // Atualizar na memória
-            aluno.presente = false;
-
-
-            // Fechar painel
-            modal.remove();
-
-
-            // Atualizar lista
-            mostrarAlunos();
+            botaoRemover.disabled = false;
+            botaoRemover.textContent =
+                "🗑️ REMOVER DA CHAMADA";
 
         }
     );

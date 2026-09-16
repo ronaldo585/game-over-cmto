@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lendas do Bosque - Game Over CMTO</title>
+    <link rel="stylesheet" href="./lendas-do-bosque.css?v=2">
+</head>
+<body>
+    <main class="rpg-shell">
+        <nav class="rpg-nav" aria-label="Navegação do jogo">
+            <a href="../area-aluno.html">← Central de games</a>
+            <span>EXPLORE • BATALHE • EVOLUA</span>
+        </nav>
+
+        <header class="rpg-header">
+            <div>
+                <p class="rpg-kicker">RPG ORIGINAL</p>
+                <h1>🌲 LENDAS DO BOSQUE</h1>
+                <p>Descubra criaturas selvagens e proteja a floresta luminosa.</p>
+            </div>
+            <div class="cabecalho-status-rpg">
+                <span id="statusOnline" class="status-online desligado">● CONECTANDO</span>
+                <div class="recorde-rpg">🏆 RECORDE <strong id="recorde">0</strong></div>
+            </div>
+        </header>
+
+        <section class="hud-rpg" aria-label="Informações da aventura">
+            <span>⭐ Pontos <b id="pontos">0</b></span>
+            <span>🔷 Cristais <b id="cristais">0</b></span>
+            <span>🌟 Nível <b id="nivel">1</b></span>
+            <span>🧭 Capturados <b id="capturados">0</b></span>
+            <span>👥 Online <b id="jogadoresOnline">0</b></span>
+        </section>
+
+        <section class="mundo-rpg" aria-label="Mundo de Lendas do Bosque">
+            <canvas id="mundo" width="960" height="528" tabindex="0" aria-label="Mapa da floresta. Use as setas ou WASD para andar."></canvas>
+
+            <div class="overlay-rpg" id="inicio">
+                <span class="emblema-rpg" aria-hidden="true">✦</span>
+                <p class="rpg-kicker">AVENTURA NOVA</p>
+                <h2>O Bosque chama você</h2>
+                <p>Ande pela grama para encontrar criaturas. Fale com a guardiã, colete cristais e vença batalhas por turno.</p>
+                <button type="button" id="iniciar">▶ INICIAR AVENTURA</button>
+            </div>
+        </section>
+
+        <section class="painel-rpg" aria-live="polite">
+            <div class="status-aventura">
+                <span class="status-ponto" aria-hidden="true"></span>
+                <p id="mensagem">Use <b>WASD</b> ou as <b>setas</b> para explorar. Aperte <b>E</b> perto da guardiã ou da fonte.</p>
+            </div>
+
+            <div id="batalha" class="batalha escondido">
+                <div class="palco-batalha">
+                    <div class="particulas-batalha" aria-hidden="true">✦ ✧ ✦</div>
+                    <div class="lado-batalha lado-inimigo">
+                        <div class="sprite-atlas sprite-treinador-rival" aria-hidden="true"></div>
+                        <div class="sprite-atlas sprite-criatura sprite-criatura-inimiga" id="iconeInimigo" aria-hidden="true"></div>
+                        <div class="criatura-card inimigo-card">
+                            <div><strong id="nomeInimigo">Criatura</strong><span class="tipo" id="tipoInimigo">SELVAGEM</span></div>
+                            <div class="vida"><i id="vidaInimigo"></i></div><b id="vidaInimigoTexto">0 / 0</b>
+                        </div>
+                    </div>
+                    <div class="versus" aria-hidden="true">VS</div>
+                    <div class="lado-batalha lado-jogador">
+                        <div class="sprite-atlas sprite-treinador-jogador" aria-hidden="true"></div>
+                        <div class="sprite-atlas sprite-criatura sprite-fagulha" aria-hidden="true"></div>
+                        <div class="criatura-card jogador-card">
+                            <div><strong>Fagulha <small id="nivelCriatura">Nv. 1</small></strong><span class="tipo">ELEMENTO BRASA</span></div>
+                            <div class="vida"><i id="vidaJogador"></i></div><b id="vidaJogadorTexto">100 / 100</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acoes-rpg" id="acoes">
+                <button type="button" data-acao="ataque" disabled>⚔️ Investida <small>14–20 dano</small></button>
+                <button type="button" data-acao="especial" disabled>✨ Centelha <small>usa 1 cristal</small></button>
+                <button type="button" data-acao="cura" disabled>🧪 Curar <small>usa 2 cristais</small></button>
+                <button type="button" data-acao="capturar" disabled><span class="mini-orbe sprite-atlas sprite-orbe" aria-hidden="true"></span>Sintonizar <small>usa uma orbe de captura</small></button>
+            </div>
+
+            <section id="arenaOnline" class="arena-online escondido" aria-live="polite">
+                <div class="arena-titulo"><span>⚔️</span><div><strong>Arena Lunar</strong><small>Duelo entre jogadores da turma</small></div></div>
+                <div class="duelo-palco" aria-hidden="true">
+                    <div><div class="sprite-atlas sprite-treinador-jogador"></div><div class="sprite-atlas sprite-criatura sprite-fagulha"></div></div>
+                    <span>VS</span>
+                    <div><div class="sprite-atlas sprite-treinador-rival"></div><div class="sprite-atlas sprite-criatura sprite-lunar"></div></div>
+                </div>
+                <p id="textoDuelo">Aproxime-se de outro jogador na arena e aperte <b>B</b> para desafiar.</p>
+                <div class="acoes-duelo">
+                    <button type="button" data-duelo-acao="golpe" disabled>⚔️ Golpe Lunar</button>
+                    <button type="button" data-duelo-acao="especial" disabled>✨ Pulso Astral</button>
+                </div>
+            </section>
+
+            <section id="desafiosOnline" class="desafios-online escondido" aria-live="polite"></section>
+
+            <div class="dicas-rpg">
+                <span>⌨️ Setas / WASD: mover</span>
+                <span>💬 E: interagir</span>
+                <span>⚔️ B: desafiar na arena</span>
+                <span>🌾 Grama alta: encontros</span>
+            </div>
+        </section>
+    </main>
+    <script type="module" src="./lendas-do-bosque.js"></script>
+</body>
+</html>

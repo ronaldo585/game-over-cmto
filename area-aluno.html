@@ -7,7 +7,7 @@
 
     <title>Área do Aluno - Game Over CMTO</title>
 
-    <link rel="stylesheet" href="./style.css?v=20260916">
+    <link rel="stylesheet" href="./style.css?v=20260916-4">
 </head>
 
 <body class="area-aluno-page">
@@ -414,29 +414,39 @@
 </div>
 
 
-                    <div class="game-card bloqueado">
+                    <div class="game-card">
 
                         <div class="game-icone">
-                            🧩
+                            🌲
                         </div>
 
                         <h3>
-                            JOGO 3
+                            LENDAS DO BOSQUE
                         </h3>
 
                         <p>
-                            Prepare-se para mais uma aventura.
+                            Explore um mundo 2D, enfrente criaturas
+                            e evolua Fagulha em batalhas por turno.
                         </p>
 
-                        <button disabled>
-                            🔒 EM BREVE
-                        </button>
+                        <a
+                            href="lendas-do-bosque/lendas-do-bosque.html"
+                            class="botao-game"
+                        >
+                            ✦ JOGAR RPG
+                        </a>
 
                     </div>
 
                 </div>
 
             </section>
+
+            <a href="placar.html" class="atalho-placar atalho-placar-aluno">
+                <span aria-hidden="true">🏆</span>
+                <span><strong>Placar de recordes</strong><small>Compare seus melhores resultados com os da turma</small></span>
+                <b aria-hidden="true">→</b>
+            </a>
 
 
             <!-- CONQUISTAS -->
@@ -449,25 +459,22 @@
 
                 <div class="conquistas">
 
-                    <div class="conquista bloqueada">
-                        🔒
-                        <span>
-                            Primeira presença
-                        </span>
+                    <div class="conquista bloqueada" data-conquista="primeira-presenca">
+                        <span class="conquista-icone" aria-hidden="true">🔒</span>
+                        <span class="conquista-titulo">Primeira presença</span>
+                        <small class="conquista-status">Registre uma presença</small>
                     </div>
 
-                    <div class="conquista bloqueada">
-                        🔒
-                        <span>
-                            10 aulas
-                        </span>
+                    <div class="conquista bloqueada" data-conquista="dez-aulas">
+                        <span class="conquista-icone" aria-hidden="true">🔒</span>
+                        <span class="conquista-titulo">10 aulas</span>
+                        <small class="conquista-status">0 de 10 aulas</small>
                     </div>
 
-                    <div class="conquista bloqueada">
-                        🔒
-                        <span>
-                            50 aulas
-                        </span>
+                    <div class="conquista bloqueada" data-conquista="cinquenta-aulas">
+                        <span class="conquista-icone" aria-hidden="true">🔒</span>
+                        <span class="conquista-titulo">50 aulas</span>
+                        <small class="conquista-status">0 de 50 aulas</small>
                     </div>
 
                 </div>

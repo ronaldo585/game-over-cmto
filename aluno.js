@@ -89,9 +89,137 @@ function obterSemanaAtual() {
         agora.getDate() - diferenca
     );
 
-    return quarta
-        .toISOString()
-        .split("T")[0];
+    const ano = quarta.getFullYear();
+    const mes = String(
+        quarta.getMonth() + 1
+    ).padStart(2, "0");
+    const diaDoMes = String(
+        quarta.getDate()
+    ).padStart(2, "0");
+
+    return `${ano}-${mes}-${diaDoMes}`;
+}
+
+
+// =====================================================
+// PRESENÇA POR SEMANA
+// A tabela progresso_semanal guarda a presença da semana.
+// Assim, toda quarta-feira começa como AUSENTE de novo.
+// =====================================================
+
+async function registrarPresencaDaSemana(alunoId) {
+
+    const semana =
+        obterSemanaAtual();
+
+    const {
+        data: progresso,
+        error: erroBusca
+    } = await supabase
+        .from("progresso_semanal")
+        .select("aluno_id")
+        .eq("aluno_id", alunoId)
+        .eq("semana", semana)
+        .maybeSingle();
+
+    if (erroBusca) {
+
+        console.error(
+            "ERRO AO BUSCAR PRESENÇA SEMANAL:",
+            erroBusca
+        );
+
+        return false;
+    }
+
+    const dadosPresenca = {
+        xp_presenca: 10,
+        missao1: true
+    };
+
+    const resultado = progresso
+        ? await supabase
+            .from("progresso_semanal")
+            .update(dadosPresenca)
+            .eq("aluno_id", alunoId)
+            .eq("semana", semana)
+        : await supabase
+            .from("progresso_semanal")
+            .insert({
+                aluno_id: alunoId,
+                semana: semana,
+                missao1: true,
+                missao2: false,
+                missao3: false,
+                xp_presenca: 10
+            });
+
+    if (resultado.error) {
+
+        console.error(
+            "ERRO AO SALVAR PRESENÇA SEMANAL:",
+            resultado.error
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+
+async function sincronizarPresencaDaSemana(aluno) {
+
+    if (aluno.presente !== true) {
+        return aluno;
+    }
+
+    const {
+        data: progresso,
+        error
+    } = await supabase
+        .from("progresso_semanal")
+        .select("xp_presenca")
+        .eq("aluno_id", aluno.id)
+        .eq("semana", obterSemanaAtual())
+        .maybeSingle();
+
+    if (error) {
+
+        console.error(
+            "ERRO AO SINCRONIZAR A PRESENÇA:",
+            error
+        );
+
+        return aluno;
+    }
+
+    const marcouNestaSemana =
+        Number(progresso?.xp_presenca || 0) > 0;
+
+    if (marcouNestaSemana) {
+        return aluno;
+    }
+
+    const { error: erroAtualizacao } =
+        await supabase
+            .from("alunos")
+            .update({ presente: false })
+            .eq("id", aluno.id);
+
+    if (erroAtualizacao) {
+
+        console.error(
+            "ERRO AO REINICIAR PRESENÇA SEMANAL:",
+            erroAtualizacao
+        );
+
+        return aluno;
+    }
+
+    aluno.presente = false;
+
+    return aluno;
 }
 
 
@@ -294,6 +422,107 @@ function atualizarMoedas(moedas) {
         moedasResumo.textContent =
             Number(moedas || 0) + " moedas";
     }
+}
+
+
+// =====================================================
+// CONQUISTAS
+// =====================================================
+
+function atualizarVisualConquista(
+    identificador,
+    desbloqueada,
+    status
+) {
+
+    const conquista =
+        document.querySelector(
+            `[data-conquista="${identificador}"]`
+        );
+
+    if (!conquista) {
+        return;
+    }
+
+    const icone = conquista.querySelector(
+        ".conquista-icone"
+    );
+
+    const textoStatus = conquista.querySelector(
+        ".conquista-status"
+    );
+
+    conquista.classList.toggle(
+        "bloqueada",
+        !desbloqueada
+    );
+
+    conquista.classList.toggle(
+        "desbloqueada",
+        desbloqueada
+    );
+
+    if (icone) {
+        icone.textContent = desbloqueada
+            ? "🏆"
+            : "🔒";
+    }
+
+    if (textoStatus) {
+        textoStatus.textContent = status;
+    }
+}
+
+
+async function atualizarConquistas(aluno) {
+
+    const {
+        data: registros,
+        error
+    } = await supabase
+        .from("progresso_semanal")
+        .select("xp_presenca")
+        .eq("aluno_id", aluno.id);
+
+    if (error) {
+
+        console.error(
+            "ERRO AO CARREGAR CONQUISTAS:",
+            error
+        );
+
+        return;
+    }
+
+    const totalDeAulas =
+        (registros || []).filter(
+            registro =>
+                Number(registro.xp_presenca || 0) > 0
+        ).length;
+
+    atualizarVisualConquista(
+        "primeira-presenca",
+        totalDeAulas >= 1,
+        totalDeAulas >= 1
+            ? "Conquistada!"
+            : "Registre uma presença"
+    );
+
+    atualizarVisualConquista(
+        "dez-aulas",
+        totalDeAulas >= 10,
+        totalDeAulas >= 10
+            ? "Conquistada!"
+            : `${totalDeAulas} de 10 aulas`
+    );
+
+    atualizarVisualConquista(
+        "cinquenta-aulas",
+        totalDeAulas >= 50,
+        totalDeAulas >= 50
+            ? "Conquistada!"
+            : `${totalDeAulas} de 50 aulas`
+    );
 }
 
 
@@ -549,6 +778,22 @@ async function marcarPresencaAluno(aluno) {
     atualizarPresencaNaTela(
         true
     );
+
+    const presencaSemanalSalva =
+        await registrarPresencaDaSemana(
+            aluno.id
+        );
+
+    if (presencaSemanalSalva) {
+
+        await carregarMissoes(
+            aluno
+        );
+
+        await atualizarConquistas(
+            aluno
+        );
+    }
 
 
     alert(
@@ -1521,6 +1766,12 @@ async function carregarAreaAluno() {
         aluno
     );
 
+    // Se a presença foi marcada em uma semana anterior,
+    // ela volta para AUSENTE na nova semana (quarta-feira).
+    await sincronizarPresencaDaSemana(
+        aluno
+    );
+
 
     // -------------------------------------------------
     // SALVAR ALUNO
@@ -1610,6 +1861,10 @@ async function carregarAreaAluno() {
     // -------------------------------------------------
 
     await carregarMissoes(
+        aluno
+    );
+
+    await atualizarConquistas(
         aluno
     );
 

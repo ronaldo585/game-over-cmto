@@ -7,7 +7,7 @@
 
     <title>Professor - Game Over CMTO</title>
 
-    <link rel="stylesheet" href="./style.css?v=20260916">
+    <link rel="stylesheet" href="./style.css?v=20260916-4">
 
     <style>
         /* =========================
@@ -166,19 +166,20 @@
     </style>
 </head>
 
-<body>
+<body class="professor-page">
 
     <!-- =========================
          CABEÇALHO
     ========================== -->
 
-    <header>
+    <header class="cabecalho-app">
+        <a href="index.html" class="marca-voltar">← Início</a>
         <h1>GAME OVER</h1>
-        <p>CMTO</p>
+        <p>CMTO • PORTAL DO PROFESSOR</p>
     </header>
 
 
-    <main>
+    <main class="app-main">
 
         <div class="professor-container">
 
@@ -188,7 +189,8 @@
 
             <section id="loginProfessor" class="professor-card">
 
-                <h2>👨‍🏫 Login do Professor</h2>
+                <p class="auth-etiqueta">ACESSO RESTRITO</p>
+                <h2>👨‍🏫 Portal do Professor</h2>
 
                 <p class="subtitulo">
                     Entre para acessar sua área
@@ -196,6 +198,7 @@
 
                 <form id="formLoginProfessor">
 
+                    <label for="email">E-mail</label>
                     <input
                         class="campo"
                         type="email"
@@ -204,6 +207,7 @@
                         required
                     >
 
+                    <label for="senha">Senha</label>
                     <input
                         class="campo"
                         type="password"
@@ -216,7 +220,7 @@
                         type="submit"
                         class="botao-principal"
                     >
-                        ENTRAR
+                        ENTRAR NO PAINEL →
                     </button>
 
                 </form>
@@ -248,7 +252,8 @@
 
                 <div class="boas-vindas">
 
-                    <h2>👨‍🏫 Bem-vindo, <span id="nomeProfessor">Professor</span>!</h2>
+                    <p class="auth-etiqueta">PAINEL DE CONTROLE</p>
+                    <h2>👨‍🏫 Olá, <span id="nomeProfessor">Professor</span>!</h2>
 
                     <p>
                         Você está logado como professor.

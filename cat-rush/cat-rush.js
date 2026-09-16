@@ -309,9 +309,9 @@ function atualizar() {
     if (!chefao) {
 
         velocidade =
-            6 +
-            (fase - 1) * 1.2 +
-            Math.floor(pontos / 150) * 0.4;
+            6.25 +
+            (fase - 1) * 1.25 +
+            Math.floor(pontos / 140) * 0.42;
 
 
         // O intervalo antigo usava o resto da divisão do
@@ -320,8 +320,8 @@ function atualizar() {
         // obstáculo só nasce depois de uma distância segura.
         const intervaloMinimo =
             Math.max(
-                78,
-                140 - Math.floor(pontos / 12) - fase * 9
+                76,
+                136 - Math.floor(pontos / 12) - fase * 10
             );
 
 
@@ -330,7 +330,7 @@ function atualizar() {
             criarObstaculo();
 
             const folgaExtra =
-                12 + Math.floor(Math.random() * 22);
+                11 + Math.floor(Math.random() * 21);
 
             proximoObstaculoEm =
                 tempo + intervaloMinimo + folgaExtra;

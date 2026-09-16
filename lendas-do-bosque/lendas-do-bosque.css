@@ -1,0 +1,181 @@
+:root {
+    color-scheme: dark;
+    --fundo: #050b15;
+    --painel: #0a1726;
+    --borda: #2cc5d6;
+    --destaque: #ffd45d;
+    --texto: #f1fbff;
+    --muted: #a6c1ca;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--texto);
+    font-family: "Trebuchet MS", system-ui, sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(44, 197, 214, .2), transparent 26rem),
+        radial-gradient(circle at 88% 86%, rgba(117, 83, 214, .22), transparent 24rem),
+        var(--fundo);
+}
+
+button, a { font: inherit; }
+button { cursor: pointer; }
+
+.rpg-shell { width: min(1120px, calc(100% - 28px)); margin: 20px auto 42px; }
+
+.rpg-nav {
+    display: flex; justify-content: space-between; gap: 16px; align-items: center;
+    margin-bottom: 18px; color: #7ba8b2; font-size: .75rem; font-weight: 800; letter-spacing: .12em;
+}
+.rpg-nav a { color: #dffcff; text-decoration: none; letter-spacing: normal; font-size: .95rem; }
+.rpg-nav a:hover { color: var(--destaque); }
+
+.rpg-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 25px 30px; border: 1px solid rgba(72, 211, 219, .65); border-radius: 24px 24px 0 0;
+    background: linear-gradient(120deg, rgba(11, 38, 50, .96), rgba(24, 20, 58, .92));
+    box-shadow: 0 0 32px rgba(39, 213, 225, .16);
+}
+.rpg-kicker { margin: 0 0 5px; color: var(--destaque); font-size: .72rem; font-weight: 900; letter-spacing: .18em; }
+.rpg-header h1 { margin: 0; color: #e9fdff; font-size: clamp(1.55rem, 4vw, 2.5rem); text-shadow: 0 0 15px #11c8d8; }
+.rpg-header > div > p:last-child { margin: 8px 0 0; color: var(--muted); }
+.recorde-rpg { min-width: 125px; padding: 12px; border: 1px solid #ffda68; border-radius: 14px; color: #ffdd76; text-align: center; font-size: .76rem; font-weight: 900; letter-spacing: .06em; background: rgba(0, 0, 0, .25); }
+.recorde-rpg strong { display: block; margin-top: 4px; color: white; font-size: 1.55rem; }
+.cabecalho-status-rpg { display: flex; align-items: center; gap: 12px; }
+.status-online { padding: 7px 9px; border: 1px solid #386b76; border-radius: 99px; color: #a8c7cd; font-size: .62rem; font-weight: 900; letter-spacing: .06em; white-space: nowrap; }
+.status-online.conectado { border-color: #4de3a5; color: #83ffc6; box-shadow: 0 0 14px rgba(77, 227, 165, .22); }
+.status-online.desligado { color: #f0c171; }
+
+.hud-rpg {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; overflow: hidden;
+    border: 1px solid rgba(72, 211, 219, .65); border-top: 0; background: rgba(72, 211, 219, .3);
+}
+.hud-rpg span { padding: 12px 14px; background: #0b1c2c; color: var(--muted); text-align: center; font-size: .86rem; }
+.hud-rpg b { display: inline-block; margin-left: 3px; color: white; font-size: 1.1rem; }
+
+.mundo-rpg { position: relative; overflow: hidden; border: 1px solid rgba(72, 211, 219, .65); border-top: 0; background: #142b36; }
+#mundo { display: block; width: 100%; height: auto; max-height: 610px; background: #173a38; image-rendering: pixelated; outline: none; }
+#mundo:focus-visible { outline: 3px solid var(--destaque); outline-offset: -5px; }
+
+.overlay-rpg {
+    position: absolute; inset: 0; display: grid; place-content: center; justify-items: center;
+    padding: 30px; text-align: center; background: linear-gradient(rgba(4, 12, 21, .52), rgba(4, 12, 21, .88));
+    backdrop-filter: blur(3px);
+}
+.overlay-rpg h2 { margin: 5px 0; font-size: clamp(1.7rem, 4vw, 2.6rem); text-shadow: 0 0 18px #13c6d8; }
+.overlay-rpg > p:not(.rpg-kicker) { max-width: 510px; margin: 8px 0 22px; color: #d3ebed; line-height: 1.6; }
+.emblema-rpg { display: grid; width: 72px; height: 72px; place-items: center; border: 2px solid var(--destaque); border-radius: 50%; color: var(--destaque); font-size: 2.4rem; box-shadow: 0 0 28px rgba(255, 212, 93, .48); }
+.overlay-rpg button {
+    padding: 15px 25px; border: 0; border-radius: 12px; color: #08101b; background: linear-gradient(110deg, #ffe980, #f9b94c);
+    box-shadow: 0 5px 0 #b77a25, 0 0 22px rgba(255, 210, 93, .42); font-weight: 950; letter-spacing: .04em;
+}
+.overlay-rpg button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.overlay-rpg.escondido { display: none; }
+
+.painel-rpg { padding: 18px; border: 1px solid rgba(72, 211, 219, .65); border-top: 0; border-radius: 0 0 24px 24px; background: linear-gradient(160deg, #0d1f30, #07111f); }
+.status-aventura { display: flex; align-items: flex-start; gap: 10px; min-height: 40px; color: #d7edef; }
+.status-aventura p { margin: 0; line-height: 1.45; }
+.status-ponto { flex: 0 0 9px; height: 9px; margin-top: 6px; border-radius: 50%; background: #41efd4; box-shadow: 0 0 10px #41efd4; }
+
+.batalha { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; margin: 13px 0; }
+.batalha.escondido { display: none; }
+.criatura-card { display: grid; grid-template-columns: auto 1fr; gap: 3px 11px; align-items: center; padding: 11px; border: 1px solid #2b6b7c; border-radius: 13px; background: rgba(2, 10, 18, .55); }
+.inimigo-card { border-color: #ae75ce; }
+.retrato-criatura { grid-row: span 3; font-size: 2.2rem; filter: drop-shadow(0 0 9px currentColor); }
+.criatura-card strong { font-size: 1rem; }
+.criatura-card small { color: #b1c9d2; font-weight: normal; }
+.tipo { display: block; color: #7cabb6; font-size: .61rem; font-weight: 900; letter-spacing: .1em; }
+.vida { overflow: hidden; height: 8px; border-radius: 20px; background: #172a34; }
+.vida i { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #48dca0, #dff778); transition: width .25s; }
+.inimigo-card .vida i { background: linear-gradient(90deg, #ed8de4, #ffdf7f); }
+.criatura-card > b { color: #cce1e4; font-size: .7rem; text-align: right; }
+.versus { color: var(--destaque); font-weight: 900; text-shadow: 0 0 12px #ffc850; }
+
+.palco-batalha {
+    position: relative; display: grid; grid-template-columns: 1fr auto 1fr; min-height: 214px;
+    overflow: hidden; align-items: center; border: 1px solid rgba(125, 219, 234, .55); border-radius: 16px;
+    background:
+        radial-gradient(circle at 18% 87%, rgba(37, 218, 179, .34), transparent 27%),
+        radial-gradient(circle at 83% 19%, rgba(164, 96, 229, .35), transparent 29%),
+        linear-gradient(135deg, #102e43, #151138 56%, #332052);
+}
+.palco-batalha::after { content: ""; position: absolute; inset: auto 0 0; height: 35%; background: linear-gradient(0deg, rgba(2, 13, 25, .7), transparent); pointer-events: none; }
+.particulas-batalha { position: absolute; inset: 16px 15%; color: #fff2a1; letter-spacing: 4.5rem; opacity: .76; text-shadow: 0 0 11px #fff0a0; }
+.lado-batalha { position: relative; z-index: 1; min-height: 214px; }
+.sprite-atlas { display: block; background-image: url("./assets/sprites-lendas-bosque-v1.png"); background-repeat: no-repeat; background-size: 300% 200%; image-rendering: pixelated; }
+.sprite-fagulha { background-position: 0 0; }
+.sprite-musgo { background-position: 50% 0; }
+.sprite-lunar { background-position: 100% 0; }
+.sprite-treinador-jogador { background-position: 0 100%; }
+.sprite-treinador-rival { background-position: 50% 100%; }
+.sprite-orbe { background-position: 100% 100%; }
+.lado-batalha .sprite-treinador-jogador, .lado-batalha .sprite-treinador-rival { position: absolute; bottom: 4px; width: 105px; height: 105px; filter: drop-shadow(0 5px 5px rgba(0,0,0,.55)); }
+.lado-batalha .sprite-criatura { position: absolute; bottom: 0; width: 132px; height: 132px; filter: drop-shadow(0 8px 8px rgba(0,0,0,.52)); }
+.lado-inimigo .sprite-treinador-rival { left: 5px; }
+.lado-inimigo .sprite-criatura { right: 4px; }
+.lado-jogador .sprite-treinador-jogador { right: 5px; }
+.lado-jogador .sprite-criatura { left: 4px; }
+.lado-batalha .criatura-card { position: absolute; z-index: 2; top: 11px; width: min(100% - 12px, 206px); padding: 8px; background: rgba(3, 13, 26, .82); backdrop-filter: blur(3px); }
+.lado-inimigo .criatura-card { left: 7px; }
+.lado-jogador .criatura-card { right: 7px; }
+.lado-batalha .criatura-card > b { display: block; margin-top: 3px; }
+.palco-batalha > .versus { z-index: 2; padding: 8px; border: 1px solid #ffe083; border-radius: 50%; background: #281c34; }
+
+.duelo-palco { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 8px; min-height: 115px; margin: 10px 0; padding: 7px 12px; border: 1px solid rgba(255, 214, 237, .24); border-radius: 11px; background: rgba(12, 10, 35, .58); }
+.duelo-palco > div { position: relative; height: 98px; }
+.duelo-palco .sprite-atlas { position: absolute; bottom: 0; width: 92px; height: 92px; filter: drop-shadow(0 4px 4px rgba(0,0,0,.55)); }
+.duelo-palco > div:first-child .sprite-treinador-jogador { left: 6px; }
+.duelo-palco > div:first-child .sprite-fagulha { right: 2px; }
+.duelo-palco > div:last-child .sprite-treinador-rival { right: 6px; }
+.duelo-palco > div:last-child .sprite-lunar { left: 2px; }
+.duelo-palco > span { align-self: center; color: #ffe48a; font-weight: 950; text-shadow: 0 0 12px #ffca65; }
+
+.acoes-rpg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.acoes-rpg button { min-height: 60px; padding: 8px; border: 1px solid #338ba0; border-radius: 11px; color: #ecffff; background: #112d42; font-weight: 800; }
+.acoes-rpg button:nth-child(2) { border-color: #e4b659; background: #3d2d18; }
+.acoes-rpg button:nth-child(3) { border-color: #9b7ae4; background: #271b42; }
+.acoes-rpg button:nth-child(4) { border-color: #d080d5; background: #411c42; }
+.acoes-rpg button:hover:not(:disabled) { filter: brightness(1.23); transform: translateY(-2px); }
+.acoes-rpg button:disabled { cursor: not-allowed; opacity: .42; }
+.acoes-rpg small { display: block; margin-top: 4px; color: #b8d3da; font-size: .65rem; font-weight: normal; }
+.acoes-rpg .mini-orbe { display: inline-block; width: 22px; height: 22px; margin: -4px 4px -6px 0; vertical-align: middle; }
+.arena-online { margin-top: 13px; padding: 13px; border: 1px solid #d686ed; border-radius: 13px; background: linear-gradient(115deg, rgba(65, 28, 66, .82), rgba(23, 20, 55, .82)); }
+.arena-online.escondido, .desafios-online.escondido { display: none; }
+.arena-titulo { display: flex; align-items: center; gap: 10px; color: #ffe290; }
+.arena-titulo > span { font-size: 1.65rem; }
+.arena-titulo strong, .arena-titulo small { display: block; }
+.arena-titulo small { margin-top: 2px; color: #c9a9d0; font-size: .7rem; }
+.arena-online p { margin: 9px 0; color: #edf4ff; font-size: .9rem; }
+.acoes-duelo { display: flex; gap: 9px; }
+.acoes-duelo button { flex: 1; padding: 10px; border: 1px solid #d686ed; border-radius: 9px; color: #fff0ff; background: #451f50; font-weight: 800; }
+.acoes-duelo button:hover:not(:disabled) { filter: brightness(1.25); }
+.acoes-duelo button:disabled { opacity: .45; cursor: not-allowed; }
+.desafios-online { margin-top: 12px; padding: 12px; border: 1px solid #f4c75e; border-radius: 12px; background: #352914; }
+.desafios-online p { margin: 0 0 9px; color: #ffedb9; }
+.desafios-online button { margin-right: 8px; padding: 8px 12px; border: 0; border-radius: 8px; color: #111626; background: #ffe07c; font-weight: 900; }
+.desafios-online button[data-resposta="recusar"] { color: #fff; background: #67414a; }
+.dicas-rpg { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 19px; margin-top: 15px; color: #8caab1; font-size: .74rem; }
+
+@media (max-width: 650px) {
+    .rpg-shell { width: min(100% - 14px, 1120px); margin-top: 8px; }
+    .rpg-nav span { display: none; }
+    .rpg-header { padding: 20px 16px; }
+    .rpg-header > div > p:last-child { display: none; }
+    .recorde-rpg { min-width: 90px; font-size: .62rem; }
+    .hud-rpg { grid-template-columns: repeat(2, 1fr); }
+    .cabecalho-status-rpg { align-items: flex-end; flex-direction: column; gap: 6px; }
+    .hud-rpg span { padding: 9px; font-size: .76rem; }
+    .painel-rpg { padding: 12px; }
+    .batalha { grid-template-columns: 1fr; gap: 7px; }
+    .versus { text-align: center; font-size: .76rem; }
+    .palco-batalha { min-height: 183px; }
+    .lado-batalha { min-height: 183px; }
+    .lado-batalha .sprite-criatura { width: 112px; height: 112px; }
+    .lado-batalha .sprite-treinador-jogador, .lado-batalha .sprite-treinador-rival { width: 90px; height: 90px; }
+    .lado-batalha .criatura-card { width: calc(100% - 10px); }
+    .acoes-rpg { grid-template-columns: repeat(2, 1fr); }
+    .acoes-rpg button { font-size: .77rem; }
+}

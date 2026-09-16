@@ -505,3 +505,24 @@ h1 {
     }
 
 }
+
+.voltar-topo {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 17px;
+    padding: 9px 12px;
+    border: 1px solid #24527c;
+    border-radius: 9px;
+    background: rgba(12, 28, 53, 0.72);
+    color: #bfeaff;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.voltar-topo:hover {
+    transform: translateX(-3px);
+    border-color: #00aaff;
+    background: #123258;
+}

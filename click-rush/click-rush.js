@@ -557,6 +557,11 @@ async function salvarRecompensa(
         return;
     }
 
+    await salvarRecordeClickRush(
+        aluno.id,
+        quantidade
+    );
+
 
     // =================================================
     // ATUALIZAR LOCALSTORAGE
@@ -586,6 +591,68 @@ async function salvarRecompensa(
         "✅ RECOMPENSA SALVA:",
         novoSaldo
     );
+}
+
+
+// =====================================================
+// SALVAR RECORDE DO CLICK RUSH
+// Guarda somente a melhor partida de cada aluno.
+// =====================================================
+
+async function salvarRecordeClickRush(
+    alunoId,
+    pontuacao
+) {
+
+    const {
+        data: recordeExistente,
+        error: erroBusca
+    } = await supabase
+        .from("recordes_games")
+        .select("id, pontuacao")
+        .eq("aluno_id", alunoId)
+        .eq("jogo", "click-rush")
+        .maybeSingle();
+
+    if (erroBusca) {
+
+        console.error(
+            "ERRO AO BUSCAR RECORDE DO CLICK RUSH:",
+            erroBusca
+        );
+
+        return;
+    }
+
+    if (
+        recordeExistente &&
+        pontuacao <= Number(recordeExistente.pontuacao || 0)
+    ) {
+        return;
+    }
+
+    const operacao = recordeExistente
+        ? supabase
+            .from("recordes_games")
+            .update({ pontuacao: pontuacao })
+            .eq("id", recordeExistente.id)
+        : supabase
+            .from("recordes_games")
+            .insert({
+                aluno_id: alunoId,
+                jogo: "click-rush",
+                pontuacao: pontuacao
+            });
+
+    const { error } = await operacao;
+
+    if (error) {
+
+        console.error(
+            "ERRO AO SALVAR RECORDE DO CLICK RUSH:",
+            error
+        );
+    }
 }
 
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placar de Recordes - Game Over CMTO</title>
+    <link rel="stylesheet" href="./style.css?v=20260916-4">
+</head>
+<body class="placar-page">
+    <header class="cabecalho-app">
+        <a href="index.html" class="marca-voltar">← Início</a>
+        <h1>GAME OVER</h1>
+        <p>CMTO • PLACAR DE RECORDES</p>
+    </header>
+
+    <main class="app-main">
+        <section class="placar-box" aria-labelledby="titulo-placar">
+            <div class="placar-hero">
+                <span aria-hidden="true">🏆</span>
+                <div>
+                    <p class="auth-etiqueta">HALL DA FAMA</p>
+                    <h2 id="titulo-placar">Placar de recordes</h2>
+                    <p>Os melhores resultados dos desafios da turma.</p>
+                </div>
+            </div>
+
+            <div class="placar-tabs" role="tablist" aria-label="Escolha um jogo">
+                <button type="button" class="placar-tab ativo" data-jogo="cat-rush" role="tab" aria-selected="true">🐱 Cat Rush</button>
+                <button type="button" class="placar-tab" data-jogo="click-rush" role="tab" aria-selected="false">⚡ Click Rush</button>
+                <button type="button" class="placar-tab" data-jogo="lendas-do-bosque" role="tab" aria-selected="false">🌲 Lendas do Bosque</button>
+            </div>
+
+            <p id="placar-status" class="placar-status" aria-live="polite">Carregando recordes...</p>
+            <ol id="lista-placar" class="lista-placar" aria-label="Ranking"></ol>
+
+            <p class="placar-aviso">Os recordes são salvos ao terminar uma partida. Cada jogador aparece apenas com sua melhor pontuação.</p>
+            <a href="area-aluno.html" class="botao-voltar-placar">← Voltar para a área do aluno</a>
+        </section>
+    </main>
+
+    <script type="module" src="placar.js"></script>
+</body>
+</html>

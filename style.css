@@ -963,6 +963,37 @@ form button[type="submit"]:hover {
     opacity: 0.5;
 }
 
+.conquista .conquista-icone {
+    display: block;
+    margin: 0;
+    font-size: 27px;
+}
+
+.conquista .conquista-titulo {
+    display: block;
+    margin: 8px 0 4px;
+    color: #dcecf8;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.conquista .conquista-status {
+    display: block;
+    color: #8195a7;
+    font-size: 11px;
+}
+
+.conquista.desbloqueada {
+    opacity: 1;
+    border-color: #f7ca50;
+    background: linear-gradient(145deg, #172036, #0d1524);
+    box-shadow: 0 0 16px rgba(247, 202, 80, 0.20);
+}
+
+.conquista.desbloqueada .conquista-status {
+    color: #ffd969;
+}
+
 
 /* RESPONSIVO */
 
@@ -1831,4 +1862,534 @@ body.tema-neon .progresso-xp {
     .cabecalho-area { padding-top: 64px; }
     .voltar-inicio { top: 15px; left: 15px; }
     .resumo-rapido { grid-template-columns: 1fr; }
+}
+
+/* =====================================================
+   SISTEMA DE INTERFACE — PORTAIS E FORMULÁRIOS
+   ===================================================== */
+
+html {
+    background: #05070d;
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: #008cff;
+    color: #ffffff;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid #ffdc55;
+    outline-offset: 3px;
+}
+
+.auth-page,
+.professor-page,
+.chamada-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(0, 136, 255, 0.23), transparent 28rem),
+        radial-gradient(circle at 88% 100%, rgba(92, 49, 220, 0.15), transparent 25rem),
+        #05070d;
+}
+
+.cabecalho-auth,
+.cabecalho-app {
+    position: relative;
+    padding: 39px 20px 19px;
+    border-bottom: 1px solid rgba(93, 177, 235, 0.12);
+    background: linear-gradient(180deg, rgba(6, 15, 34, 0.74), rgba(5, 7, 13, 0));
+}
+
+.cabecalho-auth h1,
+.cabecalho-app h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: clamp(0.12em, 1.2vw, 0.26em);
+}
+
+.cabecalho-auth p,
+.cabecalho-app p {
+    color: #a8bfce;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+}
+
+.marca-voltar {
+    position: absolute;
+    top: 25px;
+    left: max(20px, calc((100vw - 1050px) / 2));
+    padding: 8px 11px;
+    border: 1px solid rgba(98, 192, 255, 0.43);
+    border-radius: 9px;
+    background: rgba(0, 119, 208, 0.11);
+    color: #d2f2ff;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.marca-voltar:hover {
+    transform: translateX(-3px);
+    background: #008cff;
+    color: #ffffff;
+}
+
+.auth-page main,
+.app-main {
+    display: grid;
+    min-height: calc(100vh - 158px);
+    padding: 24px 20px 48px;
+    place-items: center;
+}
+
+.auth-page .login-box {
+    margin: 0;
+}
+
+.auth-card {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(92, 193, 255, 0.33);
+    background: linear-gradient(145deg, rgba(20, 31, 49, 0.96), rgba(10, 13, 20, 0.96));
+    box-shadow: 0 24px 65px rgba(0, 0, 0, 0.42), 0 0 36px rgba(0, 140, 255, 0.11);
+}
+
+.auth-card::before {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+    content: "";
+}
+
+.auth-etiqueta {
+    margin: 0 0 8px !important;
+    color: #62d6ff !important;
+    font-size: 0.68rem !important;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.auth-card h2 {
+    margin-bottom: 7px;
+    color: #f4fbff;
+}
+
+.auth-card > p:not(.auth-etiqueta) {
+    color: #9bb0c0;
+}
+
+.auth-page label,
+.professor-page label {
+    color: #d9e9f5;
+    font-size: 0.88rem;
+}
+
+.auth-page input,
+.auth-page select,
+.professor-page .campo {
+    min-height: 50px;
+    border-color: #2a4967;
+    background: rgba(2, 8, 16, 0.74);
+}
+
+.auth-page form button[type="submit"],
+.professor-page .botao-principal {
+    min-height: 51px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #008cff, #356dff);
+    box-shadow: 0 10px 22px rgba(0, 114, 255, 0.25);
+}
+
+.auth-page form button[type="submit"]:hover,
+.professor-page .botao-principal:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #17a6ff, #4b77ff);
+}
+
+.professor-page .professor-container {
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+.professor-page .professor-card {
+    padding: clamp(25px, 5vw, 42px);
+    border: 1px solid rgba(92, 193, 255, 0.33);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(20, 31, 49, 0.96), rgba(10, 13, 20, 0.96));
+    box-shadow: 0 24px 65px rgba(0, 0, 0, 0.42), 0 0 36px rgba(0, 140, 255, 0.11);
+}
+
+.professor-page .professor-card h2 {
+    color: #effaff;
+}
+
+.professor-page .campo {
+    margin-top: 7px;
+}
+
+.professor-page .botao-chamada {
+    min-height: 55px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #008cff, #356dff);
+    box-shadow: 0 10px 22px rgba(0, 114, 255, 0.25);
+}
+
+.professor-page .botao-chamada:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #17a6ff, #4b77ff);
+}
+
+.professor-page .botao-sair,
+.chamada-page .botao-sair {
+    min-height: 48px;
+    border-radius: 10px;
+}
+
+.chamada-page .chamada-box {
+    width: min(100%, 920px);
+    margin: 0;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid rgba(92, 193, 255, 0.33);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(20, 31, 49, 0.96), rgba(10, 13, 20, 0.96));
+    box-shadow: 0 24px 65px rgba(0, 0, 0, 0.42);
+}
+
+.chamada-page .chamada-box > p {
+    color: #9bb0c0;
+}
+
+.chamada-page .chamada-box select {
+    max-width: 320px;
+    min-height: 48px;
+    margin: 8px 0 18px;
+    border-color: #2a4967;
+    background: #07111e;
+}
+
+.chamada-page .aluno-chamada {
+    border-color: rgba(102, 176, 231, 0.23);
+    background: rgba(4, 11, 21, 0.65);
+}
+
+.chamada-page .aluno-chamada:hover {
+    border-color: #2eaef6;
+    transform: translateY(-2px);
+}
+
+.chamada-page .resumo {
+    gap: 10px;
+    padding: 0;
+    background: transparent;
+}
+
+.chamada-page .resumo p {
+    border: 1px solid rgba(102, 176, 231, 0.20);
+    border-radius: 10px;
+    background: rgba(4, 11, 21, 0.65);
+}
+
+@media (max-width: 650px) {
+    .cabecalho-auth,
+    .cabecalho-app {
+        padding-top: 68px;
+    }
+
+    .marca-voltar {
+        top: 16px;
+        left: 16px;
+    }
+
+    .auth-page main,
+    .app-main {
+        padding: 16px 14px 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* =====================================================
+   PLACAR DE RECORDES
+   ===================================================== */
+
+.atalho-placar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: min(100%, 720px);
+    margin: 25px auto 0;
+    padding: 17px 20px;
+    border: 1px solid rgba(246, 198, 70, 0.44);
+    border-radius: 16px;
+    background: linear-gradient(120deg, rgba(72, 52, 13, 0.42), rgba(16, 25, 39, 0.88));
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.19);
+    transition: 0.22s ease;
+}
+
+.atalho-placar:hover {
+    transform: translateY(-3px);
+    border-color: #ffdf63;
+    box-shadow: 0 16px 33px rgba(216, 163, 35, 0.16);
+}
+
+.atalho-placar > span:first-child {
+    font-size: 2rem;
+}
+
+.atalho-placar > span:nth-child(2) {
+    min-width: 0;
+}
+
+.atalho-placar strong,
+.atalho-placar small {
+    display: block;
+}
+
+.atalho-placar strong {
+    color: #fff3bd;
+    font-size: 1rem;
+}
+
+.atalho-placar small {
+    margin-top: 3px;
+    color: #b6c3d0;
+    font-size: 0.8rem;
+}
+
+.atalho-placar > b {
+    margin-left: auto;
+    color: #ffe477;
+    font-size: 1.4rem;
+}
+
+.atalho-placar-aluno {
+    width: 100%;
+    margin: 8px 0 24px;
+}
+
+.placar-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(236, 177, 20, 0.15), transparent 25rem),
+        radial-gradient(circle at 12% 80%, rgba(0, 140, 255, 0.16), transparent 26rem),
+        #05070d;
+}
+
+.placar-box {
+    width: min(100%, 820px);
+    padding: clamp(24px, 5vw, 44px);
+    border: 1px solid rgba(246, 198, 70, 0.38);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(24, 29, 37, 0.97), rgba(9, 12, 20, 0.97));
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45), 0 0 35px rgba(247, 204, 78, 0.08);
+}
+
+.placar-hero {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(222, 236, 247, 0.12);
+}
+
+.placar-hero > span {
+    display: grid;
+    flex: 0 0 65px;
+    width: 65px;
+    height: 65px;
+    place-items: center;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #775a12, #302813);
+    font-size: 2rem;
+    box-shadow: 0 0 18px rgba(255, 211, 72, 0.22);
+}
+
+.placar-hero h2 {
+    margin: 3px 0 6px;
+    color: #fff5c6;
+    font-size: clamp(1.65rem, 4vw, 2.3rem);
+}
+
+.placar-hero p:not(.auth-etiqueta) {
+    color: #aab8c4;
+}
+
+.placar-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 25px 0 14px;
+}
+
+.placar-tab {
+    min-height: 48px;
+    border: 1px solid #2b465f;
+    border-radius: 10px;
+    background: #091321;
+    color: #b8c9d8;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.placar-tab:hover {
+    border-color: #5fc8ff;
+    color: #edfaff;
+}
+
+.placar-tab.ativo {
+    border-color: #f5cd55;
+    background: linear-gradient(135deg, #564310, #292718);
+    color: #fff2bd;
+    box-shadow: 0 0 16px rgba(246, 201, 67, 0.15);
+}
+
+.placar-status {
+    min-height: 24px;
+    color: #91a8ba;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.lista-placar {
+    display: grid;
+    gap: 10px;
+    margin: 8px 0 25px;
+    padding: 0;
+    list-style: none;
+}
+
+.linha-placar {
+    display: grid;
+    grid-template-columns: 45px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 13px;
+    min-height: 65px;
+    padding: 11px 14px;
+    border: 1px solid rgba(92, 161, 212, 0.20);
+    border-radius: 13px;
+    background: rgba(5, 13, 24, 0.68);
+}
+
+.linha-placar.posicao-1 {
+    border-color: rgba(255, 215, 83, 0.72);
+    background: linear-gradient(100deg, rgba(107, 81, 17, 0.40), rgba(5, 13, 24, 0.72));
+}
+
+.posicao-placar {
+    display: grid;
+    width: 33px;
+    height: 33px;
+    place-items: center;
+    border-radius: 50%;
+    background: #15283d;
+    color: #d7e8f5;
+    font-size: 0.85rem;
+    font-weight: 900;
+}
+
+.jogador-placar {
+    overflow: hidden;
+    color: #eff9ff;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pontuacao-placar {
+    color: #91a7ba;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.pontuacao-placar b {
+    color: #ffe07a;
+    font-size: 1rem;
+}
+
+.barra-placar {
+    grid-column: 2 / -1;
+    height: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #182d40;
+}
+
+.barra-placar i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #199df2, #ffd34f);
+}
+
+.placar-aviso {
+    color: #8093a5;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.botao-voltar-placar {
+    display: block;
+    width: fit-content;
+    margin: 22px auto 0;
+    color: #8edbff;
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.botao-voltar-placar:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+    .atalho-placar {
+        padding: 14px;
+    }
+
+    .placar-hero > span {
+        flex-basis: 53px;
+        width: 53px;
+        height: 53px;
+        font-size: 1.6rem;
+    }
+
+    .placar-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .linha-placar {
+        grid-template-columns: 38px minmax(0, 1fr);
+    }
+
+    .pontuacao-placar {
+        grid-column: 2;
+        margin-top: 4px;
+    }
+
+    .barra-placar {
+        grid-column: 2;
+    }
 }

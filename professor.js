@@ -68,6 +68,29 @@ if (formCadastro) {
                 erroCadastro
             );
 
+            const emailJaCadastrado =
+                erroCadastro.code === "user_already_exists" ||
+                /already registered|already exists/i.test(
+                    erroCadastro.message || ""
+                );
+
+            if (emailJaCadastrado) {
+
+                const irParaLogin = confirm(
+                    "Este e-mail já possui uma conta no Game Over.\n\n" +
+                    "Para cadastrar outro professor, use um e-mail diferente. " +
+                    "Se esta é a conta do professor, clique em OK para entrar."
+                );
+
+                if (irParaLogin) {
+                    window.location.href =
+                        "professor.html?email=" +
+                        encodeURIComponent(email);
+                }
+
+                return;
+            }
+
             alert(
                 "Erro ao criar a conta:\n\n" +
                 erroCadastro.message
@@ -163,6 +186,19 @@ if (formCadastro) {
 
 const formLogin =
     document.getElementById("formLoginProfessor");
+
+
+const emailDoCadastro =
+    new URLSearchParams(window.location.search).get("email");
+
+const campoEmailLogin =
+    document.getElementById("email");
+
+if (formLogin && emailDoCadastro && campoEmailLogin) {
+
+    campoEmailLogin.value = emailDoCadastro;
+    campoEmailLogin.focus();
+}
 
 if (formLogin) {
 
