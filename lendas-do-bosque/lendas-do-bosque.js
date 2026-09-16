@@ -7,11 +7,15 @@ const iniciar = document.getElementById("iniciar");
 const mensagem = document.getElementById("mensagem");
 const batalhaEl = document.getElementById("batalha");
 const acoes = [...document.querySelectorAll("[data-acao]")];
+const botaoTrocar = document.getElementById("trocarCriatura");
+const painelTroca = document.getElementById("trocaCriatura");
 
 const hud = {
     pontos: document.getElementById("pontos"), cristais: document.getElementById("cristais"),
     nivel: document.getElementById("nivel"), capturados: document.getElementById("capturados"),
     recorde: document.getElementById("recorde"), nivelCriatura: document.getElementById("nivelCriatura"),
+    nomeCriaturaJogador: document.getElementById("nomeCriaturaJogador"), tipoCriaturaJogador: document.getElementById("tipoCriaturaJogador"),
+    iconeJogador: document.getElementById("iconeJogador"),
     vidaJogador: document.getElementById("vidaJogador"), vidaJogadorTexto: document.getElementById("vidaJogadorTexto"),
     nomeInimigo: document.getElementById("nomeInimigo"), tipoInimigo: document.getElementById("tipoInimigo"),
     iconeInimigo: document.getElementById("iconeInimigo"), vidaInimigo: document.getElementById("vidaInimigo"), vidaInimigoTexto: document.getElementById("vidaInimigoTexto")
@@ -25,8 +29,13 @@ const desafiosOnlineEl = document.getElementById("desafiosOnline");
 const botoesDuelo = [...document.querySelectorAll("[data-duelo-acao]")];
 
 const TAM = 48;
-const COLUNAS = 34;
-const LINHAS = 22;
+const COLUNAS = 52;
+const LINHAS = 34;
+const RAIO_ARENA = 220;
+const CORES_TERRENO = Object.freeze({
+    A: "#3a285c", W: "#176490", P: "#c69b67", M: "#276a47",
+    R: "#565169", F: "#39775a", T: "#317b58", G: "#317b58"
+});
 
 function criarMapa() {
     const novoMapa = Array.from({ length: LINHAS }, (_, y) =>
@@ -35,16 +44,59 @@ function criarMapa() {
         )
     );
 
-    for (let y = 2; y < LINHAS - 2; y++) novoMapa[y][5] = "P";
-    for (let x = 5; x < 28; x++) novoMapa[7][x] = "P";
-    for (let y = 7; y < 17; y++) novoMapa[y][27] = "P";
-    for (let x = 22; x < 32; x++) novoMapa[17][x] = "P";
+    const marcar = (tipo, x, y) => {
+        if (x > 0 && x < COLUNAS - 1 && y > 0 && y < LINHAS - 1) novoMapa[y][x] = tipo;
+    };
+    const faixa = (tipo, x1, y1, x2, y2, apenasGrama = false) => {
+        for (let y = y1; y <= y2; y++) {
+            for (let x = x1; x <= x2; x++) {
+                if (!apenasGrama || novoMapa[y]?.[x] === "G") marcar(tipo, x, y);
+            }
+        }
+    };
 
-    for (let y = 12; y <= 18; y++) {
-        for (let x = 22; x <= 31; x++) novoMapa[y][x] = "A";
-    }
-    for (let x = 9; x <= 14; x++) novoMapa[4][x] = ".";
-    for (let y = 3; y <= 6; y++) novoMapa[y][11] = ".";
+    // Rio da Neblina: duas pontes conectam as duas metades do Bosque.
+    faixa("W", 20, 1, 21, LINHAS - 2);
+
+    // Caminhos principais, da clareira inicial até a Arena Lunar.
+    faixa("P", 5, 2, 5, 15);
+    faixa("P", 5, 7, 21, 7);
+    faixa("P", 9, 7, 9, 23);
+    faixa("P", 9, 23, 36, 23);
+    faixa("P", 34, 20, 34, 27);
+    faixa("P", 34, 26, 42, 26);
+
+    // Segunda rota para quem explora a Mata do Sul.
+    faixa("P", 5, 23, 9, 23);
+    faixa("P", 5, 23, 5, 30);
+    faixa("P", 5, 30, 18, 30);
+
+    // Pontes visíveis sobre o rio.
+    faixa("P", 20, 7, 21, 7);
+    faixa("P", 20, 23, 21, 23);
+
+    // Grande Arena Lunar, no extremo leste do mapa.
+    faixa("A", 36, 20, 48, 30);
+    faixa("P", 34, 26, 36, 26);
+
+    // Áreas naturais e ruínas que dão personalidade ao mundo.
+    faixa("M", 12, 10, 19, 19, true);
+    faixa("M", 23, 9, 33, 18, true);
+    faixa("M", 8, 25, 19, 32, true);
+    faixa("M", 40, 4, 48, 15, true);
+    faixa("R", 25, 2, 32, 6, true);
+    faixa("F", 2, 16, 7, 21, true);
+    faixa("F", 13, 2, 18, 5, true);
+
+    // Bosques densos: árvores bloqueiam atalhos, sem fechar os caminhos.
+    [
+        [13, 8], [14, 8], [15, 8], [17, 8], [18, 8], [24, 8], [25, 8], [30, 8],
+        [11, 20], [12, 20], [13, 20], [17, 21], [18, 21], [19, 21], [24, 20], [25, 20],
+        [28, 19], [29, 19], [30, 19], [40, 16], [41, 16], [42, 16], [45, 17], [46, 17],
+        [2, 25], [3, 25], [4, 25], [21, 28], [22, 28], [23, 28]
+    ].forEach(([x, y]) => {
+        if (novoMapa[y]?.[x] === "G") marcar("T", x, y);
+    });
 
     return novoMapa.map(linha => linha.join(""));
 }
@@ -55,18 +107,37 @@ const teclas = new Set();
 const jogador = { x: 3 * TAM + 12, y: 5 * TAM + 7, tamanho: 30, velocidade: 2.45 };
 const guardia = { x: 11 * TAM + 15, y: 4 * TAM + 7 };
 const fonte = { x: 4 * TAM + 12, y: 8 * TAM + 9 };
-const arena = { x: 27 * TAM + 24, y: 15 * TAM + 24 };
+const arena = { x: 42 * TAM + 24, y: 25 * TAM + 24 };
 let cristaisNoMapa = [
     { x: 7 * TAM + 20, y: 2 * TAM + 20 }, { x: 11 * TAM + 18, y: 7 * TAM + 20 },
-    { x: 17 * TAM + 15, y: 5 * TAM + 20 }, { x: 8 * TAM + 20, y: 9 * TAM + 15 },
-    { x: 20 * TAM + 15, y: 15 * TAM + 20 }, { x: 30 * TAM + 15, y: 9 * TAM + 20 },
-    { x: 28 * TAM + 15, y: 19 * TAM + 20 }
+    { x: 17 * TAM + 15, y: 5 * TAM + 20 }, { x: 8 * TAM + 20, y: 12 * TAM + 15 },
+    { x: 15 * TAM + 15, y: 15 * TAM + 20 }, { x: 18 * TAM + 15, y: 18 * TAM + 20 },
+    { x: 24 * TAM + 15, y: 10 * TAM + 20 }, { x: 30 * TAM + 15, y: 15 * TAM + 20 },
+    { x: 28 * TAM + 15, y: 4 * TAM + 20 }, { x: 38 * TAM + 15, y: 18 * TAM + 20 },
+    { x: 45 * TAM + 15, y: 12 * TAM + 20 }, { x: 46 * TAM + 15, y: 28 * TAM + 20 },
+    { x: 12 * TAM + 15, y: 27 * TAM + 20 }, { x: 17 * TAM + 15, y: 31 * TAM + 20 }
 ];
 
 const criaturasSelvagens = [
-    { nome: "Muscante", tipo: "NATUREZA", icone: "🌿", cor: "#8be39b", hp: 52, ataque: 10, premio: 55 },
-    { nome: "Brilux", tipo: "LUZ", icone: "✨", cor: "#ffe475", hp: 44, ataque: 13, premio: 65 },
-    { nome: "Pedrino", tipo: "PEDRA", icone: "🪨", cor: "#c4a682", hp: 66, ataque: 9, premio: 75 }
+    { chave: "muscante", nome: "Muscante", tipo: "NATUREZA", icone: "🌿", raridade: "COMUM", peso: 35, hp: 52, ataque: 10, premio: 55, sprite: "sprite-musgo", golpes: [{ nome: "Chicote de Musgo", min: 13, max: 19 }, { nome: "Sementes Luminares", min: 24, max: 32, custo: 1 }] },
+    { chave: "folhito", nome: "Folhito", tipo: "FOLHA", icone: "🍃", raridade: "COMUM", peso: 30, hp: 49, ataque: 11, premio: 58, sprite: "sprite-folhito", golpes: [{ nome: "Rajada de Folhas", min: 12, max: 20 }, { nome: "Dança do Broto", min: 23, max: 31, custo: 1 }] },
+    { chave: "pedrino", nome: "Pedrino", tipo: "PEDRA", icone: "🪨", raridade: "COMUM", peso: 20, hp: 66, ataque: 9, premio: 75, sprite: "sprite-musgo", golpes: [{ nome: "Cascalho Rápido", min: 11, max: 18 }, { nome: "Queda de Rocha", min: 25, max: 34, custo: 1 }] },
+    { chave: "brilux", nome: "Brilux", tipo: "LUZ", icone: "✨", raridade: "RARA", peso: 16, hp: 44, ataque: 13, premio: 65, sprite: "sprite-lunar", golpes: [{ nome: "Faísca Solar", min: 15, max: 22 }, { nome: "Clarão Prismático", min: 27, max: 36, custo: 1 }] },
+    { chave: "mareon", nome: "Maréon", tipo: "ÁGUA", icone: "💧", raridade: "RARA", peso: 14, hp: 61, ataque: 12, premio: 85, sprite: "sprite-mareon", golpes: [{ nome: "Jato Cintilante", min: 14, max: 21 }, { nome: "Onda Lunar", min: 26, max: 35, custo: 1 }] },
+    { chave: "brasafim", nome: "Brasafim", tipo: "BRASA", icone: "🔥", raridade: "RARA", peso: 12, hp: 57, ataque: 15, premio: 92, sprite: "sprite-brasafim", golpes: [{ nome: "Garra Incandescente", min: 16, max: 23 }, { nome: "Cometa de Brasa", min: 29, max: 38, custo: 1 }] },
+    { chave: "nimbara", nome: "Nimbara", tipo: "NÉVOA", icone: "🌙", raridade: "ÉPICA", peso: 6, hp: 68, ataque: 16, premio: 145, sprite: "sprite-nimbara", golpes: [{ nome: "Asas Nebulosas", min: 17, max: 25 }, { nome: "Eclipse Etéreo", min: 32, max: 42, custo: 1 }] },
+    { chave: "cristalume", nome: "Cristalume", tipo: "CRISTAL", icone: "💎", raridade: "ÉPICA", peso: 5, hp: 82, ataque: 14, premio: 170, sprite: "sprite-cristalume", golpes: [{ nome: "Chifres de Quartzo", min: 17, max: 24 }, { nome: "Prisma Estelar", min: 31, max: 43, custo: 1 }] },
+    { chave: "aurorafera", nome: "Aurorafera", tipo: "AURORA", icone: "🌟", raridade: "LENDÁRIA", peso: 2, hp: 100, ataque: 19, premio: 420, sprite: "sprite-aurorafera", golpes: [{ nome: "Luz da Aurora", min: 21, max: 30 }, { nome: "Julgamento Celeste", min: 38, max: 52, custo: 1 }] }
+];
+
+const criaturaInicial = {
+    chave: "fagulha", nome: "Fagulha", tipo: "BRASA", icone: "🔥", raridade: "INICIAL", hp: 100,
+    sprite: "sprite-fagulha", golpes: [{ nome: "Investida", min: 14, max: 20 }, { nome: "Centelha", min: 24, max: 33, custo: 1 }]
+};
+const criaturasPorChave = new Map(criaturasSelvagens.map(criatura => [criatura.chave, criatura]));
+const classesSpritesCriatura = [
+    "sprite-musgo", "sprite-lunar", "sprite-fagulha", "sprite-folhito", "sprite-mareon",
+    "sprite-brasafim", "sprite-nimbara", "sprite-cristalume", "sprite-aurorafera"
 ];
 
 let iniciada = false;
@@ -80,6 +151,8 @@ let cristais = 2;
 let nivel = 1;
 let experiencia = 0;
 let vida = 100;
+let timeBatalha = [];
+let indiceCriaturaAtiva = 0;
 let capturados = 0;
 let recorde = Number(localStorage.getItem("lendasBosqueRecorde")) || 0;
 let jogadorOnline = null;
@@ -91,33 +164,139 @@ const outrosJogadores = new Map();
 
 hud.recorde.textContent = recorde;
 
-function maxVida() { return 100 + (nivel - 1) * 12; }
+function criaturaAtiva() {
+    return timeBatalha[indiceCriaturaAtiva] || null;
+}
+
+function maxVida(criatura = criaturaAtiva()) {
+    if (!criatura) return 100 + (nivel - 1) * 12;
+    const bonusInicial = criatura.chave === "fagulha" ? 0 : 25;
+    return Number(criatura.hp || 70) + bonusInicial + (nivel - 1) * 10 + (Number(criatura.nivel || 1) - 1) * 4;
+}
+
+function criarCombatente(registro) {
+    const base = criaturasPorChave.get(registro?.chave) || criaturaInicial;
+    return {
+        ...base,
+        nivel: Math.max(1, Number(registro?.nivel || nivel || 1)),
+        origemId: registro?.id || base.chave,
+        vida: 0
+    };
+}
+
+function sincronizarVidaAtiva() {
+    const ativa = criaturaAtiva();
+    if (ativa) ativa.vida = vida;
+}
+
+async function prepararTimeBatalha() {
+    const jogadorDaConta = obterJogadorOnline();
+    let registros = [];
+
+    if (jogadorDaConta) {
+        const { data, error } = await supabase
+            .from("rpg_criaturas_aluno")
+            .select("id,chave,nivel,posicao_time")
+            .eq("aluno_id", jogadorDaConta.id)
+            .not("posicao_time", "is", null)
+            .order("posicao_time", { ascending: true });
+
+        if (error) console.error("ERRO AO CARREGAR TIME DE BATALHA:", error);
+        else registros = data || [];
+    }
+
+    timeBatalha = registros.map(criarCombatente);
+    if (timeBatalha.length === 0) timeBatalha = [criarCombatente(criaturaInicial)];
+    indiceCriaturaAtiva = 0;
+    timeBatalha.forEach(criatura => { criatura.vida = maxVida(criatura); });
+    vida = maxVida();
+    atualizarHud();
+    atualizarAcoesDaCriatura();
+}
+
+function aplicarSprite(elemento, sprite) {
+    if (!elemento) return;
+    elemento.classList.remove(...classesSpritesCriatura);
+    elemento.classList.add(sprite || "sprite-fagulha");
+}
+
+function atualizarAcoesDaCriatura() {
+    const ativa = criaturaAtiva() || criaturaInicial;
+    const [golpeBasico, golpeEspecial] = ativa.golpes || criaturaInicial.golpes;
+    const botaoBasico = document.getElementById("ataquePrimario");
+    const botaoEspecial = document.getElementById("ataqueEspecial");
+    if (botaoBasico) botaoBasico.innerHTML = `⚔️ ${golpeBasico.nome}<small>${golpeBasico.min}–${golpeBasico.max} dano</small>`;
+    if (botaoEspecial) botaoEspecial.innerHTML = `✨ ${golpeEspecial.nome}<small>usa ${golpeEspecial.custo || 1} cristal</small>`;
+}
+
+function renderizarOpcoesTroca() {
+    if (!painelTroca) return;
+    painelTroca.innerHTML = `<p>🔁 Escolha quem entra. Trocar consome seu turno.</p><div class="opcoes-troca">${timeBatalha.map((criatura, indice) => `
+        <button type="button" class="opcao-troca ${indice === indiceCriaturaAtiva ? "ativa" : ""}" data-indice-troca="${indice}" ${indice === indiceCriaturaAtiva || criatura.vida <= 0 ? "disabled" : ""}>
+            <span>${criatura.icone} ${criatura.nome}</span><small>${Math.max(0, criatura.vida)} / ${maxVida(criatura)} HP</small>
+        </button>`).join("")}</div>`;
+}
+
+function abrirTrocaCriatura() {
+    const disponiveis = timeBatalha.filter(criatura => criatura.vida > 0).length;
+    if (!emBatalha || turnoOcupado || disponiveis < 2) {
+        falar("🔁 Você precisa de outra criatura com energia para trocar.");
+        return;
+    }
+    renderizarOpcoesTroca();
+    painelTroca.classList.remove("escondido");
+}
+
+function trocarCriatura(indice, automatica = false) {
+    const proxima = timeBatalha[indice];
+    const anterior = criaturaAtiva();
+    if (!proxima || !anterior || indice === indiceCriaturaAtiva || proxima.vida <= 0) return false;
+
+    sincronizarVidaAtiva();
+    indiceCriaturaAtiva = indice;
+    vida = Math.min(proxima.vida, maxVida(proxima));
+    painelTroca.classList.add("escondido");
+    atualizarHud();
+    atualizarAcoesDaCriatura();
+    if (!automatica) renderizarOpcoesTroca();
+    return true;
+}
+
+function trocarCriaturaManual(indice) {
+    if (!emBatalha || turnoOcupado) return;
+    const anterior = criaturaAtiva();
+    if (!trocarCriatura(indice)) return;
+    const ativa = criaturaAtiva();
+    turnoOcupado = true;
+    habilitarAcoes(false);
+    falar(`🔁 ${anterior.nome} recuou. <b>${ativa.nome}</b> entrou na batalha!`);
+    setTimeout(receberAtaque, 650);
+}
+
 function limitar(valor, min, max) { return Math.max(min, Math.min(max, valor)); }
 function aleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 function falar(texto) { mensagem.innerHTML = texto; }
 
 function atualizarHud() {
+    const ativa = criaturaAtiva() || criaturaInicial;
     hud.pontos.textContent = pontos;
     hud.cristais.textContent = cristais;
     hud.nivel.textContent = nivel;
     hud.capturados.textContent = capturados;
     hud.recorde.textContent = Math.max(recorde, pontos);
     jogadoresOnlineEl.textContent = outrosJogadores.size + (jogadorOnline ? 1 : 0);
-    hud.nivelCriatura.textContent = `Nv. ${nivel}`;
+    hud.nomeCriaturaJogador.innerHTML = `${ativa.nome} <small id="nivelCriatura">Nv. ${ativa.nivel || nivel}</small>`;
+    hud.nivelCriatura = document.getElementById("nivelCriatura");
+    hud.tipoCriaturaJogador.textContent = `${ativa.raridade} • ${ativa.tipo}`;
+    aplicarSprite(hud.iconeJogador, ativa.sprite);
     hud.vidaJogador.style.width = `${(vida / maxVida()) * 100}%`;
     hud.vidaJogadorTexto.textContent = `${vida} / ${maxVida()}`;
 
     if (inimigo) {
         hud.nomeInimigo.textContent = inimigo.nome;
-        hud.tipoInimigo.textContent = `${inimigo.tipo} SELVAGEM`;
-        const classeDoSprite = inimigo.nome === "Muscante"
-            ? "sprite-musgo"
-            : inimigo.nome === "Brilux"
-                ? "sprite-lunar"
-                : "sprite-musgo";
-        hud.iconeInimigo.classList.remove("sprite-musgo", "sprite-lunar", "sprite-fagulha");
-        hud.iconeInimigo.classList.add(classeDoSprite);
+        hud.tipoInimigo.textContent = `${inimigo.raridade} • ${inimigo.tipo}`;
+        aplicarSprite(hud.iconeInimigo, inimigo.sprite || "sprite-musgo");
         hud.vidaInimigo.style.width = `${(inimigo.hp / inimigo.hpMax) * 100}%`;
         hud.vidaInimigoTexto.textContent = `${Math.max(0, inimigo.hp)} / ${inimigo.hpMax}`;
     }
@@ -138,18 +317,38 @@ function perto(alvo) {
     return Math.hypot((jogador.x + 15) - alvo.x, (jogador.y + 15) - alvo.y) < 58;
 }
 
+function estaNaArena(raio = RAIO_ARENA) {
+    return Math.hypot(jogador.x + 15 - arena.x, jogador.y + 15 - arena.y) < raio;
+}
+
+function obterRegiaoAtual() {
+    const coluna = Math.floor((jogador.x + 15) / TAM);
+    const linha = Math.floor((jogador.y + 15) / TAM);
+    if (estaNaArena()) return "ARENA LUNAR";
+    if (coluna >= 40 && linha <= 17) return "BOSQUE ESTELAR";
+    if (linha >= 25 && coluna < 21) return "MATA DO SUL";
+    if (coluna >= 23 && linha <= 8) return "RUÍNAS ANTIGAS";
+    if (coluna >= 23) return "MATA DE CRISTAL";
+    if (coluna >= 12 && linha >= 9) return "CORAÇÃO DO BOSQUE";
+    return "CLAREIRA INICIAL";
+}
+
 function desenharMapa() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cameraX = limitar(jogador.x - canvas.width / 2 + 15, 0, COLUNAS * TAM - canvas.width);
     const cameraY = limitar(jogador.y - canvas.height / 2 + 15, 0, LINHAS * TAM - canvas.height);
     ctx.save();
     ctx.translate(-cameraX, -cameraY);
-    for (let y = 0; y < mapa.length; y++) {
-        for (let x = 0; x < mapa[y].length; x++) {
+    const inicioY = Math.max(0, Math.floor(cameraY / TAM) - 1);
+    const fimY = Math.min(LINHAS - 1, Math.ceil((cameraY + canvas.height) / TAM) + 1);
+    const inicioX = Math.max(0, Math.floor(cameraX / TAM) - 1);
+    const fimX = Math.min(COLUNAS - 1, Math.ceil((cameraX + canvas.width) / TAM) + 1);
+    for (let y = inicioY; y <= fimY; y++) {
+        for (let x = inicioX; x <= fimX; x++) {
             const tipo = mapa[y][x];
             const px = x * TAM;
             const py = y * TAM;
-            ctx.fillStyle = tipo === "A" ? "#3a285c" : tipo === "W" ? "#176490" : tipo === "P" ? "#c69b67" : "#317b58";
+            ctx.fillStyle = CORES_TERRENO[tipo] || "#317b58";
             ctx.fillRect(px, py, TAM, TAM);
 
             if (tipo === "G") {
@@ -164,6 +363,31 @@ function desenharMapa() {
                 ctx.fillStyle = "rgba(255,255,255,.15)";
                 ctx.fillRect(px + 4, py + 8, 4, 3);
                 ctx.fillRect(px + 28, py + 30, 3, 2);
+            }
+            if (tipo === "M") {
+                ctx.fillStyle = "#74c96d";
+                for (let i = 0; i < 7; i++) {
+                    const dx = ((x * 11 + y * 17 + i * 7) % 39) + 3;
+                    const altura = 10 + ((x + y + i) % 8);
+                    ctx.fillRect(px + dx, py + 31 - altura, 2, altura);
+                }
+            }
+            if (tipo === "F") {
+                [9, 28, 18].forEach((dx, i) => {
+                    ctx.fillStyle = i % 2 ? "#ffbedb" : "#ffe77c";
+                    ctx.fillRect(px + dx, py + 12 + ((x + y + i) % 16), 4, 4);
+                });
+            }
+            if (tipo === "R") {
+                ctx.fillStyle = "#80778e";
+                ctx.fillRect(px + 8, py + 19, 30, 8);
+                ctx.fillStyle = "#ada3bc";
+                ctx.fillRect(px + 13, py + 12, 8, 9);
+                ctx.fillRect(px + 27, py + 15, 6, 6);
+            }
+            if (tipo === "W") {
+                ctx.strokeStyle = "rgba(186, 249, 255, .38)";
+                ctx.beginPath(); ctx.moveTo(px + 7, py + 13); ctx.lineTo(px + 20, py + 13); ctx.moveTo(px + 27, py + 31); ctx.lineTo(px + 41, py + 31); ctx.stroke();
             }
             if (tipo === "A") {
                 ctx.strokeStyle = "rgba(255, 224, 124, .42)";
@@ -186,11 +410,43 @@ function desenharMapa() {
     if (iniciada && !emBatalha && (perto(guardia) || perto(fonte))) desenharInteragir();
     ctx.restore();
 
+    desenharMiniMapa();
+
     ctx.fillStyle = "rgba(4, 17, 27, .68)";
     ctx.fillRect(10, 10, 200, 29);
     ctx.fillStyle = "#d7fcff";
     ctx.font = "bold 12px Trebuchet MS";
-    ctx.fillText("🌿 BOSQUE PRINCIPAL", 18, 29);
+    ctx.fillText(`🧭 ${obterRegiaoAtual()}`, 18, 29);
+}
+
+function desenharMiniMapa() {
+    const largura = 160;
+    const altura = 105;
+    const inicioX = canvas.width - largura - 11;
+    const inicioY = 10;
+    const celulaLargura = (largura - 12) / COLUNAS;
+    const celulaAltura = (altura - 22) / LINHAS;
+    const cores = { ...CORES_TERRENO, A: "#8a61ba", W: "#49b7df", P: "#d8b177", M: "#52b76d", R: "#a59aaf", F: "#dc8cae", T: "#194a37", G: "#367f59" };
+
+    ctx.fillStyle = "rgba(3, 14, 26, .8)";
+    ctx.fillRect(inicioX, inicioY, largura, altura);
+    ctx.strokeStyle = "rgba(138, 229, 238, .7)";
+    ctx.strokeRect(inicioX, inicioY, largura, altura);
+
+    mapa.forEach((linha, y) => {
+        [...linha].forEach((tipo, x) => {
+            ctx.fillStyle = cores[tipo] || cores.G;
+            ctx.fillRect(inicioX + 6 + x * celulaLargura, inicioY + 16 + y * celulaAltura, Math.ceil(celulaLargura), Math.ceil(celulaAltura));
+        });
+    });
+
+    ctx.fillStyle = "#fef3a5";
+    ctx.beginPath();
+    ctx.arc(inicioX + 6 + ((jogador.x + 15) / (COLUNAS * TAM)) * (largura - 12), inicioY + 16 + ((jogador.y + 15) / (LINHAS * TAM)) * (altura - 22), 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#e9feff";
+    ctx.font = "bold 9px Trebuchet MS";
+    ctx.fillText("MAPA DO BOSQUE", inicioX + 7, inicioY + 11);
 }
 
 function desenharArvore(x, y) {
@@ -212,24 +468,47 @@ function desenharGuardia() {
 }
 
 function desenharArena() {
+    ctx.fillStyle = "rgba(117, 69, 170, .24)";
+    ctx.beginPath();
+    ctx.arc(arena.x, arena.y, RAIO_ARENA, 0, Math.PI * 2);
+    ctx.fill();
     ctx.strokeStyle = "#ffe375";
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.arc(arena.x, arena.y, 104, 0, Math.PI * 2);
+    ctx.arc(arena.x, arena.y, RAIO_ARENA, 0, Math.PI * 2);
     ctx.stroke();
+    ctx.strokeStyle = "rgba(255, 227, 122, .48)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(arena.x, arena.y, 116, 0, Math.PI * 2);
+    ctx.stroke();
+    [0, Math.PI / 2, Math.PI, Math.PI * 1.5].forEach(angulo => {
+        const x = arena.x + Math.cos(angulo) * 176;
+        const y = arena.y + Math.sin(angulo) * 176;
+        ctx.fillStyle = "#e8d18d";
+        ctx.fillRect(x - 7, y - 16, 14, 31);
+        ctx.fillStyle = "#c26ee1";
+        ctx.fillRect(x - 10, y - 21, 20, 7);
+    });
     ctx.fillStyle = "#fff0a4";
-    ctx.font = "bold 14px Trebuchet MS";
+    ctx.font = "bold 16px Trebuchet MS";
     ctx.textAlign = "center";
     ctx.fillText("ARENA LUNAR", arena.x, arena.y + 4);
+    ctx.font = "bold 11px Trebuchet MS";
+    ctx.fillStyle = "#f1d9ff";
+    ctx.fillText("DUELOS ONLINE", arena.x, arena.y + 22);
     ctx.textAlign = "left";
 }
 
 function desenharCriaturasNoMato() {
     const criaturas = [
         { x: 16 * TAM + 16, y: 3 * TAM + 12, icone: "🌿" },
-        { x: 21 * TAM + 17, y: 10 * TAM + 12, icone: "✨" },
-        { x: 30 * TAM + 14, y: 7 * TAM + 14, icone: "🪨" },
-        { x: 13 * TAM + 17, y: 17 * TAM + 11, icone: "🔥" }
+        { x: 15 * TAM + 17, y: 15 * TAM + 12, icone: "🍃" },
+        { x: 28 * TAM + 17, y: 12 * TAM + 12, icone: "💧" },
+        { x: 42 * TAM + 14, y: 8 * TAM + 14, icone: "🌙" },
+        { x: 30 * TAM + 14, y: 4 * TAM + 14, icone: "💎" },
+        { x: 13 * TAM + 17, y: 28 * TAM + 11, icone: "🔥" },
+        { x: 46 * TAM + 17, y: 15 * TAM + 11, icone: "🌟" }
     ];
     ctx.font = "22px sans-serif";
     criaturas.forEach(criatura => ctx.fillText(criatura.icone, criatura.x, criatura.y));
@@ -250,6 +529,12 @@ function desenharJogadoresOnline() {
 
 function desenharJogador() {
     const x = jogador.x, y = jogador.y;
+    if (localStorage.getItem("rastroAstral") === "true") {
+        ctx.fillStyle = "rgba(116, 240, 255, .8)";
+        [[-9, 23, 3], [-17, 29, 2], [-24, 18, 2]].forEach(([dx, dy, raio]) => {
+            ctx.beginPath(); ctx.arc(x + dx, y + dy, raio, 0, Math.PI * 2); ctx.fill();
+        });
+    }
     ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(x + 15, y + 29, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = "#f68b4a"; ctx.fillRect(x + 6, y + 14, 18, 15);
     ctx.fillStyle = "#fbdbc2"; ctx.beginPath(); ctx.arc(x + 15, y + 10, 10, 0, Math.PI * 2); ctx.fill();
@@ -274,7 +559,7 @@ function mover() {
     if (dx && !bloqueado(jogador.x + dx, jogador.y)) jogador.x += dx;
     if (dy && !bloqueado(jogador.x, jogador.y + dy)) jogador.y += dy;
 
-    const naArena = Math.hypot(jogador.x + 15 - arena.x, jogador.y + 15 - arena.y) < 130;
+    const naArena = estaNaArena();
     arenaOnlineEl.classList.toggle("escondido", !naArena && !dueloAtual);
     if (andando && jogadorOnline && Date.now() - ultimoEnvioOnline > 650) void atualizarPresencaOnline();
 
@@ -287,7 +572,7 @@ function mover() {
 
     cooldownEncontro = Math.max(0, cooldownEncontro - 1);
     const tipoAtual = celula(Math.floor((jogador.x + 15) / TAM), Math.floor((jogador.y + 15) / TAM));
-    if (andando && tipoAtual === "G" && cooldownEncontro === 0 && Math.random() < .0017) iniciarBatalha();
+    if (andando && ["G", "M"].includes(tipoAtual) && cooldownEncontro === 0 && Math.random() < .0017) iniciarBatalha();
 }
 
 function textoSeguro(valor) {
@@ -412,7 +697,7 @@ async function carregarDuelos() {
 
 async function desafiarJogadorProximo() {
     if (!jogadorOnline || dueloAtual) return;
-    const naArena = Math.hypot(jogador.x + 15 - arena.x, jogador.y + 15 - arena.y) < 140;
+    const naArena = estaNaArena();
     if (!naArena) { falar("⚔️ Vá até a <b>Arena Lunar</b> para desafiar alguém."); return; }
     const alvo = [...outrosJogadores.values()].find(outro => Math.hypot(jogador.x - Number(outro.x), jogador.y - Number(outro.y)) < 100);
     if (!alvo) { falar("👥 Nenhum aventureiro perto. Combine com um colega para encontrá-lo na arena!"); return; }
@@ -454,7 +739,11 @@ function interagir() {
     if (!iniciada || emBatalha || Date.now() - ultimoInteragir < 500) return;
     ultimoInteragir = Date.now();
     if (perto(fonte)) {
-        vida = maxVida(); atualizarHud(); falar("💧 A Fonte Astral restaurou toda a energia de Fagulha!"); return;
+        vida = maxVida();
+        sincronizarVidaAtiva();
+        atualizarHud();
+        falar(`💧 A Fonte Astral restaurou toda a energia de ${criaturaAtiva()?.nome || "Fagulha"}!`);
+        return;
     }
     if (perto(guardia)) {
         cristais++; pontos += 20; atualizarHud();
@@ -465,29 +754,97 @@ function interagir() {
     falar("Explore a <b>grama alta</b> para encontrar criaturas. A fonte recupera sua energia.");
 }
 
+function sortearCriaturaSelvagem() {
+    const pesoTotal = criaturasSelvagens.reduce((total, criatura) => total + criatura.peso, 0);
+    let sorteio = Math.random() * pesoTotal;
+    for (const criatura of criaturasSelvagens) {
+        sorteio -= criatura.peso;
+        if (sorteio <= 0) return criatura;
+    }
+    return criaturasSelvagens[0];
+}
+
 function iniciarBatalha() {
-    const base = criaturasSelvagens[aleatorio(0, criaturasSelvagens.length - 1)];
+    const base = sortearCriaturaSelvagem();
     const extra = (nivel - 1) * 7;
     inimigo = { ...base, hpMax: base.hp + extra, hp: base.hp + extra, ataque: base.ataque + Math.floor((nivel - 1) / 2) };
     emBatalha = true; turnoOcupado = false;
     batalhaEl.classList.remove("escondido"); habilitarAcoes(true); atualizarHud();
-    falar(`⚠️ Uma criatura selvagem apareceu: <b>${inimigo.nome}</b>! Escolha sua ação.`);
+    falar(`⚠️ Uma criatura <b>${inimigo.raridade.toLowerCase()}</b> apareceu: <b>${inimigo.nome}</b>! Escolha sua ação.`);
 }
 
-function habilitarAcoes(ativo) { acoes.forEach(botao => { botao.disabled = !ativo; }); }
+function habilitarAcoes(ativo) {
+    acoes.forEach(botao => { botao.disabled = !ativo; });
+    if (!ativo) painelTroca.classList.add("escondido");
+    if (botaoTrocar) {
+        const reservasVivas = timeBatalha.filter((criatura, indice) => indice !== indiceCriaturaAtiva && criatura.vida > 0).length;
+        botaoTrocar.disabled = !ativo || reservasVivas === 0;
+    }
+}
 
 function causarDano(valor) { inimigo.hp = limitar(inimigo.hp - valor, 0, inimigo.hpMax); atualizarHud(); }
 
 function receberAtaque() {
     if (!emBatalha || !inimigo) return;
+    const ativa = criaturaAtiva();
     const dano = aleatorio(Math.max(5, inimigo.ataque - 3), inimigo.ataque + 3);
-    vida = limitar(vida - dano, 0, maxVida()); atualizarHud();
+    vida = limitar(vida - dano, 0, maxVida());
+    sincronizarVidaAtiva();
+    atualizarHud();
     if (vida <= 0) {
-        falar(`💫 Fagulha ficou sem energia. A Guardiã levou você de volta ao início. <b>Recorde salvo: ${pontos}</b>`);
+        const reserva = timeBatalha.findIndex((criatura, indice) => indice !== indiceCriaturaAtiva && criatura.vida > 0);
+        if (reserva >= 0) {
+            const nomeQueCaiu = ativa?.nome || "Sua criatura";
+            trocarCriatura(reserva, true);
+            turnoOcupado = false;
+            habilitarAcoes(true);
+            falar(`💫 ${nomeQueCaiu} ficou sem energia! <b>${criaturaAtiva().nome}</b> entrou automaticamente.`);
+            return;
+        }
+        falar(`💫 ${ativa?.nome || "Seu time"} ficou sem energia. A Guardiã levou você de volta ao início. <b>Recorde salvo: ${pontos}</b>`);
         finalizarAventura(); return;
     }
     turnoOcupado = false; habilitarAcoes(true);
     falar(`💥 ${inimigo.nome} revidou com <b>${dano} de dano</b>. Sua vez!`);
+}
+
+async function registrarCriaturaCapturada(criatura) {
+    const salvo = localStorage.getItem("alunoLogado");
+    if (!salvo || !criatura?.chave) return;
+
+    let aluno;
+    try { aluno = JSON.parse(salvo); } catch { return; }
+    if (!aluno?.id) return;
+
+    const alunoId = String(aluno.id);
+    const { data: existente, error: erroBusca } = await supabase
+        .from("rpg_criaturas_aluno")
+        .select("id,capturas,nivel")
+        .eq("aluno_id", alunoId)
+        .eq("chave", criatura.chave)
+        .maybeSingle();
+
+    if (erroBusca) {
+        console.error("ERRO AO BUSCAR CRIATURA:", erroBusca);
+        return;
+    }
+
+    const operacao = existente
+        ? supabase.from("rpg_criaturas_aluno").update({
+            capturas: Number(existente.capturas || 1) + 1,
+            nivel: Math.max(Number(existente.nivel || 1), nivel)
+        }).eq("id", existente.id)
+        : supabase.from("rpg_criaturas_aluno").insert({
+            aluno_id: alunoId,
+            chave: criatura.chave,
+            nome: criatura.nome,
+            elemento: criatura.tipo,
+            nivel,
+            capturas: 1
+        });
+
+    const { error } = await operacao;
+    if (error) console.error("ERRO AO SALVAR CRIATURA:", error);
 }
 
 function ganharBatalha(capturada) {
@@ -495,36 +852,44 @@ function ganharBatalha(capturada) {
     pontos += inimigo.premio + (capturada ? 35 : 0);
     cristais += 1;
     experiencia += ganhoXp;
-    if (capturada) capturados++;
+    if (capturada) {
+        capturados++;
+        void registrarCriaturaCapturada(inimigo);
+    }
     let subiu = false;
-    while (experiencia >= nivel * 80) { experiencia -= nivel * 80; nivel++; vida = maxVida(); subiu = true; }
+    while (experiencia >= nivel * 80) { experiencia -= nivel * 80; nivel++; vida = maxVida(); sincronizarVidaAtiva(); subiu = true; }
     const nome = inimigo.nome;
-    emBatalha = false; turnoOcupado = false; batalhaEl.classList.add("escondido"); habilitarAcoes(false);
+    const raridade = inimigo.raridade || "COMUM";
+    emBatalha = false; turnoOcupado = false; batalhaEl.classList.add("escondido"); painelTroca.classList.add("escondido"); habilitarAcoes(false);
     cooldownEncontro = 360; atualizarHud();
     void salvarRecorde();
-    falar(`${capturada ? "🔮 Sintonia concluída" : "🏅 Vitória"}! ${nome} concedeu energia. <b>+${inimigo.premio + (capturada ? 35 : 0)} pontos</b>${subiu ? ` • 🌟 Fagulha chegou ao nível ${nivel}!` : ""}`);
+    falar(`${capturada ? `🔮 ${nome} (${raridade}) entrou na sua coleção` : "🏅 Vitória"}! ${nome} concedeu energia. <b>+${inimigo.premio + (capturada ? 35 : 0)} pontos</b>${subiu ? ` • 🌟 ${criaturaAtiva()?.nome || "Seu time"} chegou ao nível ${nivel}!` : ""}`);
     inimigo = null;
 }
 
 function finalizarAventura() {
-    emBatalha = false; iniciada = false; turnoOcupado = false; batalhaEl.classList.add("escondido"); habilitarAcoes(false);
+    emBatalha = false; iniciada = false; turnoOcupado = false; batalhaEl.classList.add("escondido"); painelTroca.classList.add("escondido"); habilitarAcoes(false);
     void salvarRecorde();
     inicio.innerHTML = `<span class="emblema-rpg" aria-hidden="true">↻</span><p class="rpg-kicker">AVENTURA ENCERRADA</p><h2>Seu placar foi salvo</h2><p>Você terminou com <b>${pontos} pontos</b> e encontrou ${capturados} criatura${capturados === 1 ? "" : "s"}.</p><button type="button" id="reiniciar">▶ NOVA AVENTURA</button>`;
     inicio.classList.remove("escondido");
     document.getElementById("reiniciar").addEventListener("click", resetarAventura);
 }
 
-function resetarAventura() {
+async function resetarAventura() {
     pontos = 0; cristais = 2; nivel = 1; experiencia = 0; vida = 100; capturados = 0; inimigo = null; cooldownEncontro = 120;
     jogador.x = 3 * TAM + 12; jogador.y = 5 * TAM + 7;
     cristaisNoMapa = [
         { x: 7 * TAM + 20, y: 2 * TAM + 20 }, { x: 11 * TAM + 18, y: 7 * TAM + 20 },
-        { x: 17 * TAM + 15, y: 5 * TAM + 20 }, { x: 8 * TAM + 20, y: 9 * TAM + 15 },
-        { x: 20 * TAM + 15, y: 15 * TAM + 20 }, { x: 30 * TAM + 15, y: 9 * TAM + 20 },
-        { x: 28 * TAM + 15, y: 19 * TAM + 20 }
+        { x: 17 * TAM + 15, y: 5 * TAM + 20 }, { x: 8 * TAM + 20, y: 12 * TAM + 15 },
+        { x: 15 * TAM + 15, y: 15 * TAM + 20 }, { x: 18 * TAM + 15, y: 18 * TAM + 20 },
+        { x: 24 * TAM + 15, y: 10 * TAM + 20 }, { x: 30 * TAM + 15, y: 15 * TAM + 20 },
+        { x: 28 * TAM + 15, y: 4 * TAM + 20 }, { x: 38 * TAM + 15, y: 18 * TAM + 20 },
+        { x: 45 * TAM + 15, y: 12 * TAM + 20 }, { x: 46 * TAM + 15, y: 28 * TAM + 20 },
+        { x: 12 * TAM + 15, y: 27 * TAM + 20 }, { x: 17 * TAM + 15, y: 31 * TAM + 20 }
     ];
+    await prepararTimeBatalha();
     iniciada = true; inicio.classList.add("escondido"); canvas.focus(); atualizarHud();
-    falar("🌲 A aventura recomeçou. Procure a guardiã e siga pela grama alta!");
+    falar(`🌲 A aventura recomeçou com <b>${criaturaAtiva()?.nome || "Fagulha"</b> na frente. Procure a guardiã e siga pela grama alta!`);
 }
 
 async function salvarRecorde() {
@@ -548,23 +913,35 @@ async function salvarRecorde() {
 acoes.forEach(botao => botao.addEventListener("click", () => {
     if (!emBatalha || turnoOcupado) return;
     const acao = botao.dataset.acao;
+    const ativa = criaturaAtiva() || criaturaInicial;
     if (acao === "ataque") {
-        turnoOcupado = true; habilitarAcoes(false); const dano = aleatorio(14, 20); causarDano(dano); falar(`⚔️ Fagulha usou Investida e causou <b>${dano} de dano</b>!`);
+        const golpe = ativa.golpes[0];
+        turnoOcupado = true; habilitarAcoes(false); const dano = aleatorio(golpe.min, golpe.max); causarDano(dano); falar(`⚔️ ${ativa.nome} usou <b>${golpe.nome}</b> e causou <b>${dano} de dano</b>!`);
     } else if (acao === "especial") {
-        if (cristais < 1) { falar("🔷 Você precisa de 1 cristal para usar Centelha."); return; }
-        turnoOcupado = true; habilitarAcoes(false); cristais--; const dano = aleatorio(24, 33); causarDano(dano); falar(`✨ Centelha brilhante! <b>${dano} de dano</b> causado.`);
+        const golpe = ativa.golpes[1];
+        const custo = golpe.custo || 1;
+        if (cristais < custo) { falar(`🔷 Você precisa de ${custo} ${custo === 1 ? "cristal" : "cristais"} para usar ${golpe.nome}.`); return; }
+        turnoOcupado = true; habilitarAcoes(false); cristais -= custo; const dano = aleatorio(golpe.min, golpe.max); causarDano(dano); falar(`✨ ${ativa.nome} usou <b>${golpe.nome}</b>! <b>${dano} de dano</b> causado.`);
     } else if (acao === "cura") {
         if (cristais < 2) { falar("🔷 Você precisa de 2 cristais para se curar."); return; }
-        turnoOcupado = true; habilitarAcoes(false); cristais -= 2; const cura = aleatorio(26, 38); vida = limitar(vida + cura, 0, maxVida()); atualizarHud(); falar(`🧪 Fagulha recuperou <b>${cura} de energia</b>.`);
+        turnoOcupado = true; habilitarAcoes(false); cristais -= 2; const cura = aleatorio(26, 38); vida = limitar(vida + cura, 0, maxVida()); sincronizarVidaAtiva(); atualizarHud(); falar(`🧪 ${ativa.nome} recuperou <b>${cura} de energia</b>.`);
     } else {
         if (cristais < 1) { falar("🔷 Você precisa de 1 cristal para fazer sintonia."); return; }
-        turnoOcupado = true; habilitarAcoes(false); cristais--; const chance = .22 + (1 - inimigo.hp / inimigo.hpMax) * .55;
+        turnoOcupado = true; habilitarAcoes(false); cristais--;
+        const multiplicadorRaridade = { COMUM: 1, RARA: .82, ÉPICA: .62, LENDÁRIA: .42 };
+        const chance = (.22 + (1 - inimigo.hp / inimigo.hpMax) * .55) * (multiplicadorRaridade[inimigo.raridade] || 1);
         if (Math.random() < chance) { ganharBatalha(true); return; }
         falar("🔮 A sintonia quase aconteceu... mas a criatura resistiu!"); atualizarHud();
     }
     if (inimigo.hp <= 0) { ganharBatalha(false); return; }
     setTimeout(receberAtaque, 650);
 }));
+
+botaoTrocar.addEventListener("click", abrirTrocaCriatura);
+painelTroca.addEventListener("click", event => {
+    const botao = event.target.closest("[data-indice-troca]");
+    if (botao) trocarCriaturaManual(Number(botao.dataset.indiceTroca));
+});
 
 window.addEventListener("keydown", event => {
     const tecla = event.key.toLowerCase();
@@ -574,7 +951,7 @@ window.addEventListener("keydown", event => {
     if (tecla === "b") void desafiarJogadorProximo();
 });
 window.addEventListener("keyup", event => teclas.delete(event.key.toLowerCase()));
-iniciar.addEventListener("click", resetarAventura);
+iniciar.addEventListener("click", () => void resetarAventura());
 botoesDuelo.forEach(botao => botao.addEventListener("click", () => void atacarNoDuelo(botao.dataset.dueloAcao)));
 desafiosOnlineEl.addEventListener("click", event => {
     const botao = event.target.closest("[data-resposta]");

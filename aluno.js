@@ -592,6 +592,19 @@ function atualizarRecompensas() {
 
 
     // -------------------------------------------------
+    // COSMÉTICOS DA LOJA RPG
+    // -------------------------------------------------
+
+    document.body.classList.toggle(
+        "moldura-lunar",
+        localStorage.getItem("molduraLunar") === "true"
+    );
+    document.body.classList.toggle(
+        "rastro-astral",
+        localStorage.getItem("rastroAstral") === "true"
+    );
+
+    // -------------------------------------------------
     // TÍTULO
     // -------------------------------------------------
 
@@ -607,6 +620,8 @@ function atualizarRecompensas() {
         );
 
 
+    const insigniaArena = localStorage.getItem("insigniaArena");
+
     if (titulo) {
 
         if (
@@ -615,6 +630,11 @@ function atualizarRecompensas() {
 
             titulo.textContent =
                 "👑 Mestre dos Games";
+
+        } else if (insigniaArena === "true") {
+
+            titulo.textContent =
+                "🛡️ Desafiante da Arena";
 
         } else {
 
@@ -793,6 +813,18 @@ async function marcarPresencaAluno(aluno) {
         await atualizarConquistas(
             aluno
         );
+    }
+
+    if (item === "Moldura Lunar") {
+        localStorage.setItem("molduraLunar", "true");
+    }
+
+    if (item === "Rastro Astral") {
+        localStorage.setItem("rastroAstral", "true");
+    }
+
+    if (item === "Insígnia da Arena") {
+        localStorage.setItem("insigniaArena", "true");
     }
 
 
@@ -1240,6 +1272,127 @@ async function carregarComprasAluno(aluno) {
 
 
     return data || [];
+}
+
+
+// =====================================================
+// COLEÇÃO DE CRIATURAS DO RPG
+// =====================================================
+
+const catalogoCriaturas = {
+    muscante: { nome: "Muscante", elemento: "NATUREZA", icone: "🌿", raridade: "COMUM" },
+    folhito: { nome: "Folhito", elemento: "FOLHA", icone: "🍃", raridade: "COMUM" },
+    pedrino: { nome: "Pedrino", elemento: "PEDRA", icone: "🪨", raridade: "COMUM" },
+    brilux: { nome: "Brilux", elemento: "LUZ", icone: "✨", raridade: "RARA" },
+    mareon: { nome: "Maréon", elemento: "ÁGUA", icone: "💧", raridade: "RARA" },
+    brasafim: { nome: "Brasafim", elemento: "BRASA", icone: "🔥", raridade: "RARA" },
+    nimbara: { nome: "Nimbara", elemento: "NÉVOA", icone: "🌙", raridade: "ÉPICA" },
+    cristalume: { nome: "Cristalume", elemento: "CRISTAL", icone: "💎", raridade: "ÉPICA" },
+    aurorafera: { nome: "Aurorafera", elemento: "AURORA", icone: "🌟", raridade: "LENDÁRIA" }
+};
+
+function dadosDaCriatura(criatura) {
+    return catalogoCriaturas[criatura.chave] || {
+        nome: criatura.nome || "Criatura misteriosa",
+        elemento: criatura.elemento || "MISTÉRIO",
+        icone: "✦",
+        raridade: "DESCONHECIDA"
+    };
+}
+
+async function carregarColecaoCriaturas(aluno) {
+
+    const { data, error } = await supabase
+        .from("rpg_criaturas_aluno")
+        .select("id,chave,nome,elemento,nivel,capturas,posicao_time")
+        .eq("aluno_id", String(aluno.id))
+        .order("posicao_time", { ascending: true, nullsFirst: false })
+        .order("nome", { ascending: true });
+
+    if (error) {
+        console.error("ERRO AO CARREGAR COLEÇÃO:", error);
+        return null;
+    }
+
+    return data || [];
+}
+
+function mostrarColecaoCriaturas(aluno, criaturas) {
+
+    const time = document.getElementById("timeCriaturas");
+    const lista = document.getElementById("listaCriaturas");
+    const status = document.getElementById("statusColecao");
+
+    if (!time || !lista || !status) return;
+
+    const criaturasAtivas = criaturas.filter(criatura => criatura.posicao_time);
+
+    time.innerHTML = [1, 2, 3].map(posicao => {
+        const criatura = criaturas.find(item => Number(item.posicao_time) === posicao);
+        if (!criatura) {
+            return `<div class="slot-time"><span class="slot-icone">＋</span><span><b>Slot ${posicao}</b><small>Capture uma criatura</small></span></div>`;
+        }
+        const dados = dadosDaCriatura(criatura);
+        return `<div class="slot-time ativo"><span class="slot-icone">${dados.icone}</span><span><b>${dados.nome}</b><small>Nível ${criatura.nivel || 1} • ${dados.elemento}</small></span></div>`;
+    }).join("");
+
+    if (criaturas.length === 0) {
+        status.textContent = "Sua coleção está vazia. Capture criaturas no Bosque para formar seu time.";
+        lista.innerHTML = "";
+        return;
+    }
+
+    status.textContent = `${criaturas.length} criatura${criaturas.length === 1 ? "" : "s"} na coleção • ${criaturasAtivas.length}/3 no time ativo`;
+
+    lista.innerHTML = criaturas.map(criatura => {
+        const dados = dadosDaCriatura(criatura);
+        const estaNoTime = Boolean(criatura.posicao_time);
+        const classeRaridade = {
+            COMUM: "comum",
+            RARA: "rara",
+            "ÉPICA": "epica",
+            "LENDÁRIA": "lendaria"
+        }[dados.raridade] || "comum";
+        return `
+            <article class="criatura-colecao ${estaNoTime ? "ativa" : "no-time"}">
+                <span class="criatura-icone" aria-hidden="true">${dados.icone}</span>
+                <h3>${dados.nome}</h3>
+                <p>${dados.elemento} <span class="raridade-criatura raridade-${classeRaridade}">${dados.raridade}</span></p>
+                <div class="criatura-dados"><span>🌟 Nv. ${criatura.nivel || 1}</span><span>🔮 ${criatura.capturas || 1} captura${Number(criatura.capturas || 1) === 1 ? "" : "s"}</span></div>
+                <button type="button" class="btn-time" data-criatura-id="${criatura.id}" data-posicao="${criatura.posicao_time || ""}">
+                    ${estaNoTime ? "REMOVER DO TIME" : "ADICIONAR AO TIME"}
+                </button>
+            </article>
+        `;
+    }).join("");
+
+    lista.onclick = async event => {
+        const botao = event.target.closest("[data-criatura-id]");
+        if (!botao) return;
+
+        const id = botao.dataset.criaturaId;
+        const posicaoAtual = Number(botao.dataset.posicao || 0);
+        const proximaPosicao = posicaoAtual || [1, 2, 3].find(posicao =>
+            !criaturas.some(criatura => Number(criatura.posicao_time) === posicao)
+        );
+
+        botao.disabled = true;
+        const { error } = await supabase
+            .from("rpg_criaturas_aluno")
+            .update({ posicao_time: posicaoAtual ? null : proximaPosicao })
+            .eq("id", id)
+            .eq("aluno_id", String(aluno.id));
+
+        if (error) {
+            console.error("ERRO AO ATUALIZAR TIME:", error);
+            alert("Não foi possível atualizar seu time agora.");
+            botao.disabled = false;
+            return;
+        }
+
+        const colecaoAtualizada = await carregarColecaoCriaturas(aluno);
+        if (colecaoAtualizada) mostrarColecaoCriaturas(aluno, colecaoAtualizada);
+    };
 }
 
 
@@ -1908,6 +2061,22 @@ configurarClickRush(
             );
         }
     );
+
+
+    // -------------------------------------------------
+    // COLEÇÃO DO RPG
+    // -------------------------------------------------
+
+    const colecaoCriaturas = await carregarColecaoCriaturas(
+        aluno
+    );
+
+    if (colecaoCriaturas) {
+        mostrarColecaoCriaturas(
+            aluno,
+            colecaoCriaturas
+        );
+    }
 
 
     // -------------------------------------------------

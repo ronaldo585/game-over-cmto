@@ -7,7 +7,7 @@
 
     <title>Área do Aluno - Game Over CMTO</title>
 
-    <link rel="stylesheet" href="./style.css?v=20260916-4">
+    <link rel="stylesheet" href="./style.css?v=20260916-6">
 </head>
 
 <body class="area-aluno-page">
@@ -195,6 +195,24 @@
             </div>
 
 
+            <!-- COLEÇÃO DE CRIATURAS -->
+
+            <section class="colecao-criaturas" aria-labelledby="tituloColecao">
+                <div class="colecao-cabecalho">
+                    <div>
+                        <p class="auth-etiqueta">RPG • LENDAS DO BOSQUE</p>
+                        <h2 id="tituloColecao">🌿 Coleção de criaturas</h2>
+                        <p>Capture criaturas no Bosque e escolha até três para seu time de batalha.</p>
+                    </div>
+                    <a href="lendas-do-bosque/lendas-do-bosque.html" class="botao-colecao">IR AO BOSQUE →</a>
+                </div>
+
+                <div class="time-criaturas" id="timeCriaturas" aria-label="Time ativo"></div>
+                <p id="statusColecao" class="status-colecao" aria-live="polite">Carregando sua coleção...</p>
+                <div id="listaCriaturas" class="lista-criaturas" aria-label="Criaturas capturadas"></div>
+            </section>
+
+
             <!-- LOJA -->
 
             <div class="loja-box">
@@ -339,6 +357,78 @@
                         >
                             COMPRAR
                         </button>
+
+                    </div>
+
+
+                    <div class="item-loja item-loja-rpg">
+
+                        <div class="item-icone">
+                            🌙
+                        </div>
+
+                        <h3>
+                            Moldura Lunar
+                        </h3>
+
+                        <p>
+                            Uma moldura rara para seu perfil de treinador.
+                        </p>
+
+                        <strong class="preco-moeda">
+                            <img src="moeda.png" alt="Moeda">
+                            75
+                        </strong>
+
+                        <button class="btn-comprar" data-preco="75" data-item="Moldura Lunar">COMPRAR</button>
+
+                    </div>
+
+
+                    <div class="item-loja item-loja-rpg">
+
+                        <div class="item-icone">
+                            ✨
+                        </div>
+
+                        <h3>
+                            Rastro Astral
+                        </h3>
+
+                        <p>
+                            Deixe um brilho especial nas aventuras do Bosque.
+                        </p>
+
+                        <strong class="preco-moeda">
+                            <img src="moeda.png" alt="Moeda">
+                            120
+                        </strong>
+
+                        <button class="btn-comprar" data-preco="120" data-item="Rastro Astral">COMPRAR</button>
+
+                    </div>
+
+
+                    <div class="item-loja item-loja-rpg">
+
+                        <div class="item-icone">
+                            🛡️
+                        </div>
+
+                        <h3>
+                            Insígnia da Arena
+                        </h3>
+
+                        <p>
+                            Mostre que você está pronto para os duelos online.
+                        </p>
+
+                        <strong class="preco-moeda">
+                            <img src="moeda.png" alt="Moeda">
+                            160
+                        </strong>
+
+                        <button class="btn-comprar" data-preco="160" data-item="Insígnia da Arena">COMPRAR</button>
 
                     </div>
 

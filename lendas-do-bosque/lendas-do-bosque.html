@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lendas do Bosque - Game Over CMTO</title>
-    <link rel="stylesheet" href="./lendas-do-bosque.css?v=2">
+    <link rel="stylesheet" href="./lendas-do-bosque.css?v=5">
 </head>
 <body>
     <main class="rpg-shell">
@@ -40,7 +40,7 @@
                 <span class="emblema-rpg" aria-hidden="true">✦</span>
                 <p class="rpg-kicker">AVENTURA NOVA</p>
                 <h2>O Bosque chama você</h2>
-                <p>Ande pela grama para encontrar criaturas. Fale com a guardiã, colete cristais e vença batalhas por turno.</p>
+                <p>Explore quatro regiões, atravesse o Rio da Neblina, encontre criaturas na grama alta e dispute a grande Arena Lunar.</p>
                 <button type="button" id="iniciar">▶ INICIAR AVENTURA</button>
             </div>
         </section>
@@ -65,9 +65,9 @@
                     <div class="versus" aria-hidden="true">VS</div>
                     <div class="lado-batalha lado-jogador">
                         <div class="sprite-atlas sprite-treinador-jogador" aria-hidden="true"></div>
-                        <div class="sprite-atlas sprite-criatura sprite-fagulha" aria-hidden="true"></div>
+                        <div class="sprite-atlas sprite-criatura sprite-fagulha" id="iconeJogador" aria-hidden="true"></div>
                         <div class="criatura-card jogador-card">
-                            <div><strong>Fagulha <small id="nivelCriatura">Nv. 1</small></strong><span class="tipo">ELEMENTO BRASA</span></div>
+                            <div><strong id="nomeCriaturaJogador">Fagulha <small id="nivelCriatura">Nv. 1</small></strong><span class="tipo" id="tipoCriaturaJogador">ELEMENTO BRASA</span></div>
                             <div class="vida"><i id="vidaJogador"></i></div><b id="vidaJogadorTexto">100 / 100</b>
                         </div>
                     </div>
@@ -75,11 +75,14 @@
             </div>
 
             <div class="acoes-rpg" id="acoes">
-                <button type="button" data-acao="ataque" disabled>⚔️ Investida <small>14–20 dano</small></button>
-                <button type="button" data-acao="especial" disabled>✨ Centelha <small>usa 1 cristal</small></button>
+                <button type="button" data-acao="ataque" id="ataquePrimario" disabled>⚔️ Investida <small>14–20 dano</small></button>
+                <button type="button" data-acao="especial" id="ataqueEspecial" disabled>✨ Centelha <small>usa 1 cristal</small></button>
                 <button type="button" data-acao="cura" disabled>🧪 Curar <small>usa 2 cristais</small></button>
                 <button type="button" data-acao="capturar" disabled><span class="mini-orbe sprite-atlas sprite-orbe" aria-hidden="true"></span>Sintonizar <small>usa uma orbe de captura</small></button>
+                <button type="button" id="trocarCriatura" class="botao-trocar" disabled>🔁 Trocar <small>muda sua criatura</small></button>
             </div>
+
+            <section id="trocaCriatura" class="troca-criatura escondido" aria-live="polite"></section>
 
             <section id="arenaOnline" class="arena-online escondido" aria-live="polite">
                 <div class="arena-titulo"><span>⚔️</span><div><strong>Arena Lunar</strong><small>Duelo entre jogadores da turma</small></div></div>
@@ -105,6 +108,6 @@
             </div>
         </section>
     </main>
-    <script type="module" src="./lendas-do-bosque.js"></script>
+    <script type="module" src="./lendas-do-bosque.js?v=5"></script>
 </body>
 </html>

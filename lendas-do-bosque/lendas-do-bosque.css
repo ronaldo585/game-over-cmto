@@ -112,6 +112,18 @@ button { cursor: pointer; }
 .sprite-treinador-jogador { background-position: 0 100%; }
 .sprite-treinador-rival { background-position: 50% 100%; }
 .sprite-orbe { background-position: 100% 100%; }
+
+/* Atlas das criaturas raras: seis sprites originais em uma grade 3 x 2. */
+.sprite-folhito, .sprite-mareon, .sprite-brasafim, .sprite-nimbara, .sprite-cristalume, .sprite-aurorafera {
+    background-image: url("./assets/sprites-criaturas-raras-v1.png");
+    background-size: 300% 200%;
+}
+.sprite-folhito { background-position: 0 0; }
+.sprite-mareon { background-position: 50% 0; }
+.sprite-brasafim { background-position: 100% 0; }
+.sprite-nimbara { background-position: 0 100%; }
+.sprite-cristalume { background-position: 50% 100%; }
+.sprite-aurorafera { background-position: 100% 100%; }
 .lado-batalha .sprite-treinador-jogador, .lado-batalha .sprite-treinador-rival { position: absolute; bottom: 4px; width: 105px; height: 105px; filter: drop-shadow(0 5px 5px rgba(0,0,0,.55)); }
 .lado-batalha .sprite-criatura { position: absolute; bottom: 0; width: 132px; height: 132px; filter: drop-shadow(0 8px 8px rgba(0,0,0,.52)); }
 .lado-inimigo .sprite-treinador-rival { left: 5px; }
@@ -133,15 +145,25 @@ button { cursor: pointer; }
 .duelo-palco > div:last-child .sprite-lunar { left: 2px; }
 .duelo-palco > span { align-self: center; color: #ffe48a; font-weight: 950; text-shadow: 0 0 12px #ffca65; }
 
-.acoes-rpg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.acoes-rpg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .acoes-rpg button { min-height: 60px; padding: 8px; border: 1px solid #338ba0; border-radius: 11px; color: #ecffff; background: #112d42; font-weight: 800; }
 .acoes-rpg button:nth-child(2) { border-color: #e4b659; background: #3d2d18; }
 .acoes-rpg button:nth-child(3) { border-color: #9b7ae4; background: #271b42; }
 .acoes-rpg button:nth-child(4) { border-color: #d080d5; background: #411c42; }
+.acoes-rpg button:nth-child(5) { border-color: #71d8ea; background: #163c54; }
 .acoes-rpg button:hover:not(:disabled) { filter: brightness(1.23); transform: translateY(-2px); }
 .acoes-rpg button:disabled { cursor: not-allowed; opacity: .42; }
 .acoes-rpg small { display: block; margin-top: 4px; color: #b8d3da; font-size: .65rem; font-weight: normal; }
 .acoes-rpg .mini-orbe { display: inline-block; width: 22px; height: 22px; margin: -4px 4px -6px 0; vertical-align: middle; }
+.troca-criatura { margin-top: 11px; padding: 12px; border: 1px solid #56cfe3; border-radius: 12px; background: rgba(11, 39, 58, .92); }
+.troca-criatura.escondido { display: none; }
+.troca-criatura > p { margin: 0 0 9px; color: #d9f9ff; font-size: .82rem; font-weight: 800; }
+.opcoes-troca { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.opcao-troca { min-height: 56px; padding: 7px; border: 1px solid #397c91; border-radius: 9px; color: #effeff; background: #132f45; text-align: left; }
+.opcao-troca.ativa { border-color: #ffe279; background: #4c3a1d; }
+.opcao-troca:disabled { cursor: not-allowed; opacity: .42; }
+.opcao-troca span, .opcao-troca small { display: block; }
+.opcao-troca small { margin-top: 2px; color: #b9d6dc; font-size: .65rem; }
 .arena-online { margin-top: 13px; padding: 13px; border: 1px solid #d686ed; border-radius: 13px; background: linear-gradient(115deg, rgba(65, 28, 66, .82), rgba(23, 20, 55, .82)); }
 .arena-online.escondido, .desafios-online.escondido { display: none; }
 .arena-titulo { display: flex; align-items: center; gap: 10px; color: #ffe290; }
@@ -178,4 +200,5 @@ button { cursor: pointer; }
     .lado-batalha .criatura-card { width: calc(100% - 10px); }
     .acoes-rpg { grid-template-columns: repeat(2, 1fr); }
     .acoes-rpg button { font-size: .77rem; }
+    .opcoes-troca { grid-template-columns: 1fr; }
 }
