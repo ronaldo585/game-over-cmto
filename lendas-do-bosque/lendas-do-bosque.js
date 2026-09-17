@@ -9,6 +9,11 @@ const batalhaEl = document.getElementById("batalha");
 const acoes = [...document.querySelectorAll("[data-acao]")];
 const botaoTrocar = document.getElementById("trocarCriatura");
 const painelTroca = document.getElementById("trocaCriatura");
+const perfilRpgEl = document.getElementById("perfilRpg");
+const nicknameRpgInput = document.getElementById("nicknameRpg");
+const erroPerfilRpg = document.getElementById("erroPerfilRpg");
+const salvarPerfilRpg = document.getElementById("salvarPerfilRpg");
+const botoesRoupa = [...document.querySelectorAll("[data-roupa]")];
 
 const hud = {
     pontos: document.getElementById("pontos"), cristais: document.getElementById("cristais"),
@@ -35,6 +40,13 @@ const RAIO_ARENA = 220;
 const CORES_TERRENO = Object.freeze({
     A: "#3a285c", W: "#176490", P: "#c69b67", M: "#276a47",
     R: "#565169", F: "#39775a", T: "#317b58", G: "#317b58"
+});
+const ROUPAS_AVENTUREIRO = Object.freeze({
+    azul: { corpo: "#4ca7ed", chapeu: "#173e75", detalhe: "#bceeff" },
+    verde: { corpo: "#45b77b", chapeu: "#185340", detalhe: "#d1ffd0" },
+    violeta: { corpo: "#9565dc", chapeu: "#39235f", detalhe: "#f0d6ff" },
+    dourado: { corpo: "#d9a94b", chapeu: "#70431b", detalhe: "#fff0ad" },
+    rubi: { corpo: "#d75a6d", chapeu: "#711e3b", detalhe: "#ffd5d8" }
 });
 
 function criarMapa() {
@@ -160,6 +172,9 @@ let canalPresenca = null;
 let canalDuelos = null;
 let ultimoEnvioOnline = 0;
 let dueloAtual = null;
+let perfilJogador = null;
+let roupaEscolhida = "azul";
+let modoOnlineIniciado = false;
 const outrosJogadores = new Map();
 
 hud.recorde.textContent = recorde;
@@ -517,14 +532,20 @@ function desenharCriaturasNoMato() {
 function desenharJogadoresOnline() {
     outrosJogadores.forEach(outro => {
         const x = Number(outro.x), y = Number(outro.y);
-        ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(x + 15, y + 29, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = "#80d4ff"; ctx.fillRect(x + 6, y + 14, 18, 15);
-        ctx.fillStyle = "#f4d3ba"; ctx.beginPath(); ctx.arc(x + 15, y + 10, 10, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = "#173e75"; ctx.fillRect(x + 4, y + 2, 22, 7);
+        desenharAventureiro(x, y, outro.roupa);
         ctx.fillStyle = "#efffff"; ctx.font = "bold 11px Trebuchet MS"; ctx.textAlign = "center";
         ctx.fillText(String(outro.jogador_nome || "Aventureiro").split(" ")[0], x + 15, y - 5);
         ctx.textAlign = "left";
     });
+}
+
+function desenharAventureiro(x, y, roupa) {
+    const visual = ROUPAS_AVENTUREIRO[roupa] || ROUPAS_AVENTUREIRO.azul;
+    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(x + 15, y + 29, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = visual.corpo; ctx.fillRect(x + 6, y + 14, 18, 15);
+    ctx.fillStyle = visual.detalhe; ctx.fillRect(x + 6, y + 16, 18, 3);
+    ctx.fillStyle = "#f4d3ba"; ctx.beginPath(); ctx.arc(x + 15, y + 10, 10, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = visual.chapeu; ctx.fillRect(x + 4, y + 2, 22, 7); ctx.fillRect(x + 19, y + 7, 10, 3);
 }
 
 function desenharJogador() {
@@ -535,10 +556,7 @@ function desenharJogador() {
             ctx.beginPath(); ctx.arc(x + dx, y + dy, raio, 0, Math.PI * 2); ctx.fill();
         });
     }
-    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.beginPath(); ctx.ellipse(x + 15, y + 29, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#f68b4a"; ctx.fillRect(x + 6, y + 14, 18, 15);
-    ctx.fillStyle = "#fbdbc2"; ctx.beginPath(); ctx.arc(x + 15, y + 10, 10, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#193a5b"; ctx.fillRect(x + 4, y + 2, 22, 7); ctx.fillRect(x + 19, y + 7, 10, 3);
+    desenharAventureiro(x, y, perfilJogador?.roupa);
 }
 
 function desenharInteragir() {
@@ -581,14 +599,100 @@ function textoSeguro(valor) {
     return elemento.innerHTML;
 }
 
-function obterJogadorOnline() {
+function obterAlunoLogado() {
     try {
         const aluno = JSON.parse(localStorage.getItem("alunoLogado") || "null");
-        if (!aluno?.id) return null;
-        return { id: String(aluno.id), nome: String(aluno.nome || "Aventureiro").trim().split(/\s+/).slice(0, 2).join(" ") };
+        return aluno?.id ? aluno : null;
     } catch {
         return null;
     }
+}
+
+async function carregarPerfilJogador() {
+    const aluno = obterAlunoLogado();
+    if (!aluno) return null;
+
+    const { data, error } = await supabase
+        .from("rpg_perfis_jogador")
+        .select("aluno_id,nickname,roupa")
+        .eq("aluno_id", String(aluno.id))
+        .maybeSingle();
+
+    if (error) {
+        console.error("ERRO AO CARREGAR PERFIL RPG:", error);
+        return null;
+    }
+    perfilJogador = data || null;
+    return perfilJogador;
+}
+
+function selecionarRoupa(roupa) {
+    roupaEscolhida = ROUPAS_AVENTUREIRO[roupa] ? roupa : "azul";
+    botoesRoupa.forEach(botao => botao.classList.toggle("selecionada", botao.dataset.roupa === roupaEscolhida));
+}
+
+function mostrarCriacaoDePerfil() {
+    erroPerfilRpg.textContent = "";
+    selecionarRoupa("azul");
+    perfilRpgEl.classList.remove("escondido");
+    nicknameRpgInput.focus();
+}
+
+async function salvarPerfilDeAventureiro() {
+    const aluno = obterAlunoLogado();
+    const nickname = nicknameRpgInput.value.trim().replace(/\s+/g, " ");
+    if (!aluno) {
+        erroPerfilRpg.textContent = "Entre como aluno para criar seu personagem online.";
+        return;
+    }
+    if (!/^[A-Za-zÀ-ÿ0-9 _-]{3,16}$/.test(nickname)) {
+        erroPerfilRpg.textContent = "Use de 3 a 16 caracteres válidos no nickname.";
+        return;
+    }
+
+    salvarPerfilRpg.disabled = true;
+    salvarPerfilRpg.textContent = "SALVANDO...";
+    const { data, error } = await supabase
+        .from("rpg_perfis_jogador")
+        .insert({ aluno_id: String(aluno.id), nickname, roupa: roupaEscolhida })
+        .select("aluno_id,nickname,roupa")
+        .single();
+
+    salvarPerfilRpg.disabled = false;
+    salvarPerfilRpg.textContent = "CONFIRMAR PERSONAGEM →";
+    if (error) {
+        console.error("ERRO AO SALVAR PERFIL RPG:", error);
+        erroPerfilRpg.textContent = error.code === "23505"
+            ? "Esse nickname já está em uso ou você já criou um perfil."
+            : "Não foi possível salvar seu perfil agora.";
+        return;
+    }
+
+    perfilJogador = data;
+    perfilRpgEl.classList.add("escondido");
+    await iniciarModoOnline();
+    await resetarAventura();
+}
+
+async function iniciarAventura() {
+    const aluno = obterAlunoLogado();
+    if (!aluno) {
+        await resetarAventura();
+        return;
+    }
+    const perfil = await carregarPerfilJogador();
+    if (!perfil) {
+        mostrarCriacaoDePerfil();
+        return;
+    }
+    await iniciarModoOnline();
+    await resetarAventura();
+}
+
+function obterJogadorOnline() {
+    const aluno = obterAlunoLogado();
+    if (!aluno || !perfilJogador?.nickname) return null;
+    return { id: String(aluno.id), nome: perfilJogador.nickname, roupa: perfilJogador.roupa || "azul" };
 }
 
 function atualizarStatusOnline(conectado, texto) {
@@ -613,7 +717,7 @@ async function atualizarPresencaOnline() {
     ultimoEnvioOnline = Date.now();
     const { error } = await supabase.from("rpg_presencas_online").upsert({
         sala_id: "bosque-principal", jogador_id: jogadorOnline.id, jogador_nome: jogadorOnline.nome,
-        x: Math.round(jogador.x), y: Math.round(jogador.y), nivel, hp: vida, pontos
+        roupa: jogadorOnline.roupa, x: Math.round(jogador.x), y: Math.round(jogador.y), nivel, hp: vida, pontos
     }, { onConflict: "sala_id,jogador_id" });
     if (error) {
         console.error("PRESENÇA ONLINE RPG:", error);
@@ -630,7 +734,11 @@ async function carregarJogadoresOnline() {
 async function iniciarModoOnline() {
     jogadorOnline = obterJogadorOnline();
     if (!jogadorOnline) {
-        atualizarStatusOnline(false, "ENTRE COMO ALUNO");
+        atualizarStatusOnline(false, obterAlunoLogado() ? "DEFINA SEU NICK" : "ENTRE COMO ALUNO");
+        return;
+    }
+    if (modoOnlineIniciado) {
+        await atualizarPresencaOnline();
         return;
     }
     try {
@@ -649,6 +757,7 @@ async function iniciarModoOnline() {
             .on("postgres_changes", { event: "*", schema: "public", table: "rpg_duelos_online" }, () => { void carregarDuelos(); })
             .subscribe();
         await carregarDuelos();
+        modoOnlineIniciado = true;
         atualizarStatusOnline(true, "ONLINE");
     } catch (error) {
         console.error("MODO ONLINE RPG:", error);
@@ -889,7 +998,7 @@ async function resetarAventura() {
     ];
     await prepararTimeBatalha();
     iniciada = true; inicio.classList.add("escondido"); canvas.focus(); atualizarHud();
-    falar(`🌲 A aventura recomeçou com <b>${criaturaAtiva()?.nome || "Fagulha"</b> na frente. Procure a guardiã e siga pela grama alta!`);
+    falar(`🌲 A aventura recomeçou com <b>${criaturaAtiva()?.nome || "Fagulha"}</b> na frente. Procure a guardiã e siga pela grama alta!`);
 }
 
 async function salvarRecorde() {
@@ -951,7 +1060,9 @@ window.addEventListener("keydown", event => {
     if (tecla === "b") void desafiarJogadorProximo();
 });
 window.addEventListener("keyup", event => teclas.delete(event.key.toLowerCase()));
-iniciar.addEventListener("click", () => void resetarAventura());
+botoesRoupa.forEach(botao => botao.addEventListener("click", () => selecionarRoupa(botao.dataset.roupa)));
+salvarPerfilRpg.addEventListener("click", () => void salvarPerfilDeAventureiro());
+iniciar.addEventListener("click", () => void iniciarAventura());
 botoesDuelo.forEach(botao => botao.addEventListener("click", () => void atacarNoDuelo(botao.dataset.dueloAcao)));
 desafiosOnlineEl.addEventListener("click", event => {
     const botao = event.target.closest("[data-resposta]");

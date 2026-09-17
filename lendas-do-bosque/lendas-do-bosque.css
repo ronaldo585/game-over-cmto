@@ -74,6 +74,21 @@ button { cursor: pointer; }
 }
 .overlay-rpg button:hover { filter: brightness(1.1); transform: translateY(-2px); }
 .overlay-rpg.escondido { display: none; }
+.perfil-rpg { z-index: 5; overflow: auto; }
+.cartao-perfil-rpg { width: min(100%, 590px); padding: 23px; border: 1px solid #71e5ea; border-radius: 19px; background: linear-gradient(145deg, rgba(11, 35, 54, .98), rgba(35, 23, 67, .98)); box-shadow: 0 0 34px rgba(71, 218, 231, .25); }
+.cartao-perfil-rpg .emblema-rpg { width: 48px; height: 48px; margin: 0 auto; font-size: 1.65rem; }
+.cartao-perfil-rpg h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
+.cartao-perfil-rpg > p:not(.rpg-kicker):not(.erro-perfil) { margin: 8px auto 16px; color: #c9e1ea; font-size: .85rem; line-height: 1.45; }
+.cartao-perfil-rpg label, .titulo-roupa { display: block; margin: 12px 0 6px; color: #9beff4; font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-align: left; }
+.cartao-perfil-rpg input { width: 100%; padding: 12px; border: 1px solid #4e96ad; border-radius: 10px; outline: 0; color: #f4ffff; background: #081a2b; font: inherit; }
+.cartao-perfil-rpg input:focus { border-color: #8ff4ef; box-shadow: 0 0 0 3px rgba(102, 239, 233, .14); }
+.ajuda-nickname { display: block; margin-top: 5px; color: #83a9b8; font-size: .66rem; text-align: left; }
+.opcoes-roupa { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.opcao-roupa { min-height: 68px; padding: 7px 3px; border: 1px solid #3c667e; border-radius: 9px; color: #dff8ff; background: #10283d; font-size: .61rem; font-weight: 800; }
+.opcao-roupa span { display: block; margin-bottom: 3px; font-size: 1.15rem; }
+.opcao-roupa.selecionada { border-color: #ffe37b; background: #493c22; box-shadow: 0 0 12px rgba(255, 226, 118, .24); }
+.erro-perfil { min-height: 18px; margin: 10px 0 2px; color: #ffb5bc; font-size: .75rem; }
+.cartao-perfil-rpg > button:last-child { width: 100%; margin-top: 8px; font-size: .8rem; }
 
 .painel-rpg { padding: 18px; border: 1px solid rgba(72, 211, 219, .65); border-top: 0; border-radius: 0 0 24px 24px; background: linear-gradient(160deg, #0d1f30, #07111f); }
 .status-aventura { display: flex; align-items: flex-start; gap: 10px; min-height: 40px; color: #d7edef; }
@@ -201,4 +216,5 @@ button { cursor: pointer; }
     .acoes-rpg { grid-template-columns: repeat(2, 1fr); }
     .acoes-rpg button { font-size: .77rem; }
     .opcoes-troca { grid-template-columns: 1fr; }
+    .opcoes-roupa { grid-template-columns: repeat(3, 1fr); }
 }

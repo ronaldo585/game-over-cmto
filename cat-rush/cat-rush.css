@@ -123,6 +123,52 @@ header p {
     font-size: 20px;
 }
 
+.especial-hud {
+    margin: -2px 0 12px;
+    padding: 10px 14px;
+    background: linear-gradient(100deg, #11132b, #0b1e31);
+    border: 1px solid #354a78;
+    border-radius: 12px;
+    box-shadow: inset 0 0 18px rgba(26, 138, 255, .08);
+}
+
+.especial-titulo {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 7px;
+    color: #bacbe7;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.especial-titulo b {
+    color: #7f9bb5;
+}
+
+.especial-titulo b.pronto {
+    color: #fff4a6;
+    text-shadow: 0 0 12px #ffd43b;
+}
+
+.especial-trilho {
+    height: 10px;
+    overflow: hidden;
+    border: 1px solid #304260;
+    border-radius: 999px;
+    background: #050914;
+}
+
+.especial-barra {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #168cff, #20e2ff, #fff4a6);
+    box-shadow: 0 0 14px #20d9ff;
+    transition: width .18s ease;
+}
+
 .game-wrapper {
     position: relative;
 
@@ -217,11 +263,39 @@ button:hover {
 
     justify-content: center;
 
+    flex-wrap: wrap;
+
+    gap: 10px;
+
     margin-top: 15px;
 }
 
 #pular {
     background: #713cff;
+}
+
+.especial-botao {
+    background: #26314a;
+    color: #aab9cf;
+}
+
+.especial-botao:not(:disabled) {
+    background: linear-gradient(135deg, #f3b51b, #ff6b35);
+    color: #17100a;
+    animation: especial-pulsar .8s infinite alternate;
+}
+
+.especial-botao:disabled {
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: .7;
+}
+
+@keyframes especial-pulsar {
+    to {
+        box-shadow: 0 0 22px #ffd43b;
+        transform: translateY(-2px);
+    }
 }
 
 .dica {
@@ -261,6 +335,12 @@ button:hover {
 
     .hud {
         font-size: 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .especial-titulo {
+        font-size: 10px;
     }
 
 }

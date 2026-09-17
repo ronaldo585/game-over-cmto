@@ -7,7 +7,7 @@
 
     <title>CAT RUSH</title>
 
-    <link rel="stylesheet" href="./cat-rush.css?v=20260916-2">
+    <link rel="stylesheet" href="./cat-rush.css?v=20260917-3">
 </head>
 
 <body>
@@ -39,7 +39,19 @@
 
             <span>❤️ <b id="vidas">3</b></span>
 
+            <span>🗺️ <b id="faseHud">FASE 1</b></span>
+
         </div>
+
+        <section class="especial-hud" aria-live="polite" aria-label="Energia do especial">
+            <div class="especial-titulo">
+                <span>⚡ ESPECIAL DO GATO</span>
+                <b id="especialTexto">AGUARDANDO CHEFE</b>
+            </div>
+            <div class="especial-trilho" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="especialBarra" class="especial-barra"></div>
+            </div>
+        </section>
 
         <div class="game-wrapper">
 
@@ -68,15 +80,19 @@
                 🐾 PULAR
             </button>
 
+            <button id="especial" class="especial-botao" disabled>
+                ⚡ ESPECIAL
+            </button>
+
         </div>
 
         <p class="dica">
-            ESPAÇO = PULAR
+            ESPAÇO = PULAR • X = ATAQUE • Z = ESPECIAL (contra chefes)
         </p>
 
     </main>
 
-    <script type="module" src="./cat-rush.js"></script>
+    <script type="module" src="./cat-rush.js?v=20260917-3"></script>
 
 </body>
 
