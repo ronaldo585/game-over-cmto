@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bosque de Batalha - Game Over CMTO</title>
+    <link rel="stylesheet" href="arena-tiro.css?v=1">
+    <link rel="stylesheet" href="arena-tiro-online.css?v=2">
+</head>
+<body>
+    <main class="arena-shell">
+        <nav class="arena-nav">
+            <a href="../sala-codigos.html">← Sala de Códigos</a>
+            <span>🌲 BOSQUE MULTIJOGADOR</span>
+        </nav>
+
+        <header class="arena-header">
+            <div><p class="kicker">AVENTURA MULTIJOGADOR</p><h1>BOSQUE DE BATALHA</h1><p>Explore a mata, encontre aventureiros e lance orbes de energia na clareira.</p></div>
+            <div class="recorde"><span>🏆 RECORDE</span><strong id="recorde">0</strong></div>
+        </header>
+
+        <section class="hud-arena" aria-live="polite">
+            <span>⭐ PONTOS <b id="pontos">0</b></span>
+            <span>❤️ VIDA <b id="energia">100</b></span>
+            <span>👥 AVENTUREIROS <b id="online">0</b></span>
+        </section>
+
+        <section class="palco-arena">
+            <canvas id="arena" width="960" height="540" aria-label="Bosque de Batalha Online. Use as setas ou WASD para explorar e clique para lançar um orbe."></canvas>
+            <div id="inicio" class="overlay-arena">
+                <p class="kicker">BOSQUE LIBERADO</p>
+                <h2>Pronto para explorar?</h2>
+                <p>Ande pelo bosque usando WASD ou as setas. Clique ou aperte Espaço para lançar um orbe de energia. Encontre rivais e domine a Clareira de Batalha.</p>
+                <button id="iniciar" type="button">▶ EXPLORAR O BOSQUE</button>
+            </div>
+        </section>
+
+        <div class="controles-arena">
+            <button id="atirar" type="button">🔮 LANÇAR ORBE</button>
+            <p>WASD / setas = explorar • mouse / toque / Espaço = lançar orbe</p>
+        </div>
+
+        <section class="placar-online" aria-live="polite">
+            <div><p class="kicker">PLACAR DO BOSQUE</p><h2>Quem domina a clareira?</h2></div>
+            <ol id="listaJogadores"><li>Conectando à arena...</li></ol>
+        </section>
+    </main>
+    <script type="module" src="arena-tiro.js?v=5"></script>
+    <script type="module" src="../alerta-adm.js?v=2"></script>
+</body>
+</html>

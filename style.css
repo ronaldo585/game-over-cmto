@@ -1367,6 +1367,69 @@ form button[type="submit"]:hover {
     box-shadow: 0 0 12px rgba(255, 212, 59, 0.2);
 }
 
+.game-card-codigo {
+    border-color: #a976ff;
+    background: linear-gradient(145deg, #1d1239, #0b1023);
+}
+
+.game-card-codigo:hover {
+    border-color: #e7c9ff;
+    box-shadow: 0 0 23px rgba(169, 118, 255, .36);
+}
+
+.game-card-codigo .botao-game {
+    background: linear-gradient(135deg, #8d4df2, #cc57ff);
+}
+
+.game-card-codigo .botao-game:hover {
+    background: linear-gradient(135deg, #aa72ff, #dc86ff);
+}
+
+.central-adm {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin: 0 0 20px;
+    padding: 18px 20px;
+    border: 1px solid #ff6975;
+    border-radius: 15px;
+    color: #ffecee;
+    background: linear-gradient(120deg, #491129, #21091b);
+    box-shadow: 0 0 24px rgba(255, 54, 79, .2);
+}
+
+.central-adm-cabecalho { max-width: 370px; }
+.central-adm p { margin: 0 0 4px; color: #ffabb4; font-size: .68rem; font-weight: 900; letter-spacing: .15em; }
+.central-adm h2 { margin: 0; font-size: 1.25rem; }
+.central-adm span { display: block; margin-top: 5px; color: #efb7be; font-size: .78rem; }
+.acoes-adm { display: grid; grid-template-columns: repeat(2, minmax(148px, 1fr)); gap: 9px; min-width: min(100%, 335px); }
+.central-adm button { flex: 0 0 auto; padding: 12px 16px; border: 1px solid #fff; border-radius: 9px; color: #6c0815; background: #fff1f2; box-shadow: 0 0 16px rgba(255, 124, 138, .35); font: 900 .7rem "Trebuchet MS", Arial, sans-serif; cursor: pointer; letter-spacing: .035em; }
+.acoes-adm #botaoAlertaAdm { grid-column: 1 / -1; }
+.opcoes-evento-adm { grid-column: 1 / -1; padding-top: 2px; }
+.rotulo-evento-adm { margin: 0 0 7px !important; color: #ffd875 !important; font-size: .63rem !important; text-align: center; }
+.grade-opcoes-evento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.central-adm .botao-recompensa { min-height: 82px; display: flex; align-items: center; justify-content: flex-start; gap: 9px; padding: 10px; text-align: left; }
+.botao-recompensa > span:last-child { min-width: 0; }
+.botao-recompensa b, .botao-recompensa small { display: block; }
+.botao-recompensa b { font-size: .69rem; line-height: 1.18; }
+.botao-recompensa small { margin-top: 4px; font-size: .59rem; font-weight: 700; line-height: 1.23; opacity: .76; }
+.icone-evento-adm { flex: 0 0 auto; font-size: 1.45rem; }
+.central-adm .botao-evento-moedas { border-color: #ffe06d; color: #4d3300; background: linear-gradient(135deg, #fff7b8, #ffd34e); box-shadow: 0 0 18px rgba(255, 207, 54, .3); }
+.central-adm .botao-evento-epica { border-color: #ecc6ff; color: #34105c; background: linear-gradient(135deg, #ffd7fc, #bf8dff); box-shadow: 0 0 18px rgba(198, 119, 255, .32); }
+.central-adm button:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.08); }
+.central-adm button:disabled { cursor: wait; opacity: .75; }
+.status-recompensa-adm { grid-column: 1 / -1; min-height: 1.2em; margin: 1px 0 0 !important; color: #ffe8b6 !important; font-size: .73rem !important; line-height: 1.35; letter-spacing: 0 !important; }
+.status-recompensa-adm.carregando { color: #cdd6ff !important; }
+.status-recompensa-adm.erro { color: #ffc0c5 !important; }
+.status-recompensa-adm.sucesso { color: #c8ffdc !important; }
+
+@media (max-width: 650px) {
+    .central-adm { align-items: stretch; flex-direction: column; }
+    .acoes-adm, .grade-opcoes-evento { grid-template-columns: 1fr; min-width: 0; width: 100%; }
+    .central-adm button { width: 100%; }
+}
+
 /* =====================================================
    COLEÇÃO DE CRIATURAS
    ===================================================== */
@@ -2213,6 +2276,20 @@ select:focus-visible {
 .chamada-page .aluno-chamada:hover {
     border-color: #2eaef6;
     transform: translateY(-2px);
+}
+
+.chamada-page .turmas-do-aluno {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: 6px;
+    padding: 3px 8px;
+    border: 1px solid rgba(83, 222, 255, 0.38);
+    border-radius: 999px;
+    color: #8eefff;
+    background: rgba(16, 130, 170, 0.14);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
 }
 
 .chamada-page .resumo {
