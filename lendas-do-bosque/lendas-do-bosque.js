@@ -799,8 +799,29 @@ async function carregarDuelos() {
         .or(`desafiante_id.eq.${jogadorOnline.id},desafiado_id.eq.${jogadorOnline.id}`)
         .order("updated_at", { ascending: false }).limit(8);
     if (error) { console.error("DUELOS ONLINE RPG:", error); return; }
-    mostrarDesafiosPendentes(data);
-    dueloAtual = (data || []).find(duelo => duelo.status === "ativo") || null;
+    let duelos = data || [];
+
+    // Corrige desafios antigos que foram aceitos quando o turno inicial
+    // era salvo vazio. O desafiante sempre começa a batalha.
+    const dueloSemTurno = duelos.find(duelo => duelo.status === "ativo" && !duelo.turno_jogador_id);
+    if (dueloSemTurno) {
+        const { data: dueloCorrigido, error: erroCorrecao } = await supabase
+            .from("rpg_duelos_online")
+            .update({
+                turno_jogador_id: dueloSemTurno.desafiante_id,
+                ultimo_evento: "Duelo iniciado! O desafiante começa."
+            })
+            .eq("id", dueloSemTurno.id)
+            .is("turno_jogador_id", null)
+            .select()
+            .maybeSingle();
+
+        if (erroCorrecao) console.error("CORREÇÃO DO TURNO DO DUELO:", erroCorrecao);
+        if (dueloCorrigido) duelos = duelos.map(duelo => duelo.id === dueloCorrigido.id ? dueloCorrigido : duelo);
+    }
+
+    mostrarDesafiosPendentes(duelos);
+    dueloAtual = duelos.find(duelo => duelo.status === "ativo") || null;
     atualizarInterfaceDuelo();
 }
 
@@ -820,9 +841,9 @@ async function desafiarJogadorProximo() {
 
 async function responderDesafio(id, resposta) {
     const dados = resposta === "aceitar"
-        ? { status: "ativo", turno_jogador_id: null, ultimo_evento: "Duelo iniciado! O desafiante começa." }
+        ? { status: "ativo", ultimo_evento: "Duelo iniciado! O desafiante começa." }
         : { status: "recusado", ultimo_evento: "Desafio recusado." };
-    const { error } = await supabase.from("rpg_duelos_online").update(dados).eq("id", id);
+    const { error } = await supabase.from("rpg_duelos_online").update(dados).eq("id", id).eq("status", "pendente");
     if (error) console.error("RESPOSTA DUELO RPG:", error);
     else void carregarDuelos();
 }
@@ -1052,14 +1073,21 @@ painelTroca.addEventListener("click", event => {
     if (botao) trocarCriaturaManual(Number(botao.dataset.indiceTroca));
 });
 
+function campoDeTextoAtivo(elemento) {
+    return elemento instanceof HTMLInputElement || elemento instanceof HTMLTextAreaElement || elemento?.isContentEditable;
+}
+
 window.addEventListener("keydown", event => {
+    if (campoDeTextoAtivo(event.target)) return;
     const tecla = event.key.toLowerCase();
     if (["arrowleft", "arrowright", "arrowup", "arrowdown", "w", "a", "s", "d", "e", "b"].includes(tecla)) event.preventDefault();
     teclas.add(tecla);
     if (tecla === "e") interagir();
     if (tecla === "b") void desafiarJogadorProximo();
 });
-window.addEventListener("keyup", event => teclas.delete(event.key.toLowerCase()));
+window.addEventListener("keyup", event => {
+    if (!campoDeTextoAtivo(event.target)) teclas.delete(event.key.toLowerCase());
+});
 botoesRoupa.forEach(botao => botao.addEventListener("click", () => selecionarRoupa(botao.dataset.roupa)));
 salvarPerfilRpg.addEventListener("click", () => void salvarPerfilDeAventureiro());
 iniciar.addEventListener("click", () => void iniciarAventura());

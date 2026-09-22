@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mansão Eclipse - Game Over CMTO</title>
+    <link rel="stylesheet" href="mansao-eclipse.css?v=1">
+</head>
+<body>
+    <main class="terror-shell">
+        <nav class="terror-nav">
+            <a href="../sala-codigos.html">← Sala de Códigos</a>
+            <span>🌙 SOBREVIVA À MEIA-NOITE</span>
+        </nav>
+
+        <header class="terror-header">
+            <div>
+                <p class="terror-kicker">AVENTURA DE TERROR</p>
+                <h1>MANSÃO ECLIPSE</h1>
+                <p>Encontre os cinco fragmentos lunares, ilumine seu caminho e alcance a saída.</p>
+            </div>
+            <div class="objetivo-mini"><span>🔑 OBJETIVO</span><strong>ESCAPAR</strong></div>
+        </header>
+
+        <section class="hud-terror" aria-live="polite">
+            <span>💎 FRAGMENTOS <b id="fragmentos">0 / 5</b></span>
+            <span>🕯️ LUZ <b id="luz">100</b></span>
+            <span>⏳ TEMPO <b id="tempo">00:00</b></span>
+        </section>
+
+        <section class="palco-terror">
+            <canvas id="mansao" width="960" height="540" aria-label="Mansão Eclipse. Use WASD ou as setas para explorar. Mova o mouse para apontar a lanterna."></canvas>
+            <div id="inicio" class="overlay-terror">
+                <span class="lua" aria-hidden="true">🌙</span>
+                <p class="terror-kicker">PORTÃO ABERTO</p>
+                <h2>A mansão está acordada.</h2>
+                <p>Use WASD ou as setas para andar. A lanterna acompanha seu mouse. Colete os cinco fragmentos e encontre a porta dourada antes que a sombra o alcance.</p>
+                <button id="iniciar" type="button">▶ ENTRAR NA MANSÃO</button>
+            </div>
+            <div id="final" class="overlay-terror escondido">
+                <span class="lua" aria-hidden="true">✨</span>
+                <p class="terror-kicker">VOCÊ ESCAPOU</p>
+                <h2>A manhã venceu a noite.</h2>
+                <p id="textoFinal">Você encontrou uma saída.</p>
+                <button id="jogarNovamente" type="button">↻ JOGAR NOVAMENTE</button>
+            </div>
+        </section>
+
+        <section class="painel-terror">
+            <div class="aviso-sombra"><span>👁️</span><p id="mensagem">A sombra ainda não percebeu você.</p></div>
+            <div class="controle-som"><button id="botaoSom" type="button" aria-pressed="true">🔊 SOM: LIGADO</button><small>Trilha ambiente original da Mansão Eclipse</small></div>
+            <div class="dicas-terror"><span>WASD / setas: andar</span><span>Mouse / toque: apontar lanterna</span><span>🔑 A porta só abre com 5 fragmentos</span></div>
+        </section>
+    </main>
+    <script type="module" src="mansao-eclipse.js?v=4"></script>
+    <script type="module" src="../alerta-adm.js?v=2"></script>
+</body>
+</html>
