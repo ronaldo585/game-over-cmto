@@ -108,7 +108,9 @@ header p {
 .hud {
     display: flex;
 
+    align-items: stretch;
     justify-content: space-around;
+    gap: 8px;
 
     padding: 12px;
 
@@ -121,6 +123,45 @@ header p {
     border-radius: 12px;
 
     font-size: 20px;
+}
+
+.hud-item,
+.hud-vidas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 5px 10px;
+    border-radius: 9px;
+    color: #e9f6ff;
+}
+
+.hud-item small,
+.hud-vidas small {
+    display: block;
+    color: #7f9bb5;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.hud-item b,
+.hud-vidas b {
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.hud-vidas {
+    border: 1px solid rgba(255, 102, 133, .36);
+    background: linear-gradient(135deg, rgba(126, 20, 42, .36), rgba(14, 18, 34, .74));
+}
+
+.coracoes {
+    color: #ff5473;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 78, 111, .64);
 }
 
 .especial-hud {
@@ -338,6 +379,14 @@ button:hover {
         flex-wrap: wrap;
         gap: 8px;
     }
+
+    .hud-item,
+    .hud-vidas {
+        flex: 1 1 calc(50% - 8px);
+        padding: 7px 6px;
+    }
+
+    .coracoes { font-size: 15px; }
 
     .especial-titulo {
         font-size: 10px;

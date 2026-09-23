@@ -10,6 +10,7 @@ const ctx = canvas.getContext("2d");
 const pontosEl = document.getElementById("pontos");
 const moedasEl = document.getElementById("moedas");
 const vidasEl = document.getElementById("vidas");
+const coracoesEl = document.getElementById("coracoes");
 const recordeEl = document.getElementById("recorde");
 const faseHudEl = document.getElementById("faseHud");
 const especialTextoEl = document.getElementById("especialTexto");
@@ -33,7 +34,11 @@ let rodando = false;
 
 let pontos = 0;
 let moedas = 0;
-let vidas = 3;
+const VIDAS_MAXIMAS = 3;
+const RECOMPENSA_INICIAL_CHEFE = 150;
+const AUMENTO_RECOMPENSA_CHEFE = 50;
+
+let vidas = VIDAS_MAXIMAS;
 
 let velocidade = 6;
 let tempo = 0;
@@ -51,9 +56,9 @@ const FASES = [
 ];
 
 const CHEFES = [
-    { nome: "RATO MECÂNICO", icone: "⚙", fase: 2, pontos: 320, vida: 28, largura: 104, altura: 104, velocidade: 1.8, ataqueIntervalo: 96, rajada: 1, recompensa: 260, cor: "#7183a8", brilho: "#aeeeff", tiro: "#7cf4ff" },
-    { nome: "PANTERA ELÉTRICA", icone: "⚡", fase: 4, pontos: 900, vida: 43, largura: 122, altura: 112, velocidade: 2.55, ataqueIntervalo: 76, rajada: 2, recompensa: 380, cor: "#7431af", brilho: "#eab8ff", tiro: "#d86dff" },
-    { nome: "REI GATO SOMBRIO", icone: "👑", fase: 6, pontos: 1800, vida: 64, largura: 136, altura: 126, velocidade: 3.15, ataqueIntervalo: 58, rajada: 3, recompensa: 650, cor: "#8f1635", brilho: "#ffd0d9", tiro: "#ff465f", final: true }
+    { nome: "RATO MECÂNICO", icone: "⚙", fase: 2, pontos: 320, vida: 28, largura: 104, altura: 104, velocidade: 1.8, ataqueIntervalo: 96, rajada: 1, cor: "#7183a8", brilho: "#aeeeff", tiro: "#7cf4ff" },
+    { nome: "PANTERA ELÉTRICA", icone: "⚡", fase: 4, pontos: 900, vida: 43, largura: 122, altura: 112, velocidade: 2.55, ataqueIntervalo: 76, rajada: 2, cor: "#7431af", brilho: "#eab8ff", tiro: "#d86dff" },
+    { nome: "REI GATO SOMBRIO", icone: "👑", fase: 6, pontos: 1800, vida: 64, largura: 136, altura: 126, velocidade: 3.15, ataqueIntervalo: 58, rajada: 3, cor: "#8f1635", brilho: "#ffd0d9", tiro: "#ff465f", final: true }
 ];
 
 let obstaculos = [];
@@ -168,7 +173,7 @@ function iniciarJogo() {
 
     moedas = 0;
 
-    vidas = 3;
+    vidas = VIDAS_MAXIMAS;
 
     velocidade = 6;
 
@@ -834,13 +839,19 @@ function perderVida() {
 
     vidas--;
 
-    vidasEl.textContent =
-        vidas;
-
-
     invencivel = true;
 
     tempoInvencivel = 90;
+
+    atualizarHUD();
+
+    if (vidas > 0) {
+
+        mostrarAviso(
+            "💥 DANO RECEBIDO!",
+            `Você ainda tem ${vidas} ${vidas === 1 ? "vida" : "vidas"}. Desvie e continue!`
+        );
+    }
 
 
     if (vidas <= 0) {
@@ -876,7 +887,7 @@ function iniciarChefao(dados) {
 
     mostrarAviso(
         `${dados.icone} CHEFE DA FASE ${dados.fase}`,
-        `${dados.nome} apareceu! X ataca • acerte golpes para carregar o especial • Z libera quando a barra ficar completa.`
+        `${dados.nome} apareceu! Vitória: +${recompensaDoChefao(chefesDerrotados)} moedas e pontos. X ataca • Z usa o especial.`
     );
 }
 
@@ -1092,6 +1103,8 @@ function criarAtaqueChefao() {
 function derrotarChefao() {
 
     const derrotado = chefao;
+    const ordemDoChefao = chefesDerrotados + 1;
+    const recompensa = recompensaDoChefao(chefesDerrotados);
 
     chefao = null;
 
@@ -1099,14 +1112,16 @@ function derrotarChefao() {
 
     especial = 0;
 
-    pontos += derrotado.recompensa;
+    pontos += recompensa;
+
+    moedas += recompensa;
 
     atualizarHUD();
 
 
     mostrarAviso(
         "🏆 VITÓRIA!",
-        `${derrotado.nome} foi derrotado! +${derrotado.recompensa} pontos.`
+        `${derrotado.nome} foi derrotado! Chefe ${ordemDoChefao}: +${recompensa} moedas e +${recompensa} pontos.`
     );
 
     if (derrotado.final) {
@@ -1124,6 +1139,11 @@ function derrotarChefao() {
         atualizarHUD();
         mostrarAviso(`🌆 FASE ${fase}`, `${dadosDaFase.nome}: prepare-se para a próxima corrida!`);
     }, 900);
+}
+
+function recompensaDoChefao(indice) {
+
+    return RECOMPENSA_INICIAL_CHEFE + indice * AUMENTO_RECOMPENSA_CHEFE;
 }
 
 
@@ -2386,7 +2406,7 @@ function desenharBarraChefao() {
 
 
     ctx.fillText(
-        `${chefao.icone} ${chefao.nome}`,
+        `${chefao.icone} ${chefao.nome} • HP ${chefao.vida}/${chefao.vidaMaxima}`,
         canvas.width / 2,
         y + 16
     );
@@ -2489,8 +2509,16 @@ function atualizarHUD() {
     moedasEl.textContent =
         moedas;
 
-    vidasEl.textContent =
-        vidas;
+    vidasEl.textContent = `${vidas}/${VIDAS_MAXIMAS}`;
+
+    coracoesEl.textContent =
+        "♥".repeat(vidas) +
+        "♡".repeat(VIDAS_MAXIMAS - vidas);
+
+    coracoesEl.parentElement.setAttribute(
+        "aria-label",
+        `${vidas} de ${VIDAS_MAXIMAS} vidas`
+    );
 
     recordeEl.textContent =
         recorde;
