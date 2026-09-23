@@ -1895,6 +1895,69 @@ body.tema-neon .progresso-xp {
 }
 
 .status-jogo span:last-child { border-right: 0; }
+.novidades-inicio {
+    margin: 20px 0 0;
+    padding: 22px;
+    border: 1px solid rgba(116, 213, 255, 0.22);
+    border-radius: 18px;
+    background: linear-gradient(120deg, rgba(10, 29, 50, 0.78), rgba(18, 14, 38, 0.78));
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.novidades-cabecalho {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.novidades-cabecalho h2 {
+    margin: 3px 0 0;
+    color: #f0f8ff;
+    font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+}
+
+.novidades-lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 17px;
+}
+
+.novidades-lista article {
+    display: flex;
+    gap: 12px;
+    min-height: 102px;
+    padding: 15px;
+    border: 1px solid rgba(130, 195, 255, 0.17);
+    border-radius: 13px;
+    background: rgba(4, 10, 22, 0.55);
+}
+
+.novidades-lista article > span {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 11px;
+    background: rgba(10, 135, 255, 0.16);
+    font-size: 1.2rem;
+}
+
+.novidades-lista strong {
+    display: block;
+    margin: 1px 0 5px;
+    color: #dff5ff;
+    font-size: 0.91rem;
+}
+
+.novidades-lista p {
+    margin: 0;
+    color: #96aabe;
+    font-size: 0.79rem;
+    line-height: 1.45;
+}
 .inicio-main > h2 { margin: 42px 0 4px; font-size: clamp(1.5rem, 3vw, 2.2rem); }
 .pagina-inicial .areas { margin: 20px auto 0; gap: 22px; }
 
@@ -2051,6 +2114,8 @@ body.tema-neon .progresso-xp {
 @media (max-width: 760px) {
     .boas-vindas { align-items: flex-start; flex-direction: column; padding: 24px; }
     .status-jogo { width: 100%; }
+    .novidades-cabecalho { align-items: flex-start; flex-direction: column; gap: 3px; }
+    .novidades-lista { grid-template-columns: 1fr; }
     .pagina-inicial .areas { grid-template-columns: 1fr; }
     .cabecalho-area { padding-top: 64px; }
     .voltar-inicio { top: 15px; left: 15px; }
