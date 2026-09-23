@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de Códigos - Game Over CMTO</title>
+    <link rel="stylesheet" href="sala-codigos.css?v=1">
+</head>
+<body>
+    <main class="codigo-shell">
+        <nav class="codigo-nav" aria-label="Navegação">
+            <a href="area-aluno.html">← Central de games</a>
+            <span>ACESSO ESPECIAL • 6 DÍGITOS</span>
+        </nav>
+
+        <header class="codigo-hero">
+            <p class="codigo-kicker">GAME OVER CMTO</p>
+            <h1>🔐 SALA DE CÓDIGOS</h1>
+            <p>Use o código entregue na aula para liberar os desafios especiais.</p>
+        </header>
+
+        <section class="terminal-codigo" aria-labelledby="tituloCodigo">
+            <div class="terminal-topo">
+                <span class="ponto vermelho"></span><span class="ponto amarelo"></span><span class="ponto verde"></span>
+                <small>TERMINAL_ARCADE.EXE</small>
+            </div>
+            <div class="terminal-conteudo">
+                <p class="codigo-kicker">CHAVE DE ACESSO</p>
+                <h2 id="tituloCodigo">Digite os 6 dígitos</h2>
+                <p>O código libera apenas os jogos selecionados para esta rodada.</p>
+                <form id="formCodigo" novalidate>
+                    <label for="codigoAcesso">CÓDIGO DA AULA</label>
+                    <input id="codigoAcesso" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" placeholder="000000" aria-describedby="statusCodigo">
+                    <button type="submit" id="botaoCodigo">⚡ LIBERAR DESAFIOS</button>
+                </form>
+                <p id="statusCodigo" class="status-codigo" aria-live="polite">Aguardando um código de 6 dígitos.</p>
+            </div>
+        </section>
+
+        <section id="jogosLiberados" class="jogos-liberados escondido" aria-live="polite">
+            <div class="liberado-titulo">
+                <span>✓</span>
+                <div><p class="codigo-kicker">ACESSO CONFIRMADO</p><h2>Desafio liberado!</h2></div>
+            </div>
+            <div id="listaJogosCodigo" class="lista-jogos-codigo"></div>
+        </section>
+
+        <section class="como-funciona">
+            <article><span>1</span><div><strong>Receba</strong><p>O professor compartilha um código de 6 dígitos.</p></div></article>
+            <article><span>2</span><div><strong>Digite</strong><p>Digite-o uma vez na Sala de Códigos.</p></div></article>
+            <article><span>3</span><div><strong>Jogue</strong><p>O desafio liberado fica pronto para você jogar.</p></div></article>
+        </section>
+    </main>
+    <script type="module" src="sala-codigos.js?v=6"></script>
+    <script type="module" src="alerta-adm.js?v=2"></script>
+</body>
+</html>

@@ -5,6 +5,34 @@ let alunos = [];
 const lista = document.getElementById("listaAlunos");
 const turmaSelect = document.getElementById("turma");
 
+function obterTurmasDoAluno(aluno) {
+    const valorDaTurma = Array.isArray(aluno?.turma)
+        ? aluno.turma.join(" ")
+        : String(aluno?.turma || "");
+    const turmaNormalizada = valorDaTurma.toUpperCase();
+    const turmas = [];
+
+    if (turmaNormalizada.includes("T1")) turmas.push("T1");
+    if (turmaNormalizada.includes("T2")) turmas.push("T2");
+
+    // Cadastros antigos sem turma continuam aparecendo para o professor.
+    return turmas.length ? turmas : ["T1", "T2"];
+}
+
+function alunoPertenceAoFiltro(aluno, filtro) {
+    const turmasDoAluno = obterTurmasDoAluno(aluno);
+
+    if (filtro === "T1_T2") {
+        return turmasDoAluno.includes("T1") && turmasDoAluno.includes("T2");
+    }
+
+    return turmasDoAluno.includes(filtro);
+}
+
+function textoDasTurmas(aluno) {
+    return obterTurmasDoAluno(aluno).join(" • ");
+}
+
 // ======================================================
 // SEMANA
 // A semana começa na quarta-feira
@@ -158,12 +186,9 @@ function mostrarAlunos() {
 
     const turma = turmaSelect ? turmaSelect.value : "T1";
 
-    const alunosDaTurma = alunos.filter(aluno => {
-
-        if (!aluno.turma) return true;
-
-        return aluno.turma === turma;
-    });
+    const alunosDaTurma = alunos.filter(aluno =>
+        alunoPertenceAoFiltro(aluno, turma)
+    );
 
     lista.innerHTML = "";
 
@@ -192,9 +217,8 @@ function mostrarAlunos() {
                     ${escaparHTML(aluno.nome || "Aluno sem nome")}
                 </strong>
 
-                <small>
-                    ${escaparHTML(aluno.email || "")}
-                </small>
+                <small>${escaparHTML(aluno.email || "")}</small>
+                <small class="turmas-do-aluno">Turma${obterTurmasDoAluno(aluno).length > 1 ? "s" : ""}: ${escaparHTML(textoDasTurmas(aluno))}</small>
             </div>
 
             <div class="acoes-aluno">
