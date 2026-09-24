@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lendas do Bosque - Game Over CMTO</title>
-    <link rel="stylesheet" href="./lendas-do-bosque.css?v=6">
+    <link rel="stylesheet" href="./lendas-do-bosque.css?v=20260923-1">
 </head>
 <body>
     <main class="rpg-shell">
@@ -65,6 +65,19 @@
                     <button type="button" id="salvarPerfilRpg">CONFIRMAR PERSONAGEM →</button>
                 </div>
             </section>
+        </section>
+
+        <section class="controles-toque-rpg" aria-label="Controles para celular">
+            <div class="direcional-toque" aria-label="Mover aventureiro">
+                <button type="button" class="toque-cima" data-tecla-toque="arrowup" aria-label="Mover para cima">▲</button>
+                <button type="button" class="toque-esquerda" data-tecla-toque="arrowleft" aria-label="Mover para a esquerda">◀</button>
+                <button type="button" class="toque-baixo" data-tecla-toque="arrowdown" aria-label="Mover para baixo">▼</button>
+                <button type="button" class="toque-direita" data-tecla-toque="arrowright" aria-label="Mover para a direita">▶</button>
+            </div>
+            <div class="acoes-toque-rpg">
+                <button type="button" id="interagirToque">💬 INTERAGIR</button>
+                <button type="button" id="dueloToque">⚔️ DUELO</button>
+            </div>
         </section>
 
         <section class="painel-rpg" aria-live="polite">
@@ -130,7 +143,7 @@
             </div>
         </section>
     </main>
-    <script type="module" src="./lendas-do-bosque.js?v=9"></script>
+    <script type="module" src="./lendas-do-bosque.js?v=20260923-1"></script>
     <script type="module" src="../alerta-adm.js?v=2"></script>
 </body>
 </html>

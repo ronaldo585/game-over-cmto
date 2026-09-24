@@ -195,6 +195,7 @@ button { cursor: pointer; }
 .desafios-online button { margin-right: 8px; padding: 8px 12px; border: 0; border-radius: 8px; color: #111626; background: #ffe07c; font-weight: 900; }
 .desafios-online button[data-resposta="recusar"] { color: #fff; background: #67414a; }
 .dicas-rpg { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 19px; margin-top: 15px; color: #8caab1; font-size: .74rem; }
+.controles-toque-rpg { display: none; }
 
 @media (max-width: 650px) {
     .rpg-shell { width: min(100% - 14px, 1120px); margin-top: 8px; }
@@ -217,4 +218,12 @@ button { cursor: pointer; }
     .acoes-rpg button { font-size: .77rem; }
     .opcoes-troca { grid-template-columns: 1fr; }
     .opcoes-roupa { grid-template-columns: repeat(3, 1fr); }
+    .controles-toque-rpg { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0 0; padding: 10px; border: 1px solid rgba(79, 211, 216, .34); border-radius: 13px; background: rgba(8, 28, 40, .92); }
+    .direcional-toque { display: grid; grid-template-columns: repeat(3, 50px); grid-template-areas: ". cima ." "esquerda baixo direita"; gap: 5px; }
+    .direcional-toque button, .acoes-toque-rpg button { min-height: 48px; border: 1px solid #4bc8d0; border-radius: 11px; color: #effeff; background: linear-gradient(145deg, #174d5b, #102f42); box-shadow: 0 5px 13px rgba(0, 0, 0, .2); font-weight: 900; touch-action: none; -webkit-tap-highlight-color: transparent; user-select: none; }
+    .direcional-toque button:active, .acoes-toque-rpg button:active { transform: translateY(1px); filter: brightness(1.2); }
+    .toque-cima { grid-area: cima; }.toque-esquerda { grid-area: esquerda; }.toque-baixo { grid-area: baixo; }.toque-direita { grid-area: direita; }
+    .acoes-toque-rpg { display: grid; flex: 1; grid-template-columns: 1fr; gap: 7px; }
+    .acoes-toque-rpg button:last-child { border-color: #d686ed; background: linear-gradient(145deg, #55245f, #2d1d4b); }
+    .mundo-rpg canvas { touch-action: none; }
 }

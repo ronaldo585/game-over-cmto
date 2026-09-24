@@ -1088,6 +1088,25 @@ window.addEventListener("keydown", event => {
 window.addEventListener("keyup", event => {
     if (!campoDeTextoAtivo(event.target)) teclas.delete(event.key.toLowerCase());
 });
+
+function configurarControlesDeToque() {
+    document.querySelectorAll("[data-tecla-toque]").forEach(botao => {
+        const tecla = botao.dataset.teclaToque;
+        const soltar = () => teclas.delete(tecla);
+        botao.addEventListener("pointerdown", evento => {
+            evento.preventDefault();
+            botao.setPointerCapture?.(evento.pointerId);
+            teclas.add(tecla);
+        });
+        ["pointerup", "pointercancel", "pointerleave"].forEach(tipo => botao.addEventListener(tipo, soltar));
+    });
+
+    document.getElementById("interagirToque")?.addEventListener("click", interagir);
+    document.getElementById("dueloToque")?.addEventListener("click", () => void desafiarJogadorProximo());
+    window.addEventListener("blur", () => teclas.clear());
+}
+
+configurarControlesDeToque();
 botoesRoupa.forEach(botao => botao.addEventListener("click", () => selecionarRoupa(botao.dataset.roupa)));
 salvarPerfilRpg.addEventListener("click", () => void salvarPerfilDeAventureiro());
 iniciar.addEventListener("click", () => void iniciarAventura());
