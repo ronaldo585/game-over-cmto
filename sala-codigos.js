@@ -12,13 +12,15 @@ const JOGOS = {
         icone: "🌲",
         titulo: "Bosque de Batalha 3D",
         descricao: "Entre na floresta em 3D, mire com o mouse, lance orbes e enfrente outros jogadores na Clareira de Batalha.",
-        href: "arena-tiro-godot/index.html"
+        href: "arena-tiro-godot/index.html",
+        hrefMobile: "arena-tiro/arena-tiro.html"
     },
     "mansao-eclipse": {
         icone: "🏚️",
         titulo: "Mansão Eclipse 3D",
         descricao: "Sobreviva a 100 portas, enfrente chefes na porta 50 e 100 e fuja das criaturas da mansão.",
-        href: "mansao-eclipse-godot/index.html"
+        href: "mansao-eclipse-godot/index.html",
+        hrefMobile: "mansao-eclipse/mansao-eclipse.html"
     }
 };
 
@@ -45,6 +47,19 @@ function mostrarStatus(texto, tipo = "") {
     status.className = `status-codigo ${tipo}`;
 }
 
+function linkDoJogo(jogo) {
+    const userAgent = navigator.userAgent || "";
+    const dispositivoMovel = window.matchMedia("(pointer: coarse)").matches;
+    const chromebook = /CrOS/i.test(userAgent);
+    const celularOuTablet = /Android|iPhone|iPad|iPod/i.test(userAgent);
+
+    // Godot 3D depende de WebGL e pode não abrir nos Chromebooks da escola.
+    // Nessas máquinas, a versão leve em HTML/Canvas abre direto no navegador.
+    const usarVersaoLeve = chromebook || celularOuTablet || dispositivoMovel;
+
+    return usarVersaoLeve && jogo.hrefMobile ? jogo.hrefMobile : jogo.href;
+}
+
 function liberarDesafios(registro) {
     const idsDosJogos = PACOTES_CODIGO[registro.codigo] || [registro.jogo];
     const jogos = idsDosJogos.map(id => ({ id, ...JOGOS[id] })).filter(jogo => jogo.titulo);
@@ -59,7 +74,7 @@ function liberarDesafios(registro) {
             <p class="codigo-kicker">DESAFIO LIBERADO</p>
             <h3>${jogo.titulo}</h3>
             <p>${jogo.descricao}</p>
-            <a href="${jogo.href}" data-jogo="${jogo.id}">▶ JOGAR AGORA</a>
+            <a href="${linkDoJogo(jogo)}" data-jogo="${jogo.id}">▶ JOGAR AGORA</a>
         </article>`).join("");
 
     listaJogos.querySelectorAll("a[data-jogo]").forEach(link => {
