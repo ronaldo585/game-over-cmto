@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mansão Eclipse - Game Over CMTO</title>
-    <link rel="stylesheet" href="mansao-eclipse.css?v=1">
+    <link rel="stylesheet" href="mansao-eclipse.css?v=20260923-1">
 </head>
 <body>
     <main class="terror-shell">
@@ -46,13 +46,23 @@
             </div>
         </section>
 
+        <section class="controles-toque-terror" aria-label="Controles para celular">
+            <div class="direcional-toque-terror" aria-label="Mover pela mansão">
+                <button type="button" class="toque-cima" data-tecla-toque="arrowup" aria-label="Mover para cima">▲</button>
+                <button type="button" class="toque-esquerda" data-tecla-toque="arrowleft" aria-label="Mover para a esquerda">◀</button>
+                <button type="button" class="toque-baixo" data-tecla-toque="arrowdown" aria-label="Mover para baixo">▼</button>
+                <button type="button" class="toque-direita" data-tecla-toque="arrowright" aria-label="Mover para a direita">▶</button>
+            </div>
+            <p>🔦 Arraste o dedo no mapa para apontar a lanterna.</p>
+        </section>
+
         <section class="painel-terror">
             <div class="aviso-sombra"><span>👁️</span><p id="mensagem">A sombra ainda não percebeu você.</p></div>
             <div class="controle-som"><button id="botaoSom" type="button" aria-pressed="true">🔊 SOM: LIGADO</button><small>Trilha ambiente original da Mansão Eclipse</small></div>
             <div class="dicas-terror"><span>WASD / setas: andar</span><span>Mouse / toque: apontar lanterna</span><span>🔑 A porta só abre com 5 fragmentos</span></div>
         </section>
     </main>
-    <script type="module" src="mansao-eclipse.js?v=4"></script>
+    <script type="module" src="mansao-eclipse.js?v=20260923-1"></script>
     <script type="module" src="../alerta-adm.js?v=2"></script>
 </body>
 </html>

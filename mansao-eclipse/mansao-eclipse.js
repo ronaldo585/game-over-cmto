@@ -469,6 +469,22 @@ window.addEventListener("keydown", evento => {
     teclas.add(tecla);
 });
 window.addEventListener("keyup", evento => teclas.delete(evento.key.toLowerCase()));
+
+function configurarControlesDeToque() {
+    document.querySelectorAll("[data-tecla-toque]").forEach(botao => {
+        const tecla = botao.dataset.teclaToque;
+        const soltar = () => teclas.delete(tecla);
+        botao.addEventListener("pointerdown", evento => {
+            evento.preventDefault();
+            botao.setPointerCapture?.(evento.pointerId);
+            teclas.add(tecla);
+        });
+        ["pointerup", "pointercancel", "pointerleave"].forEach(tipo => botao.addEventListener(tipo, soltar));
+    });
+    window.addEventListener("blur", () => teclas.clear());
+}
+
+configurarControlesDeToque();
 iniciarBotao.addEventListener("click", iniciarJogo);
 jogarNovamente.addEventListener("click", iniciarJogo);
 botaoSom.addEventListener("click", alternarSom);
