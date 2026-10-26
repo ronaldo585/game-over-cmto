@@ -1,0 +1,26 @@
+VOIDMC STORE 18.0 — INTEGRAÇÃO MERCADO PAGO (CHECKOUT PRO)
+
+O que foi preparado
+- Frontend envia o carrinho ao endpoint /api/create-preference.
+- Backend valida os IDs e quantidades, recalcula preços no servidor e cria uma preferência no Mercado Pago.
+- O cliente é redirecionado ao Checkout Pro.
+- O Access Token fica somente em variável de ambiente no servidor.
+
+IMPORTANTE
+1. Este ZIP ainda NÃO está conectado à sua conta Mercado Pago.
+2. O site estático sozinho não executa server.js. Hospede esta pasta em um serviço que rode Node.js (ou adapte o frontend para apontar ao backend público).
+3. Configure MP_ACCESS_TOKEN com a credencial de TESTE no ambiente do servidor. Nunca coloque o token no app.js, HTML ou repositório.
+4. Configure PUBLIC_BASE_URL com a URL HTTPS pública do servidor, sem barra final. As URLs de retorno são criadas com base nela.
+5. Instale e rode: npm install && npm start
+6. Teste primeiro com credenciais e usuários de teste do Mercado Pago. Não use produção até um responsável adulto revisar a conta, termos, preços e obrigações da loja.
+
+LIMITAÇÕES ATUAIS
+- Não há banco de dados, painel administrativo seguro, webhook validado ou entrega automática.
+- O retorno do Checkout Pro NÃO prova que o pagamento foi aprovado. Verifique a transação no painel do Mercado Pago; implemente webhook com validação de assinatura e persistência antes de automatizar entregas.
+- Cupom VOID10 é aplicado no servidor como desconto de 10%; os preços do navegador nunca são considerados autoritativos.
+- O catálogo é um protótipo e alguns produtos/benefícios são ilustrativos. Confirme que tudo é realmente fornecido antes de aceitar pagamentos reais.
+
+VARIÁVEIS DE AMBIENTE
+MP_ACCESS_TOKEN=SEU_ACCESS_TOKEN_DE_TESTE
+PUBLIC_BASE_URL=https://seu-backend.exemplo.com
+PORT=3000

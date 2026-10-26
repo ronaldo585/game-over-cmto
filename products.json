@@ -1,0 +1,207 @@
+[
+  {
+    "id": 1,
+    "name": "VIP Guerreiro",
+    "price": 4.9
+  },
+  {
+    "id": 2,
+    "name": "VIP Sentinela",
+    "price": 9.9
+  },
+  {
+    "id": 3,
+    "name": "VIP Espectro",
+    "price": 14.9
+  },
+  {
+    "id": 4,
+    "name": "VIP Eclipse",
+    "price": 19.9
+  },
+  {
+    "id": 5,
+    "name": "VIP Obsidiana",
+    "price": 29.9
+  },
+  {
+    "id": 6,
+    "name": "VIP Abissal",
+    "price": 39.9
+  },
+  {
+    "id": 7,
+    "name": "VIP Soberano Void",
+    "price": 49.9
+  },
+  {
+    "id": 8,
+    "name": "VIP Imperador Void",
+    "price": 69.9
+  },
+  {
+    "id": 9,
+    "name": "VIP Void Eterno",
+    "price": 89.9
+  },
+  {
+    "id": 10,
+    "name": "Kit Guerreiro",
+    "price": 4.9
+  },
+  {
+    "id": 11,
+    "name": "Kit Sentinela",
+    "price": 9.9
+  },
+  {
+    "id": 12,
+    "name": "Kit Espectro",
+    "price": 14.9
+  },
+  {
+    "id": 13,
+    "name": "Kit Eclipse",
+    "price": 19.9
+  },
+  {
+    "id": 14,
+    "name": "Kit Obsidiana",
+    "price": 29.9
+  },
+  {
+    "id": 15,
+    "name": "Kit Abissal",
+    "price": 39.9
+  },
+  {
+    "id": 16,
+    "name": "Kit Soberano Void",
+    "price": 49.9
+  },
+  {
+    "id": 17,
+    "name": "Kit Imperador Void",
+    "price": 69.9
+  },
+  {
+    "id": 18,
+    "name": "Kit Void Eterno",
+    "price": 89.9
+  },
+  {
+    "id": 19,
+    "name": "Combo Eclipse",
+    "price": 24.9
+  },
+  {
+    "id": 20,
+    "name": "Combo Supremo",
+    "price": 49.9
+  },
+  {
+    "id": 21,
+    "name": "Combo Void Eterno",
+    "price": 99.9
+  },
+  {
+    "id": 22,
+    "name": "Investidor",
+    "price": 149.9
+  },
+  {
+    "id": 23,
+    "name": "Investidor+",
+    "price": 249.9
+  },
+  {
+    "id": 24,
+    "name": "Investidor++",
+    "price": 349.9
+  },
+  {
+    "id": 25,
+    "name": "400 Créditos",
+    "price": 9.9
+  },
+  {
+    "id": 26,
+    "name": "1000 Créditos",
+    "price": 19.9
+  },
+  {
+    "id": 27,
+    "name": "2500 Créditos",
+    "price": 39.9
+  },
+  {
+    "id": 28,
+    "name": "5000 Créditos",
+    "price": 69.9
+  },
+  {
+    "id": 29,
+    "name": "Pacote 5 Homes",
+    "price": 5.9
+  },
+  {
+    "id": 30,
+    "name": "Pacote 10 Homes",
+    "price": 9.9
+  },
+  {
+    "id": 31,
+    "name": "Pacote 20 Homes",
+    "price": 17.9
+  },
+  {
+    "id": 32,
+    "name": "Cor do Nick",
+    "price": 3.9
+  },
+  {
+    "id": 33,
+    "name": "Tag Personalizada",
+    "price": 6.9
+  },
+  {
+    "id": 34,
+    "name": "Caixa Comum",
+    "price": 4.9
+  },
+  {
+    "id": 35,
+    "name": "Caixa Rara",
+    "price": 9.9
+  },
+  {
+    "id": 36,
+    "name": "Caixa Épica",
+    "price": 24.9
+  },
+  {
+    "id": 37,
+    "name": "Caixa Lendária",
+    "price": 49.9
+  },
+  {
+    "id": 38,
+    "name": "Aura do Void",
+    "price": 4.9
+  },
+  {
+    "id": 39,
+    "name": "Asas Cósmicas",
+    "price": 8.9
+  },
+  {
+    "id": 40,
+    "name": "Trilha Estelar",
+    "price": 5.9
+  },
+  {
+    "id": 41,
+    "name": "Emote Vitória",
+    "price": 3.9
+  }
+]
